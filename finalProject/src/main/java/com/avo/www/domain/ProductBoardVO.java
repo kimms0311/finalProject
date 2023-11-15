@@ -12,7 +12,6 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductBoardVO {
-
    private long proBno;
    private String proEmail;
    private String proNickName;
@@ -35,6 +34,5 @@ public class ProductBoardVO {
    private String proSigg;
    private String proEmd;
    
-   private String proIsDel;
-   
+   private String proIsDel;	
 }
