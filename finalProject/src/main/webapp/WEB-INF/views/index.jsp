@@ -3,12 +3,20 @@
 <html>
 <head>
 	<title>Home</title>
+	<link rel="stylesheet" href="../resources/css/page.css">
 </head>
 <body>
-<h1>
-	Hello world!  
-</h1>
+<jsp:include page="./common/header.jsp" />
 
-<P>  The time on the server is ${serverTime}. </P>
+<div class="bodyContainer">
+	<h1>
+		Hello world!  
+	</h1>
+	
+	<P>  The time on the server is ${serverTime}. </P>
+
+</div>
+
+<jsp:include page="./common/footer.jsp" />
 </body>
 </html>
