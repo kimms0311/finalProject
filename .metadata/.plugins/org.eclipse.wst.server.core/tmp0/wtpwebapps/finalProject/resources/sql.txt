@@ -38,3 +38,11 @@ cm_emd varchar(100),
 cm_is_del varchar(10) default 'N',
 primary key(cm_bno));
 
+<<<<<<< HEAD
+=======
+alter table community add cm_menu varchar(100) after cm_content;
+
+alter table product modify pro_is_del varchar(10) default 'N';
+
+
+>>>>>>> 94095b3cf3f3f542c01fd027653028612cd82b13

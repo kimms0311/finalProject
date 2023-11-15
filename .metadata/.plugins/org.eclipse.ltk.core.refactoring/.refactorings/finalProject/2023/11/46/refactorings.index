@@ -6,5 +6,10 @@
 1699960456474	Rename resource 'joong'
 1699960463497	Rename resource 'commu'
 1699961115746	Rename resource 'home.jsp'
+<<<<<<< HEAD
 1700044652863	Rename resource 'product'
 1700044666192	Rename resource 'joongo'
+=======
+1700044036724	Rename type 'JoongoBoardVO'
+1700047975578	Rename type 'ProductBoardController'
+>>>>>>> 94095b3cf3f3f542c01fd027653028612cd82b13
