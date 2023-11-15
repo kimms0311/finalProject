@@ -1,0 +1,25 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<jsp:include page="../common/header.jsp" />
+<div class="bodyContainer">
+<form action="/joongo/register" method="post">
+	<div class="form-floating">
+		<input type="text" class="form-control is-invalid" id="title" name="proTitle">
+		<label for="title">Title</label>
+	</div>
+	<div class="form-floating">
+		<textarea type="text" class="form-control is-invalid" id="content"></textarea>
+		<label for="content">Content</label>
+	</div>
+</form>
+</div>
+<jsp:include page="../common/footer.jsp" />
+</body>
+</html>
