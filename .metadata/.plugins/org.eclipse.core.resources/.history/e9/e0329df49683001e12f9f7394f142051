@@ -1,0 +1,45 @@
+.headerContainer{
+}
+header{
+	width: 1440px;
+	margin: 0 auto;
+	background-color: #eeeeee;
+}
+header>*{
+	display: inline-block;
+}
+header img{
+	width: 40px;
+	height: 50px;
+}
+header h1 a{
+	text-decoration: none;
+	color: green;
+}
+nav ul{
+	display: inline;
+}
+nav ul li{
+	display: inline-block;
+}
+nav ul li a{
+	text-decoration: none;
+	
+}
+
+
+.bodyContainer{
+	margin: 0 auto;
+	width: 1440px;
+}
+
+
+footer{
+	margin: 0 auto;
+	width: 1440px;
+	background-color: #eeeeee;
+}
+footer p{
+	display: block;
+	font-size: 12px;
+}
