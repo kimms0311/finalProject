@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<list key="installedFeatures">
@@ -103,29 +102,4 @@
 		<item value="org.springsource.sts.package:3.9.18.202109140905-RELEASE-e421"/>
 		<item value="org.springsource.sts:3.9.18.202109140905-RELEASE"/>
 	</list>
-	<section name="SaveAsDialogSettings">
-		<item key="DIALOG_X_ORIGIN" value="250"/>
-		<item key="DIALOG_Y_ORIGIN" value="-2"/>
-		<item key="DIALOG_WIDTH" value="525"/>
-		<item key="DIALOG_HEIGHT" value="580"/>
-		<item key="DIALOG_FONT_NAME" value="1|맑은 고딕|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|맑은 고딕"/>
-	</section>
-	<section name="CleanDialogSettings">
-		<item key="TOGGLE_SELECTED" value="false"/>
-		<item key="DIALOG_WIDTH" value="500"/>
-		<item key="DIALOG_HEIGHT" value="389"/>
-		<item key="DIALOG_FONT_NAME" value="1|맑은 고딕|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|맑은 고딕"/>
-	</section>
 </section>
-=======
-<?xml version="1.0" encoding="UTF-8"?>
-<section name="Workbench">
-	<section name="SaveAsDialogSettings">
-		<item key="DIALOG_X_ORIGIN" value="250"/>
-		<item key="DIALOG_Y_ORIGIN" value="-2"/>
-		<item key="DIALOG_WIDTH" value="525"/>
-		<item key="DIALOG_HEIGHT" value="580"/>
-		<item key="DIALOG_FONT_NAME" value="1|맑은 고딕|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|맑은 고딕"/>
-	</section>
-</section>
->>>>>>> 94095b3cf3f3f542c01fd027653028612cd82b13
