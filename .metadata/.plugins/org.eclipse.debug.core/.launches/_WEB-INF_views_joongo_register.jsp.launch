@@ -1,3 +1,19 @@
+<<<<<<< HEAD:.metadata/.plugins/org.eclipse.debug.core/.launches/finalProject.launch
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="org.eclipse.wst.server.ui.launchConfigurationType">
+    <stringAttribute key="client-id" value="org.eclipse.wst.server.ui.web"/>
+    <stringAttribute key="launchable-adapter-id" value="org.eclipse.jst.server.tomcat.web"/>
+    <stringAttribute key="module-artifact" value="org.eclipse.jst.jee.server:finalProject//"/>
+    <stringAttribute key="module-artifact-class" value="org.eclipse.wst.server.core.util.WebResource"/>
+    <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
+        <listEntry value="/finalProject"/>
+    </listAttribute>
+    <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
+        <listEntry value="4"/>
+    </listAttribute>
+    <stringAttribute key="server-id" value="Tomcat v9.0 Server at localhost"/>
+</launchConfiguration>
+=======
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <launchConfiguration type="org.eclipse.wst.server.ui.launchConfigurationType">
     <stringAttribute key="client-id" value="org.eclipse.wst.server.ui.web"/>
@@ -12,3 +28,4 @@
     </listAttribute>
     <stringAttribute key="server-id" value="Tomcat v9.0 Server at localhost"/>
 </launchConfiguration>
+>>>>>>> 94095b3cf3f3f542c01fd027653028612cd82b13:.metadata/.plugins/org.eclipse.debug.core/.launches/_WEB-INF_views_joongo_register.jsp.launch

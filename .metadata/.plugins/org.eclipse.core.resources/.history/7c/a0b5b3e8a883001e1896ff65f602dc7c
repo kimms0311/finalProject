@@ -1,0 +1,38 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<jsp:include page="../common/header.jsp" />
+<form action="/store/register" method="post" enctype="multipart/form-data">
+<input type="text" name="title" id ="t" placeholder="업체명">
+<input type="hidden" name="proCategory" value="store">
+<select name="menu">
+	<option ${typed eq null ? 'selected' : '' }>선택</option>
+	<option value="lesson" ${typed eq ''? 'selected' : '' }>과외/클래스</option>
+	<option value="pet" ${typed eq ''? 'selected' : '' }>반려동물</option>
+	<option value="hospital" ${typed eq ''? 'selected' : '' }>병원/약국</option>
+	<option value="beauty" ${typed eq ''? 'selected' : '' }>뷰티샵</option>
+	<option value="laundry" ${typed eq ''? 'selected' : '' }>세탁소</option>
+	<option value="repair" ${typed eq ''? 'selected' : '' }>수리</option>
+	<option value="sport" ${typed eq ''? 'selected' : '' }>운동</option>
+	<option value="baby" ${typed eq ''? 'selected' : '' }>육아</option>
+	<option value="eatery" ${typed eq 't'? 'selected' : '' }>음식점</option>
+	<option value="move" ${typed eq ''? 'selected' : '' }>이사/용달</option>
+	<option value="interior" ${typed eq ''? 'selected' : '' }>인테리어 시공</option>
+	<option value="clean" ${typed eq ''? 'selected' : '' }>청소</option>
+	<option value="hobby" ${typed eq ''? 'selected' : '' }>취미</option>
+	<option value="cafe" ${typed eq ''? 'selected' : '' }>카페/디저트</option>
+</select>
+<textarea placeholder="내용" class="form-control" name="content" id="c" rows="30"></textarea>
+
+</form>
+<script type="text/javascript">
+</script>
+<jsp:include page="../common/footer.jsp" />
+</body>
+</html>
