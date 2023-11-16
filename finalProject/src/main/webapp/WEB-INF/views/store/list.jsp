@@ -9,7 +9,7 @@
 </head>
 <body>
 <jsp:include page="../common/header.jsp" />
-<a href="/store/reigster">register</a>
+<a href="/store/register">register</a>
 <jsp:include page="../common/footer.jsp" />
 </body>
 </html>

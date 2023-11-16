@@ -9,11 +9,11 @@
 </head>
 <body>
 <jsp:include page="../common/header.jsp" />
+<div class="bodyContainer">
 <form action="/store/register" method="post" enctype="multipart/form-data">
-<input type="text" name="title" id ="t" placeholder="업체명">
 <input type="hidden" name="proCategory" value="store">
 <select name="menu">
-	<option disabled="disabled">선택</option>
+	<option disabled="disabled" selected="selected">선택</option>
 	<option value="lesson">과외/클래스</option>
 	<option value="pet">반려동물</option>
 	<option value="hospital">병원/약국</option>
@@ -29,11 +29,18 @@
 	<option value="hobby">취미</option>
 	<option value="cafe">카페/디저트</option>
 </select>
-<textarea placeholder="내용" class="form-control" name="content" id="c" rows="30"></textarea>
+<input type="text" name="title" id ="t" placeholder="업체명">
+<textarea placeholder="내용" class="form-control" name="content" id="c" rows="20"></textarea>
 
+<input type="file" name="files" id="files" style="display:none;" multiple="multiple">
+<button type="button" id="trigger">사진 첨부</button>
+<div id="fileZone">
+<!-- 첨부 파일 표시 -->
+</div>
+<button type="submit" id="regBtn">등록</button>
 </form>
-<script type="text/javascript">
-</script>
+</div>
+<script type="text/javascript" src="/resources/js/storeBoardRegister.js"></script>
 <jsp:include page="../common/footer.jsp" />
 </body>
 </html>
