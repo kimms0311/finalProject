@@ -1,0 +1,56 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>job register page</title>
+<link rel="stylesheet" href="/resources/css/page.css">
+</head>
+<body>
+<jsp:include page="../common/header.jsp" />
+<c:set value="${ProductBoardVO}" var="pbvo"></c:set>
+
+<div class="bodyContainer">
+	<!-- 첨부된 이미지 슬라이드로 뿌리기... -->
+	<div class="swiper">
+		<img alt="첨부이미지영역" src="../resources/image/logoimage.png">
+		<!-- 이미지 수만큼 bullet생성 -->
+		
+	</div>
+	
+	<div class="profileSecction">
+		<h4>${pbvo.proNickName}</h4>
+		<p>아보동</p>
+	</div>
+	
+	<hr>
+	
+	<h1></h1>
+	
+		
+		
+		
+	 
+	
+	
+	<!--
+	멤버이메일이랑 pbvo이메일 같으면 보이게하는걸로 바꿀거야 
+	<c:if test="${pbvo.proEmail eq pmvo.memEmail }">
+	 -->
+		<a href="/job/modify?pbno=${pbvo.proBno}"><button class="btn btn-success">수정</button></a>
+		<a href="/job/remove?pbno=${pbvo.proBno}"><button class="btn btn-success">삭제</button></a>
+	<!-- 
+	</c:if>
+	 -->
+	
+	<!-- 댓글라인 -->
+	
+	<jsp:include page="../common/footer.jsp" />
+	
+	
+	
+	
+</div>
+</body>
+</html>
