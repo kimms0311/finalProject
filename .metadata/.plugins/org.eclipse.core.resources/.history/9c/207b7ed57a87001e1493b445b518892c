@@ -1,0 +1,10 @@
+package com.avo.www.domain;
+
+public class LikeItemVO {
+
+	private long liLikeId;
+	private String liUserId;
+	private long liBno;
+	private String liRegAt;
+	
+}

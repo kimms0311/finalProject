@@ -1,0 +1,69 @@
+package com.avo.www.service;
+
+import java.util.List;
+
+import javax.inject.Inject;
+
+import org.springframework.stereotype.Service;
+
+import com.avo.www.domain.LikeItemVO;
+import com.avo.www.domain.PagingVO;
+import com.avo.www.domain.ProductBoardVO;
+import com.avo.www.handler.PagingHandler;
+import com.avo.www.repository.JoongoBoardDAO;
+
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@Service
+public class JoongoBoardServiceImpl implements JoongoBoardService {
+
+	@Inject
+	private JoongoBoardDAO jbdao;
+
+	@Override
+	public int register(ProductBoardVO pbvo) {
+		log.info("register service");
+		return jbdao.insert(pbvo);
+	}
+
+//	@Override
+//	public List<ProductBoardVO> getList() {
+//		return jbdao.getList();
+//	}
+
+	@Override
+	public ProductBoardVO getDetail(long bno) {
+		return jbdao.getDetail(bno);
+	}
+
+	@Override
+	public int modify(ProductBoardVO pbvo) {
+		return jbdao.update(pbvo);
+	}
+
+	@Override
+	public int remove(long bno) {
+		return jbdao.delete(bno);
+	}
+
+	@Override
+	public PagingHandler getListMore(PagingVO pgvo) {
+		int totalCount = jbdao.selectJoongoTotal();
+		List<ProductBoardVO> list = jbdao.getListMore(pgvo);
+		PagingHandler ph = new PagingHandler(pgvo, totalCount, list);
+		return ph;
+	}
+
+	@Override
+	public int insertOrUpdate(LikeItemVO livo) {
+		int check = jbdao.checkLike(livo);
+		if(check > 0) { // 찜 기록이 있을 경우
+			return jbdao.updateLike(livo);			
+		}
+		
+		// 기록이 없을 경우
+		return jbdao.insertLike(livo);
+	}
+	
+}

@@ -1,0 +1,40 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+.bodyContainer > img{
+	width: 500px;
+}
+</style>
+</head>
+<body>
+<jsp:include page="../common/header.jsp" />
+<div class="bodyContainer">
+	<!-- 상품이미지 여러 개일 경우 슬라이더 -->
+	<img src="../resources/image/logoimage.png" class="card-img-top" alt="...">
+	
+	<div class="profile">
+		<img src="..." class="card-img-top" alt="프로필 이미지">
+		<p>${pbvo.proNickName }</p>
+		<p>${pbvo.proSido } ${pbvo.proSigg }</p>
+		<!-- 글 작성자가 아닐 경우에만 띄울 버튼 -->
+		<button type="button" class="btn btn-outline-warning">채팅하기</button>
+	</div>
+	<div class="prodArea">
+		<h3>${pbvo.proTitle }</h3>
+		<p>${pbvo.proMenu } * ${pbvo.proRegAt }</p>
+		<h3>${pbvo.proPrice }</h3>
+		<p><textarea cols="30" rows="10" readonly>${pbvo.proContent }</textarea></p>
+	</div>
+		
+	<!-- 글 작성자에게만 띄울 버튼 -->
+	<a href="/joongo/modify?proBno=${pbvo.proBno }"><button type="submit" class="btn btn-success">수정</button></a>
+	<a href="/joongo/remove?proBno=${pbvo.proBno }"><button type="button" class="btn btn-danger">삭제</button></a>
+</div>
+<jsp:include page="../common/footer.jsp" />
+</body>
+</html>

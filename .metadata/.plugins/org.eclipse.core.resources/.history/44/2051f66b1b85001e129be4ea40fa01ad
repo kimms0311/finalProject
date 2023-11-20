@@ -1,0 +1,14 @@
+document.addEventListener('click',(e)=>{
+    console.log(e.target);
+    if(e.target.id == 'moreBtn'){
+        console.log("더보기 버튼");
+    }
+})
+
+async function getMoreBoardForServer(bnoVal, page){
+    try {
+        const url = "/joongo"
+    } catch (error) {
+        console.log(error);
+    }
+}

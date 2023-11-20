@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.avo.www.repository.JoongoBoardDAO">
+	<insert id="insert">
+		insert into product (pro_email, pro_nick_name, pro_title, pro_content, pro_price, pro_category, pro_menu)
+		values(#{proEmail}, #{proNickName}, #{proTitle}, #{proContent}, #{proPrice}, #{proCategory}, #{proMenu})
+	</insert>
+	<select id="getList" resultType="com.avo.www.domain.ProductBoardVO">
+		select * from product
+		where pro_category = 'joongo' AND pro_is_del = 'N'
+		order by pro_re_at desc limit #{pageStart}, #{qty}
+	</select>
+	<select id="selectJoongoTotal">
+		select count(pro_bno) from product where pro_category = 'joongo'
+	</select>
+	<select id="getDetail" resultType="com.avo.www.domain.ProductBoardVO">
+		select * from product where pro_bno = #{proBno}, pro_is_del = 'N'
+	</select>
+	<update id="update">
+		update product set pro_title = #{proTitle}, pro_content = #{proContent}, pro_price = #{proPrice},
+		pro_menu = #{proMenu}, pro_mod_at = now()
+		where pro_bno = #{proBno}
+	</update>
+	<update id="delete">
+		update product set pro_is_del = 'Y' where pro_bno = #{proBno}
+	</update>
+</mapper>

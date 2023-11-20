@@ -1,0 +1,49 @@
+// list 페이지 하단에 더보기 버튼 추가
+// 더보기 버튼 id="moreBtn", data-page="1"
+
+// product 테이블 pro_category 컬럼값을 list.jsp에 c:out으로 설정하여
+// getMoreBoardForServer 함수의 category 부분에 들어가게 작성했습니다.
+
+/*
+Joongo list에서 추가하는 구조
+
+<div class="col">
+	<div class="card h-100">
+		<img src="../resources/image/logoimage.png" class="card-img-top" alt="...">
+		<div class="card-body">
+		    <h5 class="card-title"><a href="/joongo/detail?proBno=${list.proBno}">${list.proTitle }</a></h5>
+		    <p class="card-text">${list.proEmail }</p>
+		</div>
+		<div class="card-footer">
+		    <small class="text-body-secondary">${list.proRegAt }</small>
+		</div>
+	</div>
+</div>
+*/
+
+console.log("category : "+category);
+
+document.addEventListener("click",(e)=>{
+    console.log(e.target);
+    if(e.target.id == "moreBtn"){
+        console.log("더보기 버튼");
+        getMoreBoard(category);
+    }
+});
+
+async function getMoreBoardForServer(category, page){
+    try {
+        const resp = await fetch("/"+category+"/"+page);
+        const result = await resp.json();
+        return result;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+function getMoreBoard(category, page=1){
+    getMoreBoardForServer(category, page).then(result => {
+        console.log(result);
+        
+    })
+}

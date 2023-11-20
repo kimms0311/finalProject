@@ -1,0 +1,25 @@
+package com.avo.www.repository;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
+import com.avo.www.domain.PagingVO;
+import com.avo.www.domain.ProductBoardVO;
+import com.avo.www.handler.PagingHandler;
+
+public interface JoongoBoardDAO {
+
+	int insert(ProductBoardVO pbvo);
+
+//	List<ProductBoardVO> getList();
+
+	ProductBoardVO getDetail(long bno);
+
+	int update(ProductBoardVO pbvo);
+
+	int delete(long bno);
+
+	PagingHandler getList(@Param("category") String category, @Param("pgvo") PagingVO pgvo);
+
+}

@@ -1,0 +1,28 @@
+package com.avo.www.handler;
+
+import com.avo.www.domain.PagingVO;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@ToString
+public class PagingHandler {
+
+	private int startPage;
+	private int endPage;
+	private int realEndPage;
+	
+	private int totalCount;
+	private PagingVO pgvo;
+	
+	public PagingHandler(PagingVO pgvo, int totalCount) {
+		
+		this.pgvo = pgvo;
+		this.totalCount = totalCount;
+		
+	}
+	
+}
