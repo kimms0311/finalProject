@@ -15,6 +15,7 @@
 <body>
 <jsp:include page="../common/header.jsp" />
 <div class="bodyContainer">
+<<<<<<< HEAD
 	<h2> 중고거래 </h2>
 	<p> 기본 정보 </p>
 	<form action="/joongo/register" method="post">
@@ -42,6 +43,27 @@
 		</div>
 		<button type="submit" class="btn btn-success">등록</button>
 	</form>
+=======
+<form action="/joongo/register" method="post">
+	<input type="hidden" name="proEmail" value="joongoEmail@email">
+	<input type="hidden" name="proNickName" value="joongo">
+	<div class="form-floating">
+		<input type="text" class="form-control" id="title" name="proTitle">
+		<label for="title">Title</label>
+	</div>
+	<div class="input-group mb-3">
+	  <span class="input-group-text">&#8361;</span>
+	  <div class="form-floating">
+	    <input type="text" class="form-control" id="price" name="proPrice" placeholder="price">
+	    <label for="price">Price</label>
+	  </div>
+	</div>
+	<div class="form-floating">
+		<textarea class="form-control" id="content" name="proContent"></textarea>
+		<label for="content">Content</label>
+	</div>
+</form>
+>>>>>>> origin/topic
 </div>
 <jsp:include page="../common/footer.jsp" />
 </body>
