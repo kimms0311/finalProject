@@ -1,0 +1,11 @@
+package com.avo.www.service;
+
+import com.avo.www.security.MemberVO;
+
+public interface MemberService {
+
+	boolean updateLastLogin(String authEmail);
+
+	int register(MemberVO mvo);
+
+}

@@ -1,0 +1,5 @@
+package com.avo.www.service;
+
+public interface MemberService {
+
+}

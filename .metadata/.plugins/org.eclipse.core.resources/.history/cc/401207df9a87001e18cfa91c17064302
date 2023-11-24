@@ -1,0 +1,9 @@
+package com.avo.www.service;
+
+import com.avo.www.domain.CommunityReCmtVO;
+
+public interface CommunityReCmtService {
+
+	int post(CommunityReCmtVO cvo);
+
+}

@@ -1,0 +1,17 @@
+package com.avo.www.repository;
+
+import java.util.List;
+
+import com.avo.www.domain.CommunityCmtVO;
+
+public interface CommunityCmtDAO {
+
+	int insert(CommunityCmtVO cvo);
+
+	List<CommunityCmtVO> getList(long cmtBno);
+
+	int update(CommunityCmtVO cvo);
+
+	int delete(long cmtCno);
+
+}

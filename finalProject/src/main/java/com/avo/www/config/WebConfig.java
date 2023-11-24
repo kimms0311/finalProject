@@ -12,7 +12,7 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 	@Override
 	protected Class<?>[] getRootConfigClasses() {
 		// 최상위 루트에서 처리할 클래스 등록
-		return new Class[] {RootConfig.class}; // SecurityConfig.class 나중에 추가
+		return new Class[] {RootConfig.class, SecurityConfig.class}; // SecurityConfig.class 나중에 추가
 	}
 
 	@Override

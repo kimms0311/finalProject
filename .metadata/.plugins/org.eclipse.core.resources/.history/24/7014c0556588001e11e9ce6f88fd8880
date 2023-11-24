@@ -1,0 +1,7 @@
+package com.avo.www.repository;
+
+public interface CommunityLikeDAO {
+
+	int insert(long cmBno, String cmEmail);
+
+}
