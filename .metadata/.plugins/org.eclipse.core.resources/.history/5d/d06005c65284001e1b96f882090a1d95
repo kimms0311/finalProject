@@ -1,9 +1,0 @@
-package com.avo.www.service;
-
-import com.avo.www.domain.ProductBoardVO;
-
-public interface JoongoBoardService {
-
-	int register(ProductBoardVO pbvo);
-
-}
