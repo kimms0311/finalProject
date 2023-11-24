@@ -2,9 +2,9 @@ package com.avo.www.handler;
 
 import java.util.List;
 
+
 import com.avo.www.domain.CommunityCmtVO;
 import com.avo.www.domain.CommunityReCmtVO;
-//import com.avo.www.domain.CommunityCmtVO;
 import com.avo.www.domain.PagingVO;
 import com.avo.www.domain.ProductBoardVO;
 
@@ -27,6 +27,7 @@ public class PagingHandler {
    private List<ProductBoardVO> prodList;
    private List<CommunityCmtVO> cmtList;
    private List<CommunityReCmtVO> reCmtList;
+
    
    public PagingHandler(PagingVO pgvo, int totalCount, int minus) {
       
@@ -57,5 +58,5 @@ public class PagingHandler {
       this.cmtList = cmtList;
       this.reCmtList = reCmtList;
    }
-   
+
 }
