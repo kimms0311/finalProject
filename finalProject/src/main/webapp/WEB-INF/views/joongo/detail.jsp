@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,16 +9,26 @@
 <title>Insert title here</title>
 <style>
 .bodyContainer > img{
-	width: 500px;
+	width: 100px;
 }
+
 </style>
 </head>
 <body>
 <jsp:include page="../common/header.jsp" />
 <div class="bodyContainer">
 	<!-- 상품이미지 여러 개일 경우 슬라이더 -->
-	<img src="../resources/image/logoimage.png" class="card-img-top" alt="...">
-	
+	<c:forEach items="${flist }" var="fvo">
+		<c:choose>
+			<c:when test="${fvo.fileType > 0}">
+				<img src="/upload/product/${fn: replace(fvo.saveDir, '\\', '/')}/${fvo.uuid}_${fvo.fileName}" alt="그림 없음">
+			</c:when>
+			<c:otherwise>
+				<!-- 그림이 아닐 경우 file 아이콘 모양 넣기 -->
+				<img src="../resources/image/logoimage.png" class="card-img-top" alt="...">
+			</c:otherwise>
+		</c:choose>
+	</c:forEach>
 	<div class="profile">
 		<img src="..." class="card-img-top" alt="프로필 이미지">
 		<p>${pbvo.proNickName }</p>

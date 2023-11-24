@@ -4,6 +4,7 @@ console.log("카테고리 : "+category);
 console.log("bno : "+bnoVal);
 console.log("user id : "+userEmail);
 
+// 카테고리와 찜 정보를 서버에 전송
 async function likeItemToServer(category, likeData){
     try {
         let url = "/"+category+"/like";
@@ -35,6 +36,7 @@ function likeItem(bnoVal, userEmail, status){
     likeItemToServer(category, likeData);
 }
 
+// 찜 등록 취소 여부 판단
 document.addEventListener('click', (e)=>{
     console.log(e.target);
     if(e.target.classList.contains('bi-heart')){

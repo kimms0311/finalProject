@@ -11,5 +11,7 @@ public interface LikeItemDAO {
 	int insertLike(LikeItemVO livo);
 
 	int checkLikeTF(LikeItemVO livo);
+
+	void deleteAllLike(long bno);
 	
 }

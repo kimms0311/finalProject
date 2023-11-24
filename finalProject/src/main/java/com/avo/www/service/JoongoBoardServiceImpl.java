@@ -1,5 +1,6 @@
 package com.avo.www.service;
 
+import java.io.File;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -7,10 +8,13 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.avo.www.domain.FileVO;
 import com.avo.www.domain.LikeItemVO;
 import com.avo.www.domain.PagingVO;
+import com.avo.www.domain.ProductBoardDTO;
 import com.avo.www.domain.ProductBoardVO;
 import com.avo.www.handler.PagingHandler;
+import com.avo.www.repository.ProductFileDAO;
 import com.avo.www.repository.JoongoBoardDAO;
 import com.avo.www.repository.LikeItemDAO;
 
@@ -25,11 +29,14 @@ public class JoongoBoardServiceImpl implements JoongoBoardService {
 	
 	@Inject
 	private LikeItemDAO lidao;
+	
+	@Inject
+	private ProductFileDAO pfdao;
 
-	@Override
-	public int register(ProductBoardVO pbvo) {
-		return jbdao.insert(pbvo);
-	}
+//	@Override
+//	public int register(ProductBoardVO pbvo) {
+//		return jbdao.insert(pbvo);
+//	}
 
 //	@Override
 //	public List<ProductBoardVO> getList() {
@@ -42,14 +49,17 @@ public class JoongoBoardServiceImpl implements JoongoBoardService {
 		return jbdao.getDetail(bno);
 	}
 
-	@Override
-	public int modify(ProductBoardVO pbvo) {
-		jbdao.setReadCnt(pbvo.getProBno(),-2);
-		return jbdao.update(pbvo);
-	}
+//	@Override
+//	public int modify(ProductBoardVO pbvo) {
+//		jbdao.setReadCnt(pbvo.getProBno(),-2);
+//		return jbdao.update(pbvo);
+//	}
 
+	@Transactional
 	@Override
 	public int remove(long bno) {
+		pfdao.deleteAllFile(bno);
+		lidao.deleteAllLike(bno);
 		return jbdao.delete(bno);
 	}
 
@@ -58,6 +68,7 @@ public class JoongoBoardServiceImpl implements JoongoBoardService {
 	public PagingHandler getListMore(PagingVO pgvo) {
 		int totalCount = jbdao.selectJoongoTotal();
 		jbdao.setLikeCnt();
+		jbdao.setFileCnt();
 		List<ProductBoardVO> list = jbdao.getListMore(pgvo);
 		PagingHandler ph = new PagingHandler(pgvo, totalCount, list);
 		return ph;
@@ -85,6 +96,69 @@ public class JoongoBoardServiceImpl implements JoongoBoardService {
 			return lidao.checkLikeTF(livo);			
 		}
 		return 0;
+	}
+
+	@Transactional
+	@Override
+	public int register(ProductBoardDTO pbdto) {
+		int isUp = jbdao.insert(pbdto.getPbvo());
+		if(pbdto.getPflist() == null) {
+			isUp *= 1;
+			return isUp;
+		}
+		
+		if(isUp > 0 && pbdto.getPflist().size() > 0) {
+			long bno = jbdao.selectOneBno();
+			
+			for(FileVO fvo : pbdto.getPflist()) {
+				fvo.setBno(bno);
+				fvo.setCategory("joongo");
+				isUp *= pfdao.insertFile(fvo);
+			}
+		}
+		
+		return 0;
+	}
+
+	@Override
+	public List<FileVO> getFileList(long bno) {
+		return pfdao.getFileList(bno);
+	}
+
+	@Override
+	public List<FileVO> getThumbImg(long bno) {
+		return pfdao.getFileList(bno);
+	}
+
+	@Transactional
+	@Override
+	public int modify(ProductBoardDTO pbdto) {
+		jbdao.setReadCnt(pbdto.getPbvo().getProBno(), -2);
+		int isMod = jbdao.update(pbdto.getPbvo());
+		if(pbdto.getPflist() == null) {
+			isMod *= 1;
+		}
+		if(isMod > 0 && pbdto.getPflist().size() > 0) {
+			long bno = pbdto.getPbvo().getProBno();
+			for(FileVO fvo : pbdto.getPflist()) {
+				fvo.setBno(bno);
+				fvo.setCategory("joongo");
+				isMod *= pfdao.insertFile(fvo);
+			}
+		}
+		return isMod;
+	}
+
+	@Override
+	public int deleteFile(String uuid){
+		
+		return pfdao.deleteFile(uuid);
+	}
+
+	@Override
+	public List<FileVO> getThumb(long bno) {
+		List<FileVO> flist = pfdao.getFileList(bno);
+		return flist;
 	}
 
 	

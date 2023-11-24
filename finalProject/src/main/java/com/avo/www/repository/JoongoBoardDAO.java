@@ -30,4 +30,8 @@ public interface JoongoBoardDAO {
 
 	void updateLikeCnt(@Param("livo") LikeItemVO livo, @Param("i") int i);
 
+	long selectOneBno();
+
+	void setFileCnt();
+
 }

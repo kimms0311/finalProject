@@ -7,6 +7,9 @@
 		insert into product (pro_email, pro_nick_name, pro_title, pro_content, pro_price, pro_category, pro_menu)
 		values(#{proEmail}, #{proNickName}, #{proTitle}, #{proContent}, #{proPrice}, #{proCategory}, #{proMenu})
 	</insert>
+	<select id="selectOneBno" resultType="long">
+		select max(pro_bno) from product;
+	</select>
 	<!-- <select id="getList" resultType="com.avo.www.domain.ProductBoardVO">
 		select * from product
 		where pro_category = 'joongo' AND pro_is_del = 'N'
@@ -34,8 +37,11 @@
 	<update id="setReadCnt">
 		update product set pro_read_cnt = pro_read_cnt + #{i} where pro_bno = #{bno}
 	</update>
+	<update id="setFileCnt">
+		update product as p set pro_file_cnt = (select count(p.pro_bno) from product_file as file where file.bno = p.pro_bno)
+	</update>
 	<update id="setLikeCnt">
-		update product as p set pro_like_cnt = (select count(p.pro_bno) from like_item as li where li.li_bno = p.pro_bno AND li.li_status = 1)
+		update product as p set pro_like_cnt = (select count(p.pro_bno) from product_like as li where li.li_bno = p.pro_bno AND li.li_status = 1)
 	</update>
 	<update id="updateLikeCnt">
 		update product set pro_like_cnt = pro_like_cnt + #{i} where pro_bno = #{livo.liBno}
