@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>job register page</title>
+<title>job modify page</title>
 <link rel="stylesheet" href="/resources/css/page.css">
 </head>
 <body>
@@ -13,19 +13,20 @@
 
 <div class="bodyContainer">
 		
-	<form action="/job/register" method="post" enctype="multipart/form-data" >
+	<form action="/job/modify" method="post">
 	<input type="hidden" class="form-control" id="proEmail" name="proEmail" value="proEmail">
 	<input type="hidden" class="form-control" id="proNickName" name="proNickName" value="proNickName">
+	<input type="hidden" class="form-control" id="proBno" name="proBno" value="${pbvo.proBno }">
 	  <div class="mb-3">
 	    <label for="proTitle" class="form-label">제목</label>
-	    <input type="text" class="form-control" name="proTitle" id="proTitle">
+	    <input type="text" class="form-control" name="proTitle" id="proTitle" value="${pbvo.proTitle}">
 	    
 	  </div>
 	  <div class="mb-3">
 	  <label for="jobDetail" class="form-label">구인 정보</label>
 	  <!-- 지급기준 메뉴에 담기 -->
 		    <select class="form-select form-select-sm" aria-label="Small select example" name="proMenu">
-			  <option selected>지급 기준</option>
+			  <option selected value="${pbvo.proMenu}">${pbvo.proMenu}</option>
 			  <option value="시급">시급</option>
 			  <option value="일급">일급</option>
 			  <option value="월급">월급</option>
@@ -33,7 +34,7 @@
 			</select>
 		
 		<label for="jobProPrice" class="form-label">급여</label>
-	    <input type="text" class="form-control" name="proPrice" id="proPrice">
+	    <input type="text" class="form-control" name="proPrice" id="proPrice" value="${pbvo.proPrice}">
 
 		<label for="jobAddress" class="form-label">근무지역</label>
 	    <input type="text" class="form-control" name="address" id="address">
@@ -59,7 +60,7 @@
 
 	  <div class="mb-3">
 	    <label for="proContent" class="form-label">상세 내용</label>
-		<textarea class="form-control" name="proContent" id="proContent" rows="10">자세한 근무 내용을 적어주세요.</textarea>
+		<textarea class="form-control" name="proContent" id="proContent" rows="10">${pbvo.proContent}</textarea>
 	  </div>
 	  
 	  <div class="mb-3">
@@ -72,10 +73,11 @@
 	  <!-- 첨부파일 표시 될 영역 -->
 	  </div>
   
-	  <button type="submit" class="btn btn-success" id="regBtn">작성</button>
+	  <button type="submit" class="btn btn-success">수정</button>
 	  <button type="reset" class="btn btn-success">취소</button>
 	</form>
-	
+
+
 </div>
 
 

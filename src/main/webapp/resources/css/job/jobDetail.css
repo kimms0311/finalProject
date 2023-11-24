@@ -1,0 +1,21 @@
+@charset "UTF-8";
+.container{
+	margin-top: 50px;
+}
+
+.cmtPost, .cmtWriterInfo {
+	display: flex;
+    align-items: center;
+}
+.cmtPost span, .cmtWriterInfo span{
+	margin: 10px;
+}
+
+.cmtPost img, .cmtWriterInfo img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 50%; 
+    border: 2px solid #DDE5B6;
+    display: block;
+}

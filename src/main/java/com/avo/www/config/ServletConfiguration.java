@@ -20,7 +20,7 @@ public class ServletConfiguration implements WebMvcConfigurer {
 		registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
 		
 		// 나중에 파일 업로드 경로 수정
-		registry.addResourceHandler("/upload/**").addResourceLocations("file:///D:\\_fileupload\\");
+		registry.addResourceHandler("/upload/**").addResourceLocations("file:///D:\\_fileupload\\job\\");
 		
 	}
 
