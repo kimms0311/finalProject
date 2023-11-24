@@ -1,0 +1,47 @@
+package com.avo.www.controller;
+
+import javax.inject.Inject;
+
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.avo.www.domain.ProductBoardVO;
+import com.avo.www.service.JobBoardService;
+
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@Configuration
+@RequestMapping("/job/*")
+public class JobBoardController {
+   @Inject
+   private JobBoardService jbsv;
+   
+   @GetMapping("/list")
+   public void getList() {
+      log.info(">>>>> job list page >> ");
+   }
+
+   @GetMapping("/register")
+   public void getRegister() {
+	   log.info(">>>>> job register page >> ");
+   }
+   
+   @PostMapping("/register")
+   public String postRegister(ProductBoardVO bvo, RedirectAttributes re) {
+	   log.info(">>>>> job postRegister page >> ");
+	   
+	   int isOk = jbsv.post(bvo);
+	   log.info(">>>>> board register >>" + (isOk > 0 ? "OK" : "FAIL"));
+	   
+	   return "redirect:/job/list";
+
+   }
+   
+   
+   
+
+}

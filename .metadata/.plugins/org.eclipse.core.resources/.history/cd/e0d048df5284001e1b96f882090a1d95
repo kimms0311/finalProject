@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.avo.www.repository.JoongoBoardDAO">
+	<insert id="insert">
+		insert into product (pro_email, pro_nick_name, pro_title, pro_content, pro_price, pro_category, pro_menu)
+		values(#{proEmail}, #{proNickName}, #{proTitle}, #{proContent}, #{proPrice}, #{proCategory}, #{proMenu})
+	</insert>
+</mapper>

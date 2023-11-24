@@ -1,0 +1,54 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>job register page</title>
+<link rel="stylesheet" href="/resources/css/page.css">
+</head>
+<body>
+<jsp:include page="../common/header.jsp" />
+
+<c:set value="${boardDTO.bvo }" var="bvo"></c:set>
+<table class="table">
+	<tr>
+		<th>글번호(BNO)</th>
+		<td>${bvo.bno }</td>
+	</tr>
+	<tr>
+		<th>글제목(TITLE)</th>
+		<td>${bvo.title }</td>
+	</tr>
+	<tr>
+		<th>작성자(WRITER)</th>
+		<td>${bvo.writer }</td>
+	</tr>
+	<tr>
+		<th>작성일(REGDATE)</th>
+		<td>${bvo.regAt }</td>
+	</tr>
+	<tr>
+		<th>마지막 수정일(MODDATE)</th>
+		<td>${bvo.modAt }</td>
+	</tr>
+	<tr>
+		<th>내용(CONTENT)</th>
+		<td>${bvo.content }</td>
+	</tr>
+	<tr>
+		<th>조회수(readCount)</th>
+		<td>${bvo.readCount }</td>
+	</tr>
+</table>
+
+<c:if test="${bvo.writer eq mvo.nickName }">
+	<a href="/board/modify?bno=${bvo.bno}"><button class="btn btn-primary">수정</button></a>
+	<a href="/board/remove?bno=${bvo.bno}"><button class="btn btn-primary">삭제</button></a>
+</c:if>
+
+<!-- 댓글라인 -->
+
+<jsp:include page="../common/footer.jsp" />
+</body>
+</html>

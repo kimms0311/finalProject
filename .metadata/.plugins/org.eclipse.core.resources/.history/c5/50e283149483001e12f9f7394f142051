@@ -1,0 +1,13 @@
+header img{
+	width: 20px;
+}
+nav ul{
+	display: inline;
+}
+nav ul li{
+	display: inline-block;
+}
+nav ul li a{
+	text-decoration: none;
+	
+}

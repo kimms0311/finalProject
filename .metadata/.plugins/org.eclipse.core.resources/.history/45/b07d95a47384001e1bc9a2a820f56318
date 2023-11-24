@@ -1,0 +1,9 @@
+package com.avo.www.service;
+
+import com.avo.www.domain.ProductBoardVO;
+
+public interface JobBoardService {
+
+	int post(ProductBoardVO pbvo);
+
+}
