@@ -49,7 +49,7 @@ public class PagingHandler {
    }
 
    public PagingHandler(int totalCount, PagingVO pgvo, List<CommunityCmtVO> cmtList, List<CommunityReCmtVO> reCmtList) {
-      this(pgvo, totalCount, 9);
+      this(pgvo, totalCount, 7);
       this.cmtList = cmtList;
       this.reCmtList = reCmtList;
    }
