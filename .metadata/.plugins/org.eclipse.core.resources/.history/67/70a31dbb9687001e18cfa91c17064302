@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.avo.www.repository.CommunityReCmtDAO">
+	<insert id="insert">
+		insert into community_re_cmt(re_cmt_cno, re_bno, cmt_email, cmt_nick_name, cmt_content)
+		values(#{cmtBno}, #{cmtEmail}, #{cmtNickName}, #{cmtContent})
+	</insert>
+</mapper>

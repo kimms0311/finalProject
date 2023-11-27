@@ -1,0 +1,42 @@
+package com.avo.www.service;
+
+import java.util.List;
+
+import javax.inject.Inject;
+
+import org.springframework.stereotype.Service;
+
+import com.avo.www.domain.CommunityReCmtVO;
+import com.avo.www.repository.CommunityCmtDAO;
+import com.avo.www.repository.CommunityReCmtDAO;
+
+@Service
+public class CommunityReCmtServiceImpl implements CommunityReCmtService{
+	
+	@Inject
+	private CommunityReCmtDAO rcdao;
+	
+	@Inject
+	private CommunityCmtDAO ccdao;
+
+	@Override
+	public int post(CommunityReCmtVO cvo) {
+		return rcdao.insert(cvo);
+	}
+
+	@Override
+	public List<CommunityReCmtVO> getList(long reCmtCno) {
+		return rcdao.getList(reCmtCno);
+	}
+
+	@Override
+	public int edit(CommunityReCmtVO cvo) {
+		return rcdao.update(cvo);
+	}
+
+	@Override
+	public int remove(long reCno) {
+		return rcdao.delete(reCno);
+	}
+	
+}

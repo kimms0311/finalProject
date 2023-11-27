@@ -6,10 +6,18 @@
 1699960456474	Rename resource 'joong'
 1699960463497	Rename resource 'commu'
 1699961115746	Rename resource 'home.jsp'
+<<<<<<< HEAD
+1700044652863	Rename resource 'product'
+1700044666192	Rename resource 'joongo'
+=======
 1700044036724	Rename type 'JoongoBoardVO'
 1700047975578	Rename type 'ProductBoardController'
+<<<<<<< HEAD
 1700124143487	Rename compilation unit 'jobController.java'
 1700124229081	Copy compilation unit
 1700124256810	Copy file
 1700124287165	Rename compilation unit 'jobBoardController.java'
 1700132500945	Copy file
+=======
+>>>>>>> 94095b3cf3f3f542c01fd027653028612cd82b13
+>>>>>>> ecc99f14047d2fdeae62d5c51af9403f117ccb3f

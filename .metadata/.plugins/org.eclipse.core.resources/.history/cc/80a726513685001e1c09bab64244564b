@@ -1,0 +1,17 @@
+package com.avo.www.service;
+
+import java.util.List;
+
+import com.avo.www.domain.CommunityCmtVO;
+
+public interface CommunityCmtService {
+
+	int post(CommunityCmtVO cvo);
+
+	List<CommunityCmtVO> getList(long cmtBno);
+
+	int edit(CommunityCmtVO cvo);
+
+	int remove(long cmtCno);
+
+}

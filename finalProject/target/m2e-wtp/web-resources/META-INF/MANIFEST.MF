@@ -1,5 +1,13 @@
+<<<<<<< HEAD
 Manifest-Version: 1.0
 Built-By: ahd07
 Build-Jdk: 11.0.20
 Created-By: Maven Integration for Eclipse
 
+=======
+Manifest-Version: 1.0
+Built-By: EZENIC-168
+Build-Jdk: 11.0.19
+Created-By: Maven Integration for Eclipse
+
+>>>>>>> ecc99f14047d2fdeae62d5c51af9403f117ccb3f

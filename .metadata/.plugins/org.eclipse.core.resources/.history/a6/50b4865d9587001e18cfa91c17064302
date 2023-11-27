@@ -1,0 +1,10 @@
+package com.avo.www.service;
+
+import javax.inject.Inject;
+
+public class CommunityReCmtServiceImpl implements CommunityReCmtService{
+	
+	@Inject
+	private CommunityReCmtDAO rcdao;
+	
+}

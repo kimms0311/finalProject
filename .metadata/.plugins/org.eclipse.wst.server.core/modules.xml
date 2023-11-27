@@ -1,4 +1,11 @@
+<<<<<<< HEAD
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <modules>
   <module moduleId="org.eclipse.jst.jee.server:finalProject" serverId="Tomcat v9.0 Server at localhost"/>
 </modules>
+=======
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<modules>
+  <module moduleId="org.eclipse.jst.jee.server:finalProject" serverId="Tomcat v9.0 Server at localhost"/>
+</modules>
+>>>>>>> ecc99f14047d2fdeae62d5c51af9403f117ccb3f

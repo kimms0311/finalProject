@@ -1,0 +1,26 @@
+package com.avo.www.service;
+
+import javax.inject.Inject;
+
+import org.springframework.stereotype.Service;
+
+import com.avo.www.repository.MemberDAO;
+import com.avo.www.security.MemberVO;
+
+@Service
+public class MemberServiceImpl implements MemberService {
+
+	@Inject
+	private MemberDAO mdao;
+
+	@Override
+	public boolean updateLastLogin(String authEmail) {
+		return mdao.updateLastLogin(authEmail) > 0 ? true : false;
+	}
+
+	@Override
+	public int register(MemberVO mvo) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+}

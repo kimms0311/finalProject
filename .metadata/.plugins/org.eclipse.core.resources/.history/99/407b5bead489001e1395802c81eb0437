@@ -1,0 +1,5 @@
+package com.avo.www.security;
+
+public class AuthMember {
+
+}

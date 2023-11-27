@@ -9,6 +9,10 @@ import lombok.ToString;
 @ToString
 public class PagingVO {
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> ecc99f14047d2fdeae62d5c51af9403f117ccb3f
    private int pageNo; // 페이지 번호
    private int qty; // 한 페이지에 보여줄 글 개수
    private String keyword; // 검색어
@@ -27,4 +31,8 @@ public class PagingVO {
       return (this.pageNo-1)*qty;
    }
    
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> ecc99f14047d2fdeae62d5c51af9403f117ccb3f

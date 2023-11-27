@@ -33,11 +33,19 @@ public class FileHandler {
       // 각 페이지 별 파일 업로드 폴더 위치 설정
       if(UP_DIR.equals("D:\\_fileupload\\")) {
          UP_DIR = UP_DIR + dir;
+<<<<<<< HEAD
+=======
+
+>>>>>>> ecc99f14047d2fdeae62d5c51af9403f117ccb3f
       }
       
       File folders = new File(UP_DIR, today);
       
+<<<<<<< HEAD
       // 폴더 생성S
+=======
+      // 폴더 생성
+>>>>>>> ecc99f14047d2fdeae62d5c51af9403f117ccb3f
       if(!folders.exists()) {
          folders.mkdirs();
       }

@@ -25,6 +25,7 @@ public class ProductBoardVO {
    private int proLikeCnt;
    private int proReadCnt;
    private int proChatCnt;
+   private int proFileCnt;
    
    private String proRegAt;
    private String proModAt;

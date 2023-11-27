@@ -1,0 +1,33 @@
+package com.avo.www.service;
+
+import java.util.List;
+
+import javax.inject.Inject;
+
+import org.springframework.stereotype.Service;
+
+import com.avo.www.domain.CommunityCmtVO;
+import com.avo.www.repository.CommunityCmtDAO;
+
+@Service
+public class CommunityCmtServiceImpl implements CommunityCmtService {
+
+	@Inject
+	private CommunityCmtDAO ccdao;
+
+	@Override
+	public int post(CommunityCmtVO cvo) {
+		return ccdao.insert(cvo);
+	}
+
+	@Override
+	public List<CommunityCmtVO> getList(long cmtBno) {
+		return ccdao.getList(cmtBno);
+	}
+
+	@Override
+	public int edit(CommunityCmtVO cvo) {
+		return ccdao.update(cvo);
+	}
+	
+}

@@ -1,0 +1,17 @@
+document.addEventListener('click', (e)=>{
+    if(e.target.classList.contains('menu')){
+       menu = e.target.id;
+       console.log(menu);
+       menuListToServer(menu);
+    }
+})
+
+async function menuListToServer(menu){
+    try{
+        const resp = await fetch('/community/list/'+menu);
+        const result = await resp.json();
+        return result;
+    }catch(err){
+        console.log(err);
+    }
+}

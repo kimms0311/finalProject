@@ -7,7 +7,43 @@
 		insert into product (pro_email, pro_nick_name, pro_title, pro_content, pro_price, pro_category, pro_menu)
 		values(#{proEmail}, #{proNickName}, #{proTitle}, #{proContent}, #{proPrice}, #{proCategory}, #{proMenu})
 	</insert>
-	<select id="getList" resultType="com.avo.www.domain.ProductBoardVO">
-		select * from product
+	<select id="selectOneBno" resultType="long">
+		select max(pro_bno) from product;
 	</select>
+	<!-- <select id="getList" resultType="com.avo.www.domain.ProductBoardVO">
+		select * from product
+		where pro_category = 'joongo' AND pro_is_del = 'N'
+		order by pro_re_at desc limit 0, 4
+	</select> -->
+	<select id="getListMore" resultType="com.avo.www.domain.ProductBoardVO">
+		select * from product
+		where pro_category = 'joongo' AND pro_is_del = 'N'
+		order by pro_re_at desc limit #{pageStart}, #{qty}
+	</select>
+	<select id="selectJoongoTotal" resultType="int">
+		select count(pro_bno) from product where pro_category = 'joongo' AND pro_is_del = 'N'
+	</select>
+	<select id="getDetail" resultType="com.avo.www.domain.ProductBoardVO">
+		select * from product where pro_bno = #{proBno} AND pro_is_del = 'N'
+	</select>
+	<update id="update">
+		update product set pro_title = #{proTitle}, pro_content = #{proContent}, pro_price = #{proPrice},
+		pro_menu = #{proMenu}, pro_mod_at = now()
+		where pro_bno = #{proBno}
+	</update>
+	<update id="delete">
+		update product set pro_is_del = 'Y' where pro_bno = #{proBno}
+	</update>
+	<update id="setReadCnt">
+		update product set pro_read_cnt = pro_read_cnt + #{i} where pro_bno = #{bno}
+	</update>
+	<update id="setFileCnt">
+		update product as p set pro_file_cnt = (select count(p.pro_bno) from product_file as file where file.bno = p.pro_bno)
+	</update>
+	<update id="setLikeCnt">
+		update product as p set pro_like_cnt = (select count(p.pro_bno) from product_like as li where li.li_bno = p.pro_bno AND li.li_status = 1)
+	</update>
+	<update id="updateLikeCnt">
+		update product set pro_like_cnt = pro_like_cnt + #{i} where pro_bno = #{livo.liBno}
+	</update>
 </mapper>
