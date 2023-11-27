@@ -42,7 +42,7 @@ document.addEventListener('change',(e)=>{
                 isOk *= vaildResult;
                 ul+= `<li class="list-group-item d-flex justify-content-between align-items-start">`;
                 ul+= `<div class="img">`;
-                ul+= `<img alt="첨부이미지영역" src="../resources/image/logoimage.png">`;
+                ul+= `<img alt="첨부이미지영역" src="${file.result}">`;
                 ul+= `</div>`;
                 ul+= `<div class="ms-2 me-auto">`;
                 ul+= `${vaildResult ? '<div class="fw-bold">업로드 가능</div>' : '<div class="fw-bold text-danger">업로드 불가능</div>'}`;

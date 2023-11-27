@@ -4,10 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
-import com.avo.www.domain.JobBoardDTO;
-import com.avo.www.domain.PagingVO;
 import com.avo.www.domain.ProductBoardVO;
-import com.avo.www.handler.PagingHandler;
 
 public interface JobBoardDAO {
 
@@ -26,6 +23,8 @@ public interface JobBoardDAO {
 	int post(ProductBoardVO pbvo);
 
 	long selectOneBno();
+
+	int delete(long proBno);
 
 //	PagingHandler getList(long pbno, PagingVO pgvo);
 

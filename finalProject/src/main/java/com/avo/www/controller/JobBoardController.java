@@ -114,6 +114,14 @@ public class JobBoardController {
 	}
 	
 	
+	@GetMapping("/remove")
+	public String remove(RedirectAttributes re, @RequestParam("proBno")long proBno) {
+		int isDel = jbsv.remove(proBno);
+		re.addFlashAttribute("isDel", isDel);
+		return "redirect:/job/list";
+	}
+	
+
 	
 	@GetMapping({ "/like" })
 	public String jobLike(@RequestParam("proBno")long proBno) {
@@ -122,7 +130,7 @@ public class JobBoardController {
 		
 		ProductBoardVO pbvo = jbsv.jobLike(proBno);
 		
-		return "redirect:/job/detail/{proBno}";
+		return "redirect:/job/detail";
 		
 	}
    

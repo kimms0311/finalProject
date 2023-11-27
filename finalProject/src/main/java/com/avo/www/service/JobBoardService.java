@@ -21,6 +21,8 @@ public interface JobBoardService {
 
 	int modify(JobBoardDTO jbdto);
 
+	int remove(long proBno);
+
 //	List<ProductBoardVO> getList(long pbno, PagingVO pgvo);
 
 

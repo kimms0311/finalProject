@@ -12,5 +12,9 @@
   	<select id="getFileList" resultType="com.avo.www.domain.FileVO">
   		select * from product_file where bno = #{bno}
   	</select>
+  	
+  	<delete id="removeFileAll">
+  		delete from product_file where bno = #{bno}
+  	</delete>
 
 </mapper>

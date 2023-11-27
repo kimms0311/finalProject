@@ -29,7 +29,6 @@ public class JobBoardTest {
 			pbvo.setProNickName("tester"+(int)((Math.random()*30)+1));
 			pbvo.setProContent("Test Content"+i);
 			pbvo.setProPrice(i);
-			pbvo.setProCategory("job");
 			pbvo.setProMenu("월급");
 			jdao.post(pbvo);
 		}

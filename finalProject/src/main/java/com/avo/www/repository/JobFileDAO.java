@@ -10,4 +10,6 @@ public interface JobFileDAO {
 
 	List<FileVO> getFileList(long proBno);
 
+	int removeFileAll(long proBno);
+
 }

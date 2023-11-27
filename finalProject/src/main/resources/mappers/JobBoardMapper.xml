@@ -26,12 +26,16 @@
 	</update>
 	
  	<select id="getList" resultType="pbvo">
-		select * from product order by pro_bno desc
+		select * from product where pro_is_del = 'N' order by pro_bno desc
 	</select>
 	
 	<insert id="jobLike" parameterType="long">
 		insert into product pro_like_cnt = pro_like_cnt + 1
 	</insert>
+	
+	<update id="delete">
+  		update product set pro_is_del = 'Y' where pro_bno = #{proBno}
+	</update>
 	
 <!--
 	<select id="getList" resultType="pbvo">

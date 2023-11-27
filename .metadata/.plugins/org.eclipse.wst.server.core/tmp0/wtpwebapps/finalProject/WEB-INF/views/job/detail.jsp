@@ -104,7 +104,7 @@
 	멤버이메일이랑 pbvo이메일 같으면 보이게하는걸로 바꿀거야 
 	 -->
 		<a href="/job/modify?proBno=${jbdto.pbvo.proBno}"><button class="btn btn-success">수정</button></a>
-		<a href="/job/remove?pbno=${jbdto.pbvo.proBno}"><button class="btn btn-success">삭제</button></a>
+		<a href="/job/remove?proBno=${jbdto.pbvo.proBno}"><button class="btn btn-success">삭제</button></a>
 
 	
 	<!-- 후기 라인 -->

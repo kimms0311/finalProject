@@ -104,5 +104,12 @@ public class JobBoardServiceImpl implements JobBoardService {
 		return isUp;
 	}
 
+	@Transactional
+	@Override
+	public int remove(long proBno) {
+		int isOk = fdao.removeFileAll(proBno);
+		return (isOk > 0)? jdao.delete(proBno) : 0;
+	}
+
 
 }
