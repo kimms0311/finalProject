@@ -1,9 +1,0 @@
-package finalProject;
-
-
-@Slf4j
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {com.avo.www.config.RootConfig.class})
-public class StoreBoardTest {
-
-}

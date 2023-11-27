@@ -1,9 +1,0 @@
-package com.avo.www.repository;
-
-import com.avo.www.domain.StoreMenuVO;
-
-public interface StoreMenuDAO {
-
-	int insertMenu(StoreMenuVO svo);
-
-}
