@@ -2,13 +2,8 @@ package com.avo.www.handler;
 
 import java.util.List;
 
-<<<<<<< HEAD
-//import com.avo.www.domain.CommunityCmtVO;
-=======
-
 import com.avo.www.domain.CommunityCmtVO;
 import com.avo.www.domain.CommunityReCmtVO;
->>>>>>> ecc99f14047d2fdeae62d5c51af9403f117ccb3f
 import com.avo.www.domain.PagingVO;
 import com.avo.www.domain.ProductBoardVO;
 
@@ -29,14 +24,9 @@ public class PagingHandler {
    private PagingVO pgvo;
    
    private List<ProductBoardVO> prodList;
-<<<<<<< HEAD
-//   private List<CommunityCmtVO> cmtList;
-=======
    private List<CommunityCmtVO> cmtList;
    private List<CommunityReCmtVO> reCmtList;
 
->>>>>>> ecc99f14047d2fdeae62d5c51af9403f117ccb3f
-   
    public PagingHandler(PagingVO pgvo, int totalCount, int minus) {
       
       this.pgvo = pgvo;
@@ -50,11 +40,6 @@ public class PagingHandler {
      if(this.realEndPage < this.endPage) {
          this.endPage = this.realEndPage;
       }
-<<<<<<< HEAD
-=======
-     
-     
->>>>>>> ecc99f14047d2fdeae62d5c51af9403f117ccb3f
    }
    
    // 게시글 페이징용
@@ -62,20 +47,11 @@ public class PagingHandler {
       this(pgvo, totalCount, 7);
       this.prodList = prodList;
    }
-   
-   //댓글 페이징용
-<<<<<<< HEAD
-//   public PagingHandler(int totalCount, PagingVO pgvo, List<CommunityCmtVO> cmtList) {
-//      this(pgvo, totalCount, 9);
-//      this.cmtList = cmtList;
-//   }
-   
-=======
+
    public PagingHandler(int totalCount, PagingVO pgvo, List<CommunityCmtVO> cmtList, List<CommunityReCmtVO> reCmtList) {
       this(pgvo, totalCount, 9);
       this.cmtList = cmtList;
       this.reCmtList = reCmtList;
    }
 
->>>>>>> ecc99f14047d2fdeae62d5c51af9403f117ccb3f
 }

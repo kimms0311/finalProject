@@ -13,10 +13,6 @@ import lombok.ToString;
 @AllArgsConstructor
 public class FileVO {
 
-<<<<<<< HEAD
-=======
-
->>>>>>> ecc99f14047d2fdeae62d5c51af9403f117ccb3f
    private String uuid;
    private long bno;
    private String saveDir;
@@ -26,8 +22,4 @@ public class FileVO {
    private String regAt;
    private String category;
    
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> ecc99f14047d2fdeae62d5c51af9403f117ccb3f

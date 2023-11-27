@@ -44,7 +44,7 @@
 				<c:choose>
 					<c:when test="${fvo.fileType > 0}">
 						<div class="carousel-item ${status.index == 0 ? 'active' : ''}">
-							<img src="/upload/${fn:replace(fvo.saveDir,'\\','/')}/${fvo.uuid}_${fvo.fileName}" class="d-block" alt="Image ${status.index + 1}">
+							<img src="/upload/job/${fn:replace(fvo.saveDir,'\\','/')}/${fvo.uuid}_${fvo.fileName}" class="d-block" alt="Image ${status.index + 1}">
 						</div>
 					</c:when>
 				</c:choose>
@@ -168,8 +168,8 @@
 </script>
 
 
-<script type="text/javascript" src="/resources/js/job/jobBoardRegister.js"></script>
-<script type="text/javascript" src="/resources/js/job/jobBoardComment.js"></script>
+<script type="text/javascript" src="/resources/js/jobBoardRegister.js"></script>
+<script type="text/javascript" src="/resources/js/jobBoardComment.js"></script>
 
  <jsp:include page="../common/footer.jsp" />
 
