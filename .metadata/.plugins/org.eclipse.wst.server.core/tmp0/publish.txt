@@ -1,5 +1,5 @@
 #Tomcat publish data
-#Wed Nov 15 21:47:17 KST 2023
+#Mon Nov 27 16:24:44 KST 2023
 =\=\=\=\=\=\=
 org.eclipse.jst.jee.server\:/binary\:C\:\\Users\\EZENIC-169\\.m2\\repository\\org\\springframework\\spring-web\\5.3.10\\spring-web-5.3.10.jar=WEB-INF/lib/spring-web-5.3.10.jar
 org.eclipse.jst.jee.server\:/binary\:C\:\\Users\\EZENIC-167\\.m2\\repository\\org\\springframework\\spring-web\\5.3.10\\spring-web-5.3.10.jar=WEB-INF/lib/spring-web-5.3.10.jar

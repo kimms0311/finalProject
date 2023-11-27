@@ -1,0 +1,33 @@
+//var listLength = ${fn:length(list)};
+console.log("전체 업체 개수 : " + listLength);
+var remainder = listLength % 2;
+console.log("나머지 : " + remainder);
+//오른쪽 : 줄이기
+
+if (remainder === 1) {
+    $(document).ready(function () {
+        $(".listContainer ul li:last-child").css("margin-right", "376px");
+    });
+}
+
+// let div = document.getElementById('resultZone');
+// if(listLength==0) {
+//     div.innerText = "에 대한 검색결과가 없습니다.";
+// } else {
+//     div.innerText = "의 검색결과"+listLength+"개";
+// }
+
+let div = document.getElementById('resultZone');
+document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('click', function(e) {
+        if (e.target.id == 'searchBtn') {
+            if (listLength == 0) {
+                        e.preventDefault(); // 새로고침 방지
+                div.innerText = "에 대한 검색결과가 없습니다.";
+            } else {
+                        e.preventDefault(); // 새로고침 방지
+                div.innerText = "의 검색결과 " + listLength + "개";
+            }
+        }
+    });
+});

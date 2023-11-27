@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.avo.www.repository.StoareBoardDAO">
+	<insert id="insert">
+		insert into product(pro_email, pro_nick_name, pro_title, pro_content, pro_category, pro_menu)
+		values (#{proEmail}, #{proNickName}, #{proTitle}, #{proContent}, #{proCategory}, #{proMenu})
+	</insert>  
+	<select id="getList" resultType="com.avo.www.domain.ProductBoardVO">
+		select * from product where pro_category = 'store' and pro_is_del = 'N'
+	</select>
+	<update id="readCount">
+  		update product set pro_read_cnt = pro_read_cnt + #{cnt} where pro_bno = #{bno}
+  	</update>
+  	<select id="getDetail" resultType="com.avo.www.domain.ProductBoardVO">
+  		select * from product where pro_bno = #{bno}
+  	</select>
+  	<update id="update">
+  		update product set pro_menu = #{proMenu}, pro_title = #{proTitle}, pro_content = #{proContent}, pro_mod_at = now()
+  		where pro_bno = #{proBno}
+  	</update>
+	<update id="delete">
+		update product set pro_is_del = 'Y' where pro_bno = #{bno}
+	</update> 	
+	<select id="getTotalCount" resultType="int">
+  		select count(pro_bno) from product
+  		where pro_is_del = "N" and pro_category = 'store'
+  		<include refid="search"></include>
+  	</select>	
+	<select id="getPageList" resultType="com.avo.www.domain.ProductBoardVO">
+  		select * from product 		
+  		where pro_is_del = "N" and pro_category = 'store'
+	    <include refid="search"></include>		
+  		order by pro_re_at desc limit #{pageStart}, #{qty}
+  	</select>
+	
+<sql id="search">
+    <if test="type != null">
+        <trim prefix="and (" suffix=")" prefixOverrides="OR">
+            <trim prefix="OR">
+                <choose>
+                    <when test="type == '과외클래스'.toString()">
+                        pro_title like concat('%', #{keyword}, '%') and pro_menu like '과외클래스'
+                    </when>
+                    <when test="type == '반려동물'.toString()">
+                        pro_title like concat('%', #{keyword}, '%') and pro_menu like '반려동물'
+                    </when>
+                    <when test="type == '병원약국'.toString()">
+                        pro_title like concat('%', #{keyword}, '%') and pro_menu like '병원약국'
+                    </when>
+                    <when test="type == '뷰티샵'.toString()">
+                        pro_title like concat('%', #{keyword}, '%') and pro_menu like '뷰티샵'
+                    </when>
+                    <when test="type == '세탁소'.toString()">
+                        pro_title like concat('%', #{keyword}, '%') and pro_menu like '세탁소'
+                    </when>
+                    <when test="type == '수리'.toString()">
+                        pro_title like concat('%', #{keyword}, '%') and pro_menu like '수리'
+                    </when>
+                    <when test="type == '운동'.toString()">
+                        pro_title like concat('%', #{keyword}, '%') and pro_menu like '운동'
+                    </when>
+                    <when test="type == '육아'.toString()">
+                        pro_title like concat('%', #{keyword}, '%') and pro_menu like '육아'
+                    </when>
+                    <when test="type == '음식점'.toString()">
+                        pro_title like concat('%', #{keyword}, '%') and pro_menu like '음식점'
+                    </when>
+                    <when test="type == '이사용달'.toString()">
+                        pro_title like concat('%', #{keyword}, '%') and pro_menu like '이사용달'
+                    </when>
+                    <when test="type == '인테리어 시공'.toString()">
+                        pro_title like concat('%', #{keyword}, '%') and pro_menu like '인테리어 시공'
+                    </when>
+                    <when test="type == '청소'.toString()">
+                        pro_title like concat('%', #{keyword}, '%') and pro_menu like '청소'
+                    </when>
+                    <when test="type == '취미'.toString()">
+                        pro_title like concat('%', #{keyword}, '%') and pro_menu like '취미'
+                    </when>
+                    <when test="type == '카페디저트'.toString()">
+                        pro_title like concat('%', #{keyword}, '%') and pro_menu like '카페디저트'
+                    </when>				
+                </choose>
+            </trim>
+        </trim>
+    </if>
+</sql>	
+</mapper>

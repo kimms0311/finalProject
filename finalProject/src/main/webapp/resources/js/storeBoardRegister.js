@@ -1,56 +1,95 @@
+//파일 첨부
 document.getElementById('trigger').addEventListener('click',()=>{
     document.getElementById('files').click();
 });
-
-const regExp = new RegExp("\.(exe|sh|bat|js|msi|dll)$"); //실행파일 막기
-//const regExpImg = new RegExp("\.(jpg|jpeg|png|gif)$"); //이미지 파일만 
-const maxSize = 1024*1024*20; //파일 최대 사이즈
+ 
+const regExpImg = new RegExp("\.(jpg|jpeg|png|gif)$");
+const maxSize = 1024*1024*20; 
 
 function fileValidation(fileName, fileSize){
-//    if(!regExpImg.test(fileName)){
-//        return 0;
-//    }else 
-    if(regExp.test(fileName)){
+    if(!regExpImg.test(fileName)){
         return 0;
-    }else if(fileSize > maxSize){
+    }else 
+    if(fileSize > maxSize){
         return 0;
     }else {
         return 1;
     }
 }
 
-document.addEventListener('change',(e)=>{
-    if(e.target.id == 'files'){
-        //파일을 다시 추가할 때는 버튼 상태를 원래대로 변경
+document.addEventListener('change', (e) => {
+    if (e.target.id == 'files') {
         document.getElementById('regBtn').disabled = false;
-        
-        //input file element에 저장된 file의 정보를 가저오는 property 
         const fileObj = document.getElementById('files').files;
-        console.log(fileObj);
-
-        //첨부파일에 대한 정보를 fileZone에 기록
         let div = document.getElementById('fileZone');
-        //기존 값이 있다면 삭제
-        div.innerHTML="";
-        //ul => li로 첨부파일 추가
-        //<ul class="list-group list-group-flush">
-        //<li class="list-group-item">An item</li>
-        let isOk = 1; //여러 파일이 모두 검증에 통과해야 하기 때문에 * 로 각 파일마다 통과여부 확인
-        let ul=`<ul class="list-group list-group-flush">`;
-            for(let file of fileObj){
-                let vaildResult = fileValidation(file.name, file.size); //0 또는 1로 리턴
-                isOk *= vaildResult;
-                ul+= `<li class="list-group-item d-flex justify-content-between align-items-start">`;
-                ul+= `<div class="ms-2 me-auto">`;
-                ul+= `${vaildResult ? '<div class="fw-bold">업로드 가능</div>' : '<div class="fw-bold text-danger">업로드 불가능</div>'}`;
-                ul+= `${file.name}</div>`;
-                ul+= `<span class="badge rounded-pill text-bg-${vaildResult ? 'success':'danger'}">${file.size}Bypes</span></li>`;
-            }
-            ul +=`</ul>`;
-            div.innerHTML = ul;
+        div.innerHTML = "";
+        let isOk = 1;
+        let ul = `<ul>`;
 
-            if(isOk == 0){
-                document.getElementById('regBtn').disabled = true;
+        for (let file of fileObj) {
+            let validResult = fileValidation(file.name, file.size);
+            isOk *= validResult;
+
+            if (validResult) {
+                ul += `<li>`;
+                ul += `<div>`;
+
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    var img = document.createElement("img");
+                    img.setAttribute("src", e.target.result);
+                    img.setAttribute("style", "max-width: 100px; max-height: 100px; margin-right: 10px;");
+                    document.querySelector("div#fileZone").appendChild(img);
+                };
+                reader.readAsDataURL(file);
+                ul += `</div>`;
+                ul += `</li>`;
             }
+        }
+        ul += `</ul>`;
+        div.innerHTML = ul;
+
+        if (isOk == 0) {
+            document.getElementById('regBtn').disabled = true;
+        }
     }
-})
+});
+
+//등록 버튼 클릭 시 alert
+document.getElementById('regBtn').addEventListener('click', (e) => {
+    var selectedValue = document.getElementById('proMenu').value;
+    var titleValue = document.getElementById('title').value;
+    var contentValue = document.getElementById('content').value;
+
+    if (selectedValue === "unselect") {
+        alert("옵션을 선택해 주세요.");
+        //폼 제출 막음
+        e.preventDefault();
+    } else {
+        if (titleValue == "" || titleValue == null || contentValue == "" || contentValue == null) {
+            alert("빈칸을 입력해 주세요.");
+            e.preventDefault();
+        }
+    }
+});
+
+//메뉴 추가, 삭제 버튼
+document.addEventListener('click', (e) => {
+    let ul = document.getElementById("menuList");
+
+    if (e.target.id === 'addMenu') {
+        //li 생성
+        let li = document.createElement('li');
+        li.innerHTML = `
+            메뉴 : <input type="text" name="menus">
+            가격 : <input type="text" name="prices">
+            설명 : <input type="text" name="explains">
+            <button type="button" id="delMenu">삭제</button>
+        `;
+        //li 추가
+        ul.appendChild(li);
+    } else if (e.target.id === 'delMenu') {
+        //li 삭제
+        e.target.closest('li').remove();
+    }
+});

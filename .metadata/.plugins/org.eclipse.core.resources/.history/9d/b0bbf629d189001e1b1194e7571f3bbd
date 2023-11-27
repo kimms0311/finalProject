@@ -1,0 +1,30 @@
+let isModified = false; 
+
+async function remomveFileToServer(uuid){
+    try{
+        const url = '/store/file/'+uuid;
+        const config ={
+            method: 'delete'
+        };
+        const resp = await fetch(url, config);
+        const result = await resp.text();
+        return result;
+    }catch(err){
+        console.log(err);
+    }
+}
+
+document.getElementById('regBtn').addEventListener('click', () => {
+    isModified = true;
+});
+
+document.addEventListener('click',(e)=>{
+    if(e.target.classList.contains('file-x')){
+        if (!isModified) {
+            e.target.closest('li').style.display = 'none'; 
+        } else {
+        remomveFileToServer(e.target.dataset.uuid).then(result =>{
+            })
+        }
+    }
+})

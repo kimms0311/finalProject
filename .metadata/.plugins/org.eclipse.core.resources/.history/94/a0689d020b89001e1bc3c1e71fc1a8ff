@@ -1,0 +1,159 @@
+// console.log("전체 업체 개수 : " + listLength);
+// var remainder = listLength % 2;
+// console.log("나머지 : " + remainder);
+// //오른쪽 : 줄이기
+
+// if (remainder === 1) {
+//     const lastLi = document.querySelector(".listContainer ul li:last-child");
+//     lastLi.style.marginRight = "376px";
+// }
+
+let div = document.getElementById('resultZone');
+
+//url 가져오기
+const url = location.href;
+//url에 type이라는 parmeter가 존재하는 경우
+if(url.includes("type")) {
+    if(listLength!=null) {
+        div.innerText = "검색 결과 "+totalCount+"개";
+    } else {
+        div.innerText = "검색 결과가 없습니다.";
+    }
+}
+
+//파라미터에서 type, keyword, pageNo, qty 값 가져오기
+//const search = location.search;
+//const urlParams = new URLSearchParams(search);
+//const type = urlParams.get('type');
+//const keyword = urlParams.get('keyword');
+//let moreBtn = document.getElementById('moreBtn');
+//let qty = urlParams.get('qty');
+// if(qty==null) {
+//     qty = 8;
+// };
+
+//더보기 버튼 처리
+//moreBtn.style.visibility = pageNo >= realEndPage ? 'hidden' : 'visible';
+
+// async function updateListFromServer(type, keyword, pageNo, qty){
+
+//     try{
+//         const resp = await fetch('/store/'+type+'/'+keyword+'/'+pageNo+'/'+qty);
+//         const result = await resp.json();
+//         return result;
+//     }catch(err){
+//         console.log(err);
+//     }
+// }
+
+// document.addEventListener('click', (e) => {
+//     if (e.target.id === 'moreBtn') {
+//         pageNo = pageNo + 1;
+//         updateListFromServer(type, keyword, pageNo, qty).then(result => {
+//             console.log(result);
+//             pageNo = result.pgvo.pageNo;
+//             console.log("pageNo : "+pageNo);
+//             if (result.prodList.length > 0) {
+//                 const ul = document.getElementById('ulZone');
+//                 if (pageNo === 1) {
+//                     ul.innerHTML = "";
+//                 }
+
+//                 for (let sbo of result.prodList) {
+//                     //li 생성
+//                     const li = document.createElement('li'); 
+//                     li.innerHTML = `
+//                         <a href="/store/detail?bno=${sbo.proBno}">
+//                             <div>
+//                                 <div>
+//                                     <img class="profile" alt="사진" src="../resources/image/logoimage.png">
+//                                 </div>
+//                             </div>
+//                             <div>
+//                                 <div>
+//                                     <span class="title">${sbo.proTitle}</span>
+//                                     <span class="gray">주소</span>
+//                                 </div>
+//                                 <span class="content">${sbo.proContent}</span>
+//                                 <span class="gray">${sbo.proMenu}</span>
+//                             </div>
+//                         </a>
+//                     `;
+//                     //li 추가
+//                     ul.appendChild(li);
+//                 }
+//                 //결과에 따른 더보기 버튼 처리
+//                 if(result.pgvo.pageNo < result.endPage){
+//                     moreBtn.style.visibility ='visible';
+//                 }else {
+//                     moreBtn.style.visibility = 'hidden';
+//                 }
+//             }
+//         });
+//     }
+// });
+
+async function spreadStoreFromServer(page, type){
+    try{
+        const resp = await fetch('/store/'+page+'/'+type);
+        const result = await resp.json();
+        return result;
+    }catch(err){
+        console.log(err);
+    }
+}
+
+//페이지가 처음 로드될 때 전체 업체 표시
+function getStoreList(page=1, type=null){
+    spreadStoreFromServer(page, type).then(result =>{
+        console.log(result);
+        if(result.prodList.length>0){
+            const ul = document.getElementById('ulZone');
+            if (page === 1) {
+                ul.innerHTML = "";
+            }
+            
+                for (let sbo of result.prodList) {
+                    //li 생성
+                    const li = document.createElement('li'); 
+                    li.innerHTML = `
+                        <a href="/store/detail?bno=${sbo.proBno}">
+                            <div>
+                                <div>
+                                    <img class="profile" alt="사진" src="../resources/image/logoimage.png">
+                                </div>
+                            </div>
+                            <div>
+                                <div>
+                                    <span class="title">${sbo.proTitle}</span>
+                                    <span class="gray">주소</span>
+                                </div>
+                                <span class="content">${sbo.proContent}</span>
+                                <span class="gray">${sbo.proMenu}</span>
+                            </div>
+                        </a>
+                    `;
+                    //li 추가
+                    ul.appendChild(li);
+                }
+
+            //댓글 페이징 코드
+            let moreBtn = document.getElementById('moreBtn');
+            console.log(moreBtn);
+            //db에서 pgvo + list 같이 가져와야 값을 줄 수 있음.
+            if(result.pgvo.pageNo < result.endPage){
+                moreBtn.style.visibility ='visible'; //버튼 표시
+                moreBtn.dataset.page = page + 1;
+            }else {
+                moreBtn.style.visibility = 'hidden'; //버튼 숨김
+            }
+        }
+    })
+}
+
+document.addEventListener('click',(e)=>{
+    if(e.target.id == 'moreBtn'){
+        getCommentList(parseInt(e.target.dataset.page));
+    }
+
+})

@@ -1,0 +1,19 @@
+package com.avo.www.repository;
+
+import java.util.List;
+
+import com.avo.www.domain.FileVO;
+
+public interface StoreFileDAO {
+
+	int insertFile(FileVO fvo);
+
+	List<FileVO> getFileList(long bno);
+
+	int removefile(String uuid);
+
+	int removeFileAll(long bno);
+
+	List<FileVO> getAllFileList(List<Long> bnoList);
+
+}

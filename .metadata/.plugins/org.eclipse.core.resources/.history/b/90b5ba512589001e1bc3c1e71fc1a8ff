@@ -1,0 +1,9 @@
+package com.avo.www.repository;
+
+import com.avo.www.domain.FileVO;
+
+public interface FileDAO {
+
+	int insertFile(FileVO fvo);
+
+}

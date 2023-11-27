@@ -1,0 +1,25 @@
+package com.avo.www.domain;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+public class FileVO {
+
+   private String profUuid;
+   private long profBno;
+   private String profSaveDir;
+   private String profFileName;
+   private int profFileType;
+   private long profFileSize;
+   private String profRegAt;
+   private String profCategory;
+   
+}

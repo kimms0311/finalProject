@@ -1,0 +1,49 @@
+console.log("전체 업체 개수 : " + listLength);
+var remainder = listLength % 2;
+console.log("나머지 : " + remainder);
+//오른쪽 : 줄이기
+
+if (remainder === 1) {
+    $(document).ready(function () {
+        $(".listContainer ul li:last-child").css("margin-right", "376px");
+    });
+}
+
+let div = document.getElementById('resultZone');
+
+//url 가져오기
+//const url = location.href;
+const url = new URL(location.href);
+//url에 type이라는 parmeter가 존재하는 경우
+if(url.includes("type")) {
+    if(listLength!=null) {
+        div.innerText = "검색 결과 "+listLength+"개";
+    } else {
+        div.innerText = "검색 결과가 없습니다.";
+    }
+}
+
+//파라미터에서 type, keyword, pageNo, qty 값 가져오기
+const urlParams = new URLSearchParams(url.search);
+const type = urlParams.get('type');
+const keyword = urlParams.get('keyword');
+const pageNo = urlParams.get('pageNo');
+const qty = urlParams.get('qty');
+
+console.log(type);
+console.log(keyword);
+console.log(pageNo);
+console.log(qty);
+
+
+//더보기 버튼
+async function updateListFromServer(pageNo, type, keyword){
+    try{
+        const resp = await fetch('/store/'+pageNo+'/'+type+'/'+keyword);
+        const result = await resp.json();
+        return result;
+    }catch(err){
+        console.log(err);
+    }
+}
+
