@@ -1,7 +1,0 @@
-package com.avo.www.repository;
-
-public interface MemberDAO {
-
-	int updateLastLogin(String authEmail);
-
-}
