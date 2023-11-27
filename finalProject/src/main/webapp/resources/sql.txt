@@ -61,3 +61,4 @@ prof_file_type tinyint(1),
 prof_file_size bigint,
 prof_reg_at datetime default now(),
 primary key(prof_uuid));
+
