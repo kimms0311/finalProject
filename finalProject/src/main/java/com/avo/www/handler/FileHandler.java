@@ -32,7 +32,8 @@ public class FileHandler {
       
       // 각 페이지 별 파일 업로드 폴더 위치 설정
       if(UP_DIR.equals("D:\\_fileupload\\")) {
-    	  UP_DIR = UP_DIR + dir;    	  
+         UP_DIR = UP_DIR + dir;
+
       }
       
       File folders = new File(UP_DIR, today);
@@ -46,6 +47,7 @@ public class FileHandler {
       for(MultipartFile file : files) {
          // 기본 ProductFileVO 생성
          FileVO fvo = new FileVO();
+         fvo.setCategory(dir);
          fvo.setSaveDir(today);
          fvo.setFileSize(file.getSize());
          String originalFileName = file.getOriginalFilename();
@@ -82,6 +84,7 @@ public class FileHandler {
          flist.add(fvo);
          
       }// for end
+      
       return flist;
    }
 

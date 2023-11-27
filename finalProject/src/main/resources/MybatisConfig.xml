@@ -7,6 +7,6 @@
   		<setting name="mapUnderscoreToCamelCase" value="true"/>
   	</settings>
   	<typeAliases>
-  		<!-- <typeAlias type=""/> -->
+  		<typeAlias type="com.avo.www.domain.ProductBoardVO" alias="pbvo"/>
   	</typeAliases>
   </configuration>

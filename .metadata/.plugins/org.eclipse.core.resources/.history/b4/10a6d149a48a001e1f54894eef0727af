@@ -1,5 +1,41 @@
 package com.avo.www.repository;
 
+<<<<<<< HEAD:.metadata/.plugins/org.eclipse.core.resources/.history/b4/10a6d149a48a001e1f54894eef0727af
 public interface StoreMenuDAO {
+=======
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
+import com.avo.www.domain.LikeItemVO;
+import com.avo.www.domain.PagingVO;
+import com.avo.www.domain.ProductBoardVO;
+
+public interface JoongoBoardDAO {
+>>>>>>> 053554049b3745ee203f2c347047fac94c4efc6b:finalProject/src/main/java/com/avo/www/repository/JoongoBoardDAO.java
+
+	int insert(ProductBoardVO pbvo);
+
+//	List<ProductBoardVO> getList();
+
+	ProductBoardVO getDetail(long bno);
+
+	int update(ProductBoardVO pbvo);
+
+	int delete(long bno);
+
+	List<ProductBoardVO> getListMore(PagingVO pgvo);
+
+	int selectJoongoTotal();
+
+	void setReadCnt(@Param("bno") long bno, @Param("i") int i);
+
+	void setLikeCnt();
+
+	void updateLikeCnt(@Param("livo") LikeItemVO livo, @Param("i") int i);
+
+	long selectOneBno();
+
+	void setFileCnt();
 
 }
