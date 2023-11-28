@@ -23,7 +23,7 @@
 	
 </style>
 <link rel="stylesheet" href="/resources/css/page.css">
-<link rel="stylesheet" href="/resources/css/job/jobDetail.css">
+<link rel="stylesheet" href="/resources/css/jobDetail.css">
 </head>
 <body>
 <jsp:include page="../common/header.jsp" />
@@ -44,7 +44,7 @@
 				<c:choose>
 					<c:when test="${fvo.fileType > 0}">
 						<div class="carousel-item ${status.index == 0 ? 'active' : ''}">
-							<img src="/upload/job/${fn:replace(fvo.saveDir,'\\','/')}/${fvo.uuid}_${fvo.fileName}" class="d-block" alt="Image ${status.index + 1}">
+							<img src="/upload/product/${fn:replace(fvo.saveDir,'\\','/')}/${fvo.uuid}_${fvo.fileName}" class="d-block" alt="Image ${status.index + 1}">
 						</div>
 					</c:when>
 				</c:choose>

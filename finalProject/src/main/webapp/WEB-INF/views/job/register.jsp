@@ -79,7 +79,7 @@
 </div>
 
 
-<script type="text/javascript" src="/resources/js/job/jobBoardRegister.js"></script>
+<script type="text/javascript" src="/resources/js/jobBoardRegister.js"></script>
 <jsp:include page="../common/footer.jsp" />
 
 </body>

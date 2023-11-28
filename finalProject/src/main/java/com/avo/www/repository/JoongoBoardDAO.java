@@ -10,28 +10,28 @@ import com.avo.www.domain.ProductBoardVO;
 
 public interface JoongoBoardDAO {
 
-	int insert(ProductBoardVO pbvo);
+   int insert(ProductBoardVO pbvo);
 
-//	List<ProductBoardVO> getList();
+//   List<ProductBoardVO> getList();
 
-	ProductBoardVO getDetail(long bno);
+   ProductBoardVO getDetail(long bno);
 
-	int update(ProductBoardVO pbvo);
+   int update(ProductBoardVO pbvo);
 
-	int delete(long bno);
+   int delete(long bno);
 
-	List<ProductBoardVO> getListMore(PagingVO pgvo);
+   List<ProductBoardVO> getListMore(PagingVO pgvo);
 
-	int selectJoongoTotal();
+   int selectJoongoTotal();
 
-	void setReadCnt(@Param("bno") long bno, @Param("i") int i);
+   void setReadCnt(@Param("bno") long bno, @Param("i") int i);
 
-	void setLikeCnt();
+   void setLikeCnt();
 
-	void updateLikeCnt(@Param("livo") LikeItemVO livo, @Param("i") int i);
+   void updateLikeCnt(@Param("livo") LikeItemVO livo, @Param("i") int i);
 
-	long selectOneBno();
+   long selectOneBno();
 
-	void setFileCnt();
+   void setFileCnt();
 
 }

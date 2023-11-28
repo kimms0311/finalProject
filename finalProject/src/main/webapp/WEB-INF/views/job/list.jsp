@@ -10,7 +10,7 @@
 <meta charset="UTF-8">
 <title>job list page</title>
 <link rel="stylesheet" href="/resources/css/page.css">
-<link rel="stylesheet" href="/resources/css/job/jobListPage.css">
+<link rel="stylesheet" href="/resources/css/jobListPage.css">
 </head>
 <body>
 <jsp:include page="../common/header.jsp" />
@@ -30,12 +30,13 @@
 			<c:if test="${loopStatus.index < 8}">
 				<div class="hotJobListContent">
 					<a href="/job/detail?proBno=${pbvo.proBno}">
-						<img alt="hot job image error" src="/upload/${fn:replace(fvo.saveDir,'\\','/')}/${fvo.uuid}_${fvo.fileName}">
+						<img alt="hot job image error" src="/upload/product/${flist.saveDir.replaceAll('\\','/')}/${flist.uuid}_th_${flist.fileName}">
+						
 						<div class="jobInfoArea">
 							<span>${pbvo.proTitle }</span>
 							<span class="d-inline-block text-truncate" style="max-width: 200px;">인천시 서구 남산돈까스 갑자기 생각났동 258-71번지 원조돈까스</span>
-							<span>${pbvo.proMenu}</strong>
-							<fmt:formatNumber type="number" maxFractionDigits="3" value="${pbvo.proPrice}" />원</span>
+							<span>${pbvo.proMenu}
+							<strong><fmt:formatNumber type="number" maxFractionDigits="3" value="${pbvo.proPrice}" />원</strong></span>
 						</div>
 					</a>
 				</div>
@@ -55,7 +56,7 @@
 						<span class="d-inline-block text-truncate" style="max-width: 200px;">주소</span>
 						<span>${pbvo.proMenu}
 							<fmt:formatNumber type="number" maxFractionDigits="3" value="${pbvo.proPrice}" />원</span>
-						</div>
+					</div>
 				</a>
 			</div>
 		</c:forEach>
