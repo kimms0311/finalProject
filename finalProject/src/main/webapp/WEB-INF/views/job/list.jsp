@@ -30,7 +30,7 @@
 			<c:if test="${loopStatus.index < 8}">
 				<div class="hotJobListContent">
 					<a href="/job/detail?proBno=${pbvo.proBno}">
-						<img alt="hot job image error" src="/upload/${fn:replace(fvo.saveDir,'\\','/')}/${fvo.uuid}_${fvo.fileName}">
+						<img alt="hot job image error" src="/upload/product/${fn:replace(fvo.saveDir,'\\','/')}/${fvo.uuid}_${fvo.fileName}">
 						<div class="jobInfoArea">
 							<span>${pbvo.proTitle }</span>
 							<span class="d-inline-block text-truncate" style="max-width: 200px;">인천시 서구 남산돈까스 갑자기 생각났동 258-71번지 원조돈까스</span>
