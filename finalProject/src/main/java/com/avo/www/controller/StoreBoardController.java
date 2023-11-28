@@ -118,7 +118,7 @@ public class StoreBoardController {
 		return "redirect:/store/list";	
 	}
 	
-	@GetMapping(value = "/{page}/{type}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/page/{page}/{type}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<PagingHandler> spread(@PathVariable("page") int page, 
 			@PathVariable("type") String type){
 		PagingVO pgvo = new PagingVO(page, 8, type);

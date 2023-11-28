@@ -32,7 +32,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
-@RequestMapping("/joongo/**")
+@RequestMapping("/joongo/*")
 public class JoongoBoardController {
 
 	@Inject
@@ -129,7 +129,7 @@ public class JoongoBoardController {
 		return "redirect:/joongo/list";
 	}
 	
-	@GetMapping(value = "/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/page/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<PagingHandler> moreBtn(@PathVariable("page")int page, Model m){
 		log.info(">>>>>>>>>> page >>>>>>> "+page);
 		PagingVO pgvo = new PagingVO(page, 8);
