@@ -26,7 +26,7 @@
 	</update>
 	
  	<select id="getList" resultType="pbvo">
-		select * from product where pro_is_del = 'N' order by pro_bno desc
+		select * from product where pro_is_del = 'N' and pro_category = 'job' order by pro_bno desc
 	</select>
 	
 	<insert id="jobLike" parameterType="long">
