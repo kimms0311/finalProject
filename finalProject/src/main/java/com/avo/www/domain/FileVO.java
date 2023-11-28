@@ -13,7 +13,6 @@ import lombok.ToString;
 @AllArgsConstructor
 public class FileVO {
 
-
    private String uuid;
    private long bno;
    private String saveDir;
