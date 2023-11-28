@@ -45,7 +45,7 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 		
 		// 파일 업로드 설정
 		// 경로, maxFileSize, maxReqSize, fileSizeThreshold
-		String uploadLocation = "D:\\_fileupload\\job"; // 나중에 파일업로드 시 수정
+		String uploadLocation = "D:\\_fileupload\\"; // 나중에 파일업로드 시 수정
 		int maxFileSize = 1024*1024*20; // 20MB
 		int maxReqSize = maxFileSize*2; // 40MB
 		int fileSizeThreshold = maxFileSize; // 20MB

@@ -66,7 +66,7 @@ public class PagingHandler {
    
    //1123 하연 추가
    public PagingHandler(PagingVO pgvo, int totalCount, List<ProductBoardVO> prodList, List<FileVO> prodFileList) {
-         this(pgvo, totalCount, 7);
+         this(pgvo, totalCount, 9);
          this.prodList = prodList;
          this.prodFileList =  prodFileList;
       }

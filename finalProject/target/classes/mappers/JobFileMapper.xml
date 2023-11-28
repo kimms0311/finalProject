@@ -5,8 +5,8 @@
 <mapper namespace="com.avo.www.repository.JobFileDAO">
 	
   	<insert id="insertFile">
-  		insert into product_file(uuid, save_dir, file_name, file_type, bno, file_size)
-  		values(#{uuid},#{saveDir},#{fileName},#{fileType},#{bno},#{fileSize})
+  		insert into product_file(uuid, save_dir, file_name, file_type, bno, file_size, category)
+  		values(#{uuid},#{saveDir},#{fileName},#{fileType},#{bno},#{fileSize}, "job")
   	</insert>	
   	
   	<select id="getFileList" resultType="com.avo.www.domain.FileVO">

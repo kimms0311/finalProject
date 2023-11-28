@@ -43,8 +43,7 @@ alter table community add cm_menu varchar(100) after cm_content;
 
 alter table product modify pro_is_del varchar(10) default 'N';
 
-<<<<<<< HEAD
-=======
+
 --2023-11-20
 create table product_like(
 li_like_id bigint auto_increment,
@@ -64,4 +63,4 @@ prof_file_type tinyint(1),
 prof_file_size bigint,
 prof_reg_at datetime default now(),
 primary key(prof_uuid));
->>>>>>> 2e3d7bed1733f94548ae2157ee0cc93956f5d0f8
+

@@ -23,14 +23,19 @@
 	</div>
    
 	<!-- 인기 당근알바 출력 리스트 -->
-	<c:set value="${jbdto.flist }" var="flist"></c:set>
+	<c:set value="${jbdto.flist }" var="fvo"></c:set>
 	<h3>우리동네 인기 알바</h3>
 	<div class="hotJobList">
 		<c:forEach items="${list }" var="pbvo" varStatus="loopStatus">
 			<c:if test="${loopStatus.index < 8}">
 				<div class="hotJobListContent">
 					<a href="/job/detail?proBno=${pbvo.proBno}">
-						<img alt="hot job image error" src="/upload/product/${flist.saveDir.replaceAll('\\','/')}/${flist.uuid}_th_${flist.fileName}">
+					${fvo }
+					
+						<img alt="hot job image error" src="/upload/product/${fn:replace(fvo.saveDir,'\\','/')}/${fvo.uuid}_th_${fvo.fileName}">
+						<img alt="hot job image error" src="/upload/product/${fvo.saveDir}/${fvo.uuid}_th_${fvo.fileName}">
+						<img alt="hot job image error" src="${UP_DIR}/product/${fvo.saveDir}/${fvo.uuid}_th_${fvo.fileName}">
+						<img alt="hot job image error" src="${UP_DIR}/${fvo.saveDir}/${fvo.uuid}_th_${fvo.fileName}">
 						
 						<div class="jobInfoArea">
 							<span>${pbvo.proTitle }</span>

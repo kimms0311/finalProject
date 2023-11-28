@@ -75,7 +75,7 @@ public class JobBoardController {
 	   
 //	   files 0번지의 값이 0보다 크다면 파일 有 flist에 담기
 	   if(files[0].getSize() > 0) {
-		   flist = fh.uploadFiles(files,"job");
+		   flist = fh.uploadFiles(files,"product");
 	   }
 	   
 //	   post에 pbvo,flist값을 DTO로 보냄
@@ -103,7 +103,7 @@ public class JobBoardController {
 		List<FileVO>flist = null;
 
 		if(files[0].getSize() > 0) {
-			   flist = fh.uploadFiles(files,"job");
+			   flist = fh.uploadFiles(files,"product");
 		   }
 		
 		int isOk = jbsv.modify(new JobBoardDTO(pbvo,flist));

@@ -33,36 +33,36 @@
 
 <!-- list 시작 -->
 <div class="listContainer">
-	<ul id="ulZone">
-	    <c:forEach items="${list}" var="pvo">
-	        <li id="liZone">
-	            <a href="/store/detail?bno=${pvo.proBno }">
-	            	<div>
-	            		<div>
-	            			<img class="thumbnail">
-	            		</div>
-	            	</div>
-	            	<div>
-	            		<div>
-			                <span class="title">${pvo.proTitle }</span>
-			                <span class="gray">주소 수정</span>
-						</div>
-		                <span class="content">${pvo.proContent }</span>
-		                <span class="gray">${pvo.proMenu }</span>
-	                </div>
-	            </a>
-	        </li>
-	    </c:forEach>
-	</ul>
+   <ul id="ulZone">
+       <c:forEach items="${list}" var="pvo">
+           <li id="liZone">
+               <a href="/store/detail?bno=${pvo.proBno }">
+                  <div>
+                     <div>
+                        <img class="thumbnail">
+                     </div>
+                  </div>
+                  <div>
+                     <div>
+                         <span class="title">${pvo.proTitle }</span>
+                         <span class="gray">주소 수정</span>
+                  </div>
+                      <span class="content">${pvo.proContent }</span>
+                      <span class="gray">${pvo.proMenu }</span>
+                   </div>
+               </a>
+           </li>
+       </c:forEach>
+   </ul>
 </div>
 
 <!-- 페이징 더보기 버튼 -->
 <div class="commentContainer">
-	<div>
-		<div>
-			<button type="button" id="moreBtn" data-page="1" style="visibility:hidden;">더보기</button>
-		</div>
-	</div>
+   <div>
+      <div>
+         <button type="button" id="moreBtn" data-page="1" style="visibility:hidden;">더보기</button>
+      </div>
+   </div>
 </div>
 <script src="/resources/js/storeBoardList.js"></script>
 <script type="text/javascript">
