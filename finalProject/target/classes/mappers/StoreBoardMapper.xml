@@ -4,8 +4,8 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.avo.www.repository.StoreBoardDAO">
 	<insert id="insert">
-		insert into product(pro_email, pro_nick_name, pro_title, pro_content, pro_category, pro_menu)
-		values (#{proEmail}, #{proNickName}, #{proTitle}, #{proContent}, #{proCategory}, #{proMenu})
+		insert into product(pro_email, pro_nick_name, pro_sido, pro_sigg, pro_emd, pro_title, pro_content, pro_category, pro_menu)
+		values (#{proEmail}, #{proNickName}, #{proSido}, #{proSigg}, #{proEmd}, #{proTitle}, #{proContent}, #{proCategory}, #{proMenu})
 	</insert>  
 	<update id="readCount">
   		update product set pro_read_cnt = pro_read_cnt + #{cnt} where pro_bno = #{bno}
@@ -13,8 +13,9 @@
   	<select id="getDetail" resultType="com.avo.www.domain.ProductBoardVO">
   		select * from product where pro_bno = #{bno}
   	</select>
+  	<!-- 회원 정보 수정 반영 -->
   	<update id="update">
-  		update product set pro_menu = #{proMenu}, pro_title = #{proTitle}, pro_content = #{proContent}, pro_mod_at = now()
+  	  	update product set pro_menu = #{proMenu}, pro_title = #{proTitle}, pro_content = #{proContent}, pro_mod_at = now()
   		where pro_bno = #{proBno}
   	</update>
 	<update id="delete">
@@ -37,6 +38,10 @@
   	<select id="selectOneBno" resultType="long">
   		select max(pro_bno) from product where pro_category = 'store';
   	</select>
+	<update id="updateLikeCnt">
+		update product set pro_like_cnt = pro_like_cnt + #{i} where pro_bno = #{lvo.liBno}
+	</update>
+	
 	
 <sql id="search">
     <if test="type != null">
