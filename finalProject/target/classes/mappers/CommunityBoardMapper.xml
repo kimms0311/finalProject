@@ -4,8 +4,8 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.avo.www.repository.CommunityBoardDAO">
 	<insert id="insert">
-		insert into community(cm_email, cm_nick_name, cm_title, cm_content, cm_menu)
-		values(#{cmEmail}, #{cmNickName}, #{cmTitle}, #{cmContent}, #{cmMenu})
+		insert into community(cm_email, cm_nick_name, cm_title, cm_content, cm_menu, cm_sido, cm_sigg, cm_emd)
+		values(#{cmEmail}, #{cmNickName}, #{cmTitle}, #{cmContent}, #{cmMenu}, #{cmSido}, #{cmSigg}, #{cmEmd})
 	</insert>
 	
 	<select id="getList" resultType="com.avo.www.domain.CommunityBoardVO">
@@ -46,9 +46,25 @@
 		select max(cm_bno) from community
 	</select>
 	
-	<select id="getMenuList" resultType="com.avo.www.domain.CommunityBoardVO">
-		select * from community 
-		where cm_is_del = 'N' and cm_menu = #{cmMenu}
-		order by cm_bno desc
+	<update id="updateFileCnt">
+		update community c set cm_file_cnt = 
+		(select count(bno) from community_file where bno = c.cm_bno)
+	</update>
+	
+	<select id="communityTotal" resultType="int">
+		select count(cm_bno) from community where cm_is_del = 'N'
 	</select>
+	<select id="communityMenuTotal" resultType="int">
+		select count(cm_bno) from community where cm_is_del = 'N' and cm_menu = #{cmMenu}
+	</select>
+	
+	<select id="getListMore" resultType="com.avo.www.domain.CommunityBoardVO">
+		select * from community where cm_is_del = 'N'
+		order by cm_bno desc limit #{pageStart}, #{qty}
+	</select>
+	<select id="getMenuList" resultType="com.avo.www.domain.CommunityBoardVO">
+		select * from community where cm_is_del = 'N' and cm_menu = #{cmMenu}
+		order by cm_bno desc limit #{pgvo.pageStart}, #{pgvo.qty}
+	</select>
+
 </mapper>

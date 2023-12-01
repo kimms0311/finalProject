@@ -11,6 +11,8 @@ import org.springframework.ui.Model;
 import com.avo.www.domain.CommunityBoardDTO;
 import com.avo.www.domain.CommunityBoardVO;
 import com.avo.www.domain.FileVO;
+import com.avo.www.domain.PagingVO;
+import com.avo.www.handler.PagingHandler;
 import com.avo.www.repository.CommunityBoardDAO;
 import com.avo.www.repository.CommunityCmtDAO;
 import com.avo.www.repository.CommunityFileDAO;
@@ -54,15 +56,17 @@ public class CommunityBoardServiceImpl implements CommunityBoardService {
 			}
 		}
 		
+		isUp *= cbdao.updateFileCnt(bdto.getBvo());
+		
 		return isUp;
 	}
 
-	@Transactional
-	@Override
-	public List<CommunityBoardVO> getList() {
-		int isOk = cbdao.updateCommentCount();
-		return cbdao.getList();
-	}
+//	@Transactional
+//	@Override
+//	public List<CommunityBoardVO> getList() {
+//		int isOk = cbdao.updateCommentCount();
+//		return cbdao.getList();
+//	}
 	
 	@Transactional
 	@Override
@@ -98,9 +102,13 @@ public class CommunityBoardServiceImpl implements CommunityBoardService {
 				}
 			}
 		}
+		
+		isMo *= cbdao.updateFileCnt(bdto.getBvo());
+		
 		return isMo;
 	}
-
+	
+	@Transactional
 	@Override
 	public int remove(long cmBno) {
 		//댓글 지우고 게시글 삭제
@@ -118,9 +126,12 @@ public class CommunityBoardServiceImpl implements CommunityBoardService {
 			log.info(isOk > 0 ? "파일 전체 삭제 완료!":"파일 전체 삭제 실패");
 		}
 		
+		//좋아요 지우고 삭제
+		
 		return cbdao.delete(cmBno);
 	}
 
+	@Transactional
 	@Override
 	public int likeInsert(long cmBno, String cmEmail) {
 		//이미 좋아요를 눌렀는지 확인
@@ -152,13 +163,34 @@ public class CommunityBoardServiceImpl implements CommunityBoardService {
 	}
 
 	@Override
-	public List<CommunityBoardVO> getMenuList(String cmMenu) {
-		return cbdao.getMenuList(cmMenu);
+	public List<FileVO> getFileList() {
+		return cfdao.getAllFileList();
+	}
+
+	@Transactional
+	@Override
+	public PagingHandler getListMore(PagingVO pgvo, String cmMenu) {
+		cbdao.updateCommentCount();
+		
+		
+		int totalCount = -1;
+		List<CommunityBoardVO> list = null;
+		if(cmMenu.equals("전체")) {
+			totalCount = cbdao.communityTotal();
+			list = cbdao.getListMore(pgvo);
+		}else {
+			totalCount = cbdao.communityMenuTotal(cmMenu);
+			list = cbdao.getMenuList(pgvo, cmMenu);
+		}
+		
+		PagingHandler ph = new PagingHandler(totalCount, pgvo, list);
+		return ph;
 	}
 
 	@Override
-	public List<FileVO> getFileList() {
-		return cfdao.getAllFileList();
+	public List<FileVO> getThumb(long cmBno) {
+		List<FileVO> flist = cfdao.getFileList(cmBno);
+		return flist;
 	}
 
 }

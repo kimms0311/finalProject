@@ -1,17 +1,25 @@
 //좋아요 버튼 클릭시
-document.addEventListener('click', (e)=>{
-    console.log(bnoVal);
-    console.log(userEmail);
+document.getElementById('likeBtn').addEventListener('click', ()=>{
+	let currentLikeCount = parseInt(document.getElementById('cmLikeCnt').innerText);
 
-    if(e.target.classList.contains('btn-outline-danger')){ //안 누른 상태면
-        console.log("좋아요 등록");
-        e.target.classList.replace('btn-outline-danger', 'btn-danger');
-        likeToServer(bnoVal, userEmail);
-    }else if(e.target.classList.contains('btn-danger')){ //이미 누른 상태면
-        console.log("좋아요 취소"); 
-        e.target.classList.replace('btn-danger', 'btn-outline-danger');
-        likeToServer(bnoVal, userEmail);
-    }
+	if(!(userEmail)){
+		alert('로그인을 해주세요.');
+	}
+
+	if(userEmail){
+	    if(document.getElementById('likeBtn').classList.contains('bi-heart')){ //안 누른 상태면
+	        console.log("좋아요 등록");
+	        document.getElementById('likeBtn').classList.replace('bi-heart', 'bi-heart-fill');
+			document.getElementById('cmLikeCnt').innerText = currentLikeCount + 1;
+	        likeToServer(bnoVal, userEmail);
+	    }else if(document.getElementById('likeBtn').classList.contains('bi-heart-fill')){ //이미 누른 상태면
+	        console.log("좋아요 취소"); 
+	        document.getElementById('likeBtn').classList.replace('bi-heart-fill', 'bi-heart');
+			document.getElementById('cmLikeCnt').innerText = currentLikeCount - 1;
+	        likeToServer(bnoVal, userEmail);
+
+	    }
+	}    
 })
 
 //좋아요 정보 보내주기
