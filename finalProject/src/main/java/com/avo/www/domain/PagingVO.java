@@ -12,6 +12,7 @@ public class PagingVO {
 	private int qty; // 한 페이지에 보여줄 글 개수
 	private String keyword; // 검색어
 	private String type; // 카테고리 타입
+	private String srcCondit; // 검색조건 ex)제목,내용,작성자 등
 	
 	public PagingVO() {
 		this(1,8); // 한 페이지당 글 8개씩 출력
@@ -31,6 +32,10 @@ public class PagingVO {
 	// limit getPageStart, qty
 	public int getPageStart() {
 		return (this.pageNo-1)*qty;
+	}
+	
+	public String[] getConditToArray() {
+		return this.srcCondit == null ? new String[] {} : this.srcCondit.split(",");
 	}
 	
 }

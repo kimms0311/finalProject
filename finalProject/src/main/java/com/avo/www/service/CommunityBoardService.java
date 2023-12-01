@@ -5,12 +5,14 @@ import java.util.List;
 import com.avo.www.domain.CommunityBoardDTO;
 import com.avo.www.domain.CommunityBoardVO;
 import com.avo.www.domain.FileVO;
+import com.avo.www.domain.PagingVO;
+import com.avo.www.handler.PagingHandler;
 
 public interface CommunityBoardService {
 
 	int register(CommunityBoardDTO bdto);
 
-	List<CommunityBoardVO> getList();
+//	List<CommunityBoardVO> getList();
 
 	CommunityBoardDTO getDetailFile(long cmBno);
 
@@ -24,8 +26,11 @@ public interface CommunityBoardService {
 
 	int removeFile(String uuid);
 
-	List<CommunityBoardVO> getMenuList(String cmMenu);
-
 	List<FileVO> getFileList();
+
+	PagingHandler getListMore(PagingVO pgvo, String cmMenu);
+
+	List<FileVO> getThumb(long cmBno);
+
 
 }

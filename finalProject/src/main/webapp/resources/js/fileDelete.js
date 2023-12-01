@@ -1,5 +1,5 @@
-let url = window.location.pathname;
-let category = url.substring(url.indexOf('/')+1,url.lastIndexOf('/'));
+url = window.location.pathname;
+category = url.substring(url.indexOf('/')+1,url.lastIndexOf('/'));
 
 document.addEventListener('click', (e)=>{
     console.log(e.target);

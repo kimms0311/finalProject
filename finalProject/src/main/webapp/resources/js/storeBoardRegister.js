@@ -62,7 +62,7 @@ document.getElementById('regBtn').addEventListener('click', (e) => {
     var contentValue = document.getElementById('content').value;
 
     if (selectedValue === "unselect") {
-        alert("옵션을 선택해 주세요.");
+        alert("업종을 선택해 주세요.");
         //폼 제출 막음
         e.preventDefault();
     } else {

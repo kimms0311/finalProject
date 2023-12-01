@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="/resources/js/productBoard.js"></script>
 </head>
 <body>
 <jsp:include page="../common/header.jsp" />
@@ -20,6 +21,5 @@
 	</div>
 </div>
 <jsp:include page="../common/footer.jsp" />
-<script src="/resources/js/productBoard.js"></script>
 </body>
 </html>

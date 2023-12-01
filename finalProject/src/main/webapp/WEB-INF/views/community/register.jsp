@@ -11,12 +11,18 @@
 <body>        
 <sec:authentication property="principal.mvo.memEmail" var="authEmail" />
 <sec:authentication property="principal.mvo.memNickName" var="authNick" />
+<sec:authentication property="principal.mvo.memSido" var="authSido" />
+<sec:authentication property="principal.mvo.memSigg" var="authSigg" />
+<sec:authentication property="principal.mvo.memEmd" var="authEmd" />
 <jsp:include page="../common/header.jsp" />
 
 <div class="bodyContainer">
 <form action="/community/register" method="post" enctype="multipart/form-data">
 	<input type="hidden" name="cmEmail" value="${authEmail }">
 	<input type="hidden" name="cmNickName" value="${authNick }">
+	<input type="hidden" name="cmSido" value="${authSido }">
+	<input type="hidden" name="cmSigg" value="${authSigg }">
+	<input type="hidden" name="cmEmd" value="${authEmd }">
 	
 	<select name="cmMenu">
 	    <option value="일상">일상</option>

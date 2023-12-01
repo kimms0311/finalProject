@@ -2,7 +2,7 @@ package com.avo.www.handler;
 
 import java.util.List;
 
-
+import com.avo.www.domain.CommunityBoardVO;
 import com.avo.www.domain.CommunityCmtVO;
 import com.avo.www.domain.CommunityReCmtVO;
 import com.avo.www.domain.FileVO;
@@ -31,8 +31,9 @@ public class PagingHandler {
    
    //1123 하연 추가
    private List<FileVO> prodFileList;
-
-
+   
+   private List<CommunityBoardVO> cmList;
+   
    
    public PagingHandler(PagingVO pgvo, int totalCount, int minus) {
       
@@ -71,5 +72,10 @@ public class PagingHandler {
          this.prodFileList =  prodFileList;
       }
 
+   //커뮤니티 페이징용
+   public PagingHandler(int totalCount, PagingVO pgvo, List<CommunityBoardVO> cmList) {
+	      this(pgvo, totalCount, 9);
+	      this.cmList = cmList;
+	}
 
 }

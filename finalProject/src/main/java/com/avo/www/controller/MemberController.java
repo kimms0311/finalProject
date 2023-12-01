@@ -1,11 +1,17 @@
 package com.avo.www.controller;
 
+import java.util.Random;
+
 import javax.inject.Inject;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,6 +39,9 @@ public class MemberController {
 	
 	@Inject
 	private MemberService msv;
+	
+	@Autowired  
+	private JavaMailSender mailSender;
 	
 	@GetMapping("/register")
 	public void register() {}
@@ -81,17 +90,39 @@ public class MemberController {
 				: new ResponseEntity<String>("0", HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	@GetMapping(value = "/test/{memEmail}", produces = MediaType.TEXT_PLAIN_VALUE)
+	public ResponseEntity<String> mail(@PathVariable("memEmail")String memEmail){
+		log.info(">>>>> 인증 이메일 >>> "+memEmail);
+		
+		//인증번호 생성
+		Random random = new Random();
+		int checkNum = random.nextInt(888888) + 111111;
+		log.info("인증번호 >>> "+checkNum);
+		
+		//이메일 전송 내용
+		String setFrom = "ezenfinal@gmail.com"; //발신 이메일
+		String toMail = memEmail;         //받는 이메일
+		String title = "Avocart 회원가입 인증 이메일입니다.";
+		String content = 
+						"인증번호는 " + "<b style='color:blue'>" + checkNum + "</b>" + "입니다.<br>"  
+								+ "해당 인증번호를 인증번호 확인란에 기입하여 주세요.";
+		
+		//이메일 전송 코드
+		try {
+			MimeMessage message = mailSender.createMimeMessage();
+			MimeMessageHelper helper = new MimeMessageHelper(message, true, "utf-8");
+			helper.setFrom(setFrom);
+			helper.setTo(toMail);
+			helper.setSubject(title);
+			helper.setText(content,true);
+			mailSender.send(message);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		String num = Integer.toString(checkNum); 
+		return new ResponseEntity<String>(num, HttpStatus.OK);
+	}
+
 	
 }

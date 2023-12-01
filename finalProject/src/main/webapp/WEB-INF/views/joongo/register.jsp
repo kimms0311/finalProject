@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,12 +15,14 @@
 </head>
 <body>
 <jsp:include page="../common/header.jsp" />
+<sec:authentication property="principal.mvo.memEmail" var="authEmail"/>
+<sec:authentication property="principal.mvo.memNickName" var="authNick"/>
 <div class="bodyContainer">
 	<h2> 중고거래 </h2>
 	<p> 기본 정보 </p>
 	<form action="/joongo/register" method="post" enctype="multipart/form-data">
-		<input type="hidden" name="proEmail" value="joongoEmail@email">
-		<input type="hidden" name="proNickName" value="joongoJY">
+		<input type="hidden" name="proEmail" value="${authEmail}">
+		<input type="hidden" name="proNickName" value="${authNick}">
 		<input type="hidden" name="proCategory" value="joongo">
 		<div class="form-floating">
 			<input type="text" class="form-control" id="title" name="proTitle" required="required">
