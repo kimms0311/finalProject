@@ -1,16 +1,48 @@
 //프로필 버튼 클릭시 메뉴 나타나게(토글)
 document.getElementById('my').addEventListener('click',()=>{
-    if(document.getElementById('myMenu').classList.contains('off')){
-        document.getElementById('myMenu').style = "display:inline-block";
-        document.getElementById('myMenu').classList.remove('off');
-        document.getElementById('myMenu').classList.add('on');
-    
+    let myMenu = document.getElementById('myMenu');
+    if(myMenu != null){
+        document.getElementById('myMenu').classList.toggle('off');
     }else{
-        document.getElementById('myMenu').style = "display:none";
-        document.getElementById('myMenu').classList.remove('on');
-        document.getElementById('myMenu').classList.add('off');
+        alert('로그인이 필요한 서비스입니다');
     }
 })
+
+// 검색
+// 검색 버튼을 눌렀을 때
+document.querySelector('.openMenu').addEventListener('click',()=>{
+    document.querySelector('.searchMenu').classList.toggle('off');
+    // 검색어가 openMenu 창의 input에도 들어가도록 설정
+    let keyword = document.querySelector('.openMenu').previousSibling.previousSibling.value;
+    document.getElementById('keyword').value = keyword;
+})
+
+
+
+
+// 검색 조건 가져오기
+function getSearchCondition(){
+    // 선택된 목록 가져오기
+    const query = "input[name='srcCondit']:checked";
+    const sltSearch = document.querySelectorAll(query);
+
+    // 선택된 목록에서 value 찾기
+    let result = '';
+    sltSearch.forEach((e)=>{
+        result += e.value + ',';
+    });
+    result = result.slice(0,-1);
+
+    // 확인
+    console.log(result);
+    return result;
+}
+
+
+// document.getElementById('checkCondit').addEventListener('click',()=>{
+//     getSearchCondition();
+// })
+
 
 //로그아웃
 document.getElementById('logoutLink').addEventListener('click', (e)=>{

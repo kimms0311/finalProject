@@ -54,7 +54,7 @@ function getStoreList(page = 1, type = null) {
                         <div>
                             <div>
                                 <span class="title">${svo.proTitle}</span>
-                                <span class="gray">주소 수정하기</span>
+                                <span class="gray">${svo.proEmd }</span>
                             </div>
                             <span class="content">${svo.proContent}</span>
                             <span class="gray">${svo.proMenu}</span>
@@ -73,9 +73,8 @@ function getStoreList(page = 1, type = null) {
             }
         } else {
             //result.prodList가 비어있는 경우
-            console.log('검색 결과가 없습니다.');
             const noResultMessage = document.createElement('div');
-            noResultMessage.innerText = '검색 결과가 없습니다.';
+            noResultMessage.innerText = '결과가 없습니다.';
             ul.appendChild(noResultMessage);
             moreBtn.style.visibility = 'hidden';
         }

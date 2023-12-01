@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,8 +18,8 @@
 <jsp:include page="../common/header.jsp" />
 <div class="bodyContainer">
 	<form action="/joongo/modify" method="post" enctype="multipart/form-data">
-		<input type="hidden" name="proEmail" value="joongoEmail@email">
-		<input type="hidden" name="proNickName" value="joongoJY">
+		<input type="hidden" name="proEmail" value="${authEmail}">
+		<input type="hidden" name="proNickName" value="${authNick}">
 		<input type="hidden" name="proCategory" value="joongo">
 		<input type="hidden" name="proBno" value="${pbvo.proBno }">
 		

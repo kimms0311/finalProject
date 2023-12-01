@@ -33,5 +33,7 @@ public interface JoongoBoardDAO {
    long selectOneBno();
 
    void setFileCnt();
+   
+   List<ProductBoardVO> searchProBoard(PagingVO pgvo);
 
 }

@@ -45,7 +45,7 @@
                   <div>
                      <div>
                          <span class="title">${pvo.proTitle }</span>
-                         <span class="gray">주소 수정</span>
+                         <span class="gray">${pvo.proEmd }</span>
                   </div>
                       <span class="content">${pvo.proContent }</span>
                       <span class="gray">${pvo.proMenu }</span>

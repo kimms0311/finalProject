@@ -7,13 +7,16 @@
 <head>
 <meta charset="UTF-8">
 <title>Store Detail</title>
+<link rel="stylesheet" href="../resources/css/storeBoardDetail.css">
 </head>
 <body class="bodyContainer">
 <jsp:include page="../common/header.jsp" />
 <c:set value="${sdto.pvo }" var="svo"></c:set>
+<c:set value="${email }" var="email"></c:set>
+
 <div>
 	<div>${svo.proTitle}</div>
-	<div>주소수정 · ${svo.proMenu} · 조회수 : ${svo.proReadCnt} · 찜수정</div>
+	<div>${svo.proNickName} · ${svo.proEmd} · ${svo.proMenu} · 조회수 : ${svo.proReadCnt}</div>
 </div>
 
 <!-- 사진 -->
@@ -57,11 +60,27 @@
 </c:if>
 </div>
 
+<div id="likeContainer">
+<i id="like" class="bi bi-heart"></i>
+<span id="likeCount">${svo.proLikeCnt}</span>
+</div>
+
+<c:if test="${email == svo.proEmail}">
 <a href="/store/repost?bno=${svo.proBno }">끌올</a>
 <a href="/store/modify?bno=${svo.proBno }">수정</a>
 <a href="/store/remove?bno=${svo.proBno }" id="delBtn">삭제</a>
-<script type="text/javascript"></script>
-<script type="text/javascript" src="/resources/js/storeBoardDetail.js"></script>
+</c:if>
+
+<script>
+let user = `<c:out value="${email}"/>`;
+let bno = `<c:out value="${svo.proBno}"/>`;
+let likeCnt = `<c:out value="${svo.proLikeCnt}"/>`;
+</script>
+<script type="text/javascript" src="/resources/js/storeBoardDetail.js">
+</script>
+<script type="text/javascript">
+checkLike(user, bno);
+</script>
 <jsp:include page="../common/footer.jsp" />
 </body>
 </html>

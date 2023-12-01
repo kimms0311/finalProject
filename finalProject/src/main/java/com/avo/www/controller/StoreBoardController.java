@@ -1,5 +1,6 @@
 package com.avo.www.controller;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,6 +9,9 @@ import javax.inject.Inject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,18 +19,23 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.avo.www.domain.FileVO;
+import com.avo.www.domain.LikeItemVO;
 import com.avo.www.domain.PagingVO;
 import com.avo.www.domain.ProductBoardVO;
 import com.avo.www.domain.StoreBoardDTO;
 import com.avo.www.domain.StoreMenuVO;
 import com.avo.www.handler.FileHandler;
 import com.avo.www.handler.PagingHandler;
+import com.avo.www.security.AuthMember;
+import com.avo.www.security.MemberVO;
 import com.avo.www.service.StoreBoardService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -49,7 +58,8 @@ public class StoreBoardController {
 			@RequestParam(name = "menus", required = false) List<String> menus,
 			@RequestParam(name = "prices", required = false) List<String> prices,
 			@RequestParam(name = "explains", required = false) List<String> explains,
-			@RequestParam(name="files", required = false)MultipartFile[] files){
+			@RequestParam(name="files", required = false)MultipartFile[] files
+			){
 		List<FileVO> flist = new ArrayList<FileVO>();
 
 		if(files[0].getSize() > 0) {
@@ -68,8 +78,15 @@ public class StoreBoardController {
 		    }
 	    }
 	    
+        //사용자 객체 가져오기
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        //Principal => AuthMember 변환
+        AuthMember member = (AuthMember) authentication.getPrincipal();
+        //email 추출
+        String email = member.getUsername();
+        
 		//alert 추가하기 위한 isOk
-		int isOk = ssv.insert(new StoreBoardDTO(pvo, flist, mlist));
+		int isOk = ssv.insert(new StoreBoardDTO(pvo, flist, mlist), email);
 		return "redirect:/store/list";
 	}
 	
@@ -77,7 +94,10 @@ public class StoreBoardController {
 	public void list() {}	
 	
 	@GetMapping({"/detail", "/modify"})
-	public void detail(Model m, @RequestParam("bno")long bno) {
+	public void detail(Model m, @RequestParam("bno")long bno, Principal principal) {		
+		if (principal != null) {
+			m.addAttribute("email", principal.getName());
+		}
 		m.addAttribute("sdto", ssv.getDetail(bno));
 	}
 	
@@ -107,7 +127,15 @@ public class StoreBoardController {
 		        mlist.add(menu);
 		    }
 	    }
-		isOk = ssv.modify(new StoreBoardDTO(pvo,flist, mlist));	
+	    
+	    //사용자 객체 가져오기
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        //Principal => AuthMember 변환
+        AuthMember member = (AuthMember) authentication.getPrincipal();
+        //email 추출
+        String email = member.getUsername();
+        
+		isOk = ssv.modify(new StoreBoardDTO(pvo,flist, mlist), email);	
 		re.addAttribute("bno", pvo.getProBno());
 		return "redirect:/store/detail"; 
 	}
@@ -146,4 +174,17 @@ public class StoreBoardController {
 			 : new ResponseEntity<String>("0", HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
+   @GetMapping(value="/checkLike/{user}/{bno}")
+   public ResponseEntity<String> checkLike(@PathVariable("user") String user, @PathVariable("bno") long bno) {
+       int isLiked = ssv.checkLike(user, bno);
+       return ResponseEntity.ok(isLiked > 0 ? "1" : "0");
+   }
+
+   @PostMapping(value="/updateLike", consumes = "application/json", produces = MediaType.TEXT_PLAIN_VALUE)
+   public ResponseEntity<String> updateLike(@RequestBody LikeItemVO lvo){
+	   int updateLike = ssv.updateLike(lvo);
+	   return updateLike > 0? new ResponseEntity<String>(String.valueOf(updateLike), HttpStatus.OK) :
+	    	new ResponseEntity<String>("0", HttpStatus.INTERNAL_SERVER_ERROR);   
+   }
+
 }
