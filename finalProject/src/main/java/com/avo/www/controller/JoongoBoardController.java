@@ -8,6 +8,9 @@ import javax.inject.Inject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,13 +29,14 @@ import com.avo.www.domain.ProductBoardDTO;
 import com.avo.www.domain.ProductBoardVO;
 import com.avo.www.handler.FileHandler;
 import com.avo.www.handler.PagingHandler;
+import com.avo.www.security.AuthMember;
 import com.avo.www.service.JoongoBoardService;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
-@RequestMapping("/joongo/**")
+@RequestMapping("/joongo/*")
 public class JoongoBoardController {
 
 	@Inject
@@ -86,14 +90,23 @@ public class JoongoBoardController {
 		m.addAttribute("pbvo", pbdto.getPbvo());
 		m.addAttribute("flist", pbdto.getPflist());
 		
-		// 찜 여부 확인
-		LikeItemVO livo = new LikeItemVO();
-		livo.setLiBno(bno);
-		livo.setLiUserId("joongoJY@naver.com"); // 나중에 변경
-		int checkLike = jbsv.checkLikeTF(livo);
-		if(checkLike > 0) {
-			m.addAttribute("checkLike", checkLike);
-		}
+		//사용자 객체 가져오기
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {        	
+        	//Principal => AuthMember 변환
+        	AuthMember member = (AuthMember) authentication.getPrincipal();
+        	//email 추출
+        	String email = member.getUsername();
+        	
+        	// 찜 여부 확인
+        	LikeItemVO livo = new LikeItemVO();
+        	livo.setLiBno(bno);
+        	livo.setLiUserId(email);
+        	int checkLike = jbsv.checkLikeTF(livo);
+        	if(checkLike > 0) {
+        		m.addAttribute("checkLike", checkLike);
+        	}
+        }
 		
 	}
 	
@@ -129,7 +142,7 @@ public class JoongoBoardController {
 		return "redirect:/joongo/list";
 	}
 	
-	@GetMapping(value = "/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/page/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<PagingHandler> moreBtn(@PathVariable("page")int page, Model m){
 		log.info(">>>>>>>>>> page >>>>>>> "+page);
 		PagingVO pgvo = new PagingVO(page, 8);

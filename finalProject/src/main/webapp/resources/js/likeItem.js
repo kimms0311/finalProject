@@ -39,11 +39,11 @@ function likeItem(bnoVal, userEmail, status){
 // 찜 등록 취소 여부 판단
 document.addEventListener('click', (e)=>{
     console.log(e.target);
-    if(e.target.classList.contains('bi-heart')){
+    if(e.target.classList.contains('bi-heart') && !e.target.classList.contains('no-login')){
         console.log('찜했습니다.');
         e.target.classList.replace('bi-heart','bi-heart-fill');
         likeItem(bnoVal, userEmail, 1);
-    }else if(e.target.classList.contains('bi-heart-fill')){
+    }else if(e.target.classList.contains('bi-heart-fill') && !e.target.classList.contains('no-login')){
         console.log('찜을 취소했습니다.');
         e.target.classList.replace('bi-heart-fill','bi-heart');
         likeItem(bnoVal, userEmail, 0);

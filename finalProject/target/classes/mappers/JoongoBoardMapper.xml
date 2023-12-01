@@ -46,4 +46,44 @@
    <update id="updateLikeCnt">
       update product set pro_like_cnt = pro_like_cnt + #{i} where pro_bno = #{livo.liBno}
    </update>
+   
+	<select id="searchProBoard" resultType="com.avo.www.domain.ProductBoardVO">
+		select * from product
+		where pro_is_del = 'N'
+		<include refid="search"/>
+	</select>
+
+	<sql id="search">
+		<choose>
+			<when test="srcCondit != null">
+				<trim prefix="AND" prefixOverrides="OR">
+					<foreach collection="conditToArray" item="srcCondit">
+						<trim prefix="OR">
+							<choose>
+								<when test="srcCondit == 'title'.toString()">
+									pro_title like concat('%',#{keyword},'%')
+								</when>
+								<when test="srcCondit == 'nickname'.toString()">
+									pro_nick_name like concat('%',#{keyword},'%')
+								</when>
+								<when test="srcCondit == 'email'.toString()">
+									pro_email like concat('%',#{keyword},'%')
+								</when>
+								<when test="srcCondit == 'content'.toString()">
+									pro_content like concat('%',#{keyword},'%')
+								</when>
+							</choose>
+						</trim>
+					</foreach>
+				</trim>
+			</when>
+			<!-- 검색 조건을 선택하지 않았을 경우 -->
+			<otherwise>
+				AND (pro_title like concat('%',#{keyword},'%')
+				OR pro_nick_name like concat('%',#{keyword},'%')
+				OR pro_email like concat('%',#{keyword},'%')
+				OR pro_content like concat('%',#{keyword},'%'))
+			</otherwise>
+		</choose>
+	</sql>
 </mapper>

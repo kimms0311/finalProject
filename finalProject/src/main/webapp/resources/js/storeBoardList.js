@@ -10,7 +10,7 @@
 
 async function spreadStoreFromServer(page, type){
     try{
-        const resp = await fetch('/store/'+page+'/'+type);
+        const resp = await fetch('/store/page/'+page+'/'+type);
         const result = await resp.json();
         return result;
     }catch(err){
