@@ -9,13 +9,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.avo.www.domain.FileVO;
+import com.avo.www.domain.LikeItemVO;
 import com.avo.www.domain.PagingVO;
 import com.avo.www.domain.ProductBoardVO;
 import com.avo.www.domain.StoreBoardDTO;
 import com.avo.www.domain.StoreMenuVO;
 import com.avo.www.handler.PagingHandler;
 import com.avo.www.repository.StoreFileDAO;
+import com.avo.www.repository.StoreLikeDAO;
 import com.avo.www.repository.StoreMenuDAO;
+import com.avo.www.security.MemberVO;
+import com.avo.www.repository.MemberDAO;
 import com.avo.www.repository.StoreBoardDAO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -27,16 +31,28 @@ public class StoreBoardServiceImpl implements StoreBoardService {
 	private StoreBoardDAO sdao;
 	
 	@Inject
-	private StoreFileDAO fdao;
+	private StoreFileDAO sfdao;
 	
 	@Inject
-	private StoreMenuDAO mdao;
+	private StoreMenuDAO smdao;
+	
+	@Inject
+	private MemberDAO mdao;
+	
+	@Inject
+	private StoreLikeDAO sldao;
 
 	@Transactional
 	@Override
-	public int insert(StoreBoardDTO sdto) {
-		sdto.getPvo().setProEmail("email");
-		sdto.getPvo().setProNickName("nickname");	
+	public int insert(StoreBoardDTO sdto, String email) {
+	    //이메일 기반 회원 정보 가져오기
+        MemberVO member = mdao.selectEmail(email);
+        
+		sdto.getPvo().setProEmail(member.getMemEmail());
+		sdto.getPvo().setProNickName(member.getMemNickName());	
+		sdto.getPvo().setProSido(member.getMemSido());	
+		sdto.getPvo().setProSigg(member.getMemSigg());	
+		sdto.getPvo().setProEmd(member.getMemEmd());
 		int isOk = sdao.insert(sdto.getPvo());
 		
 		//파일
@@ -45,7 +61,7 @@ public class StoreBoardServiceImpl implements StoreBoardService {
 			
 			for(FileVO fvo : sdto.getFlist()) {
 				fvo.setBno(bno);
-				isOk*= fdao.insertFile(fvo);
+				isOk*= sfdao.insertFile(fvo);
 			}
 		}
 		
@@ -55,7 +71,7 @@ public class StoreBoardServiceImpl implements StoreBoardService {
 	
 			for(StoreMenuVO svo : sdto.getMlist()) {
 				svo.setStrBno(bno);
-				isOk*= mdao.insertMenu(svo);
+				isOk*= smdao.insertMenu(svo);
 			}
 		}
 		return isOk;
@@ -66,14 +82,22 @@ public class StoreBoardServiceImpl implements StoreBoardService {
 	public StoreBoardDTO getDetail(long bno) {
 		sdao.readCount(bno, 1);
 		StoreBoardDTO sdto = new StoreBoardDTO(sdao.getDetail(bno), 
-				fdao.getFileList(bno), mdao.getMenuList(bno));
+				sfdao.getFileList(bno), smdao.getMenuList(bno));
 		return sdto;
 	}
 	
 	@Transactional
 	@Override
-	public int modify(StoreBoardDTO sdto) {
+	public int modify(StoreBoardDTO sdto, String email) {
 		sdao.readCount(sdto.getPvo().getProBno(), -2);
+		
+	    //이메일을 기반 회원 정보 가져오기
+        MemberVO member = mdao.selectEmail(email);
+        
+		sdto.getPvo().setProNickName(member.getMemNickName());	
+		sdto.getPvo().setProSido(member.getMemSido());	
+		sdto.getPvo().setProSigg(member.getMemSigg());	
+		sdto.getPvo().setProEmd(member.getMemEmd());
 		int isOk = sdao.update(sdto.getPvo());
 		
 		//파일
@@ -82,7 +106,7 @@ public class StoreBoardServiceImpl implements StoreBoardService {
 			
 			for(FileVO fvo : sdto.getFlist()) {
 				fvo.setBno(bno);
-				isOk *= fdao.insertFile(fvo);
+				isOk *= sfdao.insertFile(fvo);
 			}
 		}
 		
@@ -92,7 +116,7 @@ public class StoreBoardServiceImpl implements StoreBoardService {
 	
 			for(StoreMenuVO svo : sdto.getMlist()) {
 				svo.setStrBno(bno);
-				isOk*= mdao.insertMenu(svo);
+				isOk*= smdao.insertMenu(svo);
 			}
 		}	
 		return isOk;		
@@ -102,10 +126,12 @@ public class StoreBoardServiceImpl implements StoreBoardService {
 	@Override
 	public int remove(long bno) {
 		//파일 삭제
-		int isOk = fdao.removeFileAll(bno);
-		isOk *= mdao.removeMenuAll(bno);
-		isOk *= sdao.delete(bno);
-		return isOk;
+		sfdao.removeFileAll(bno);
+		//메뉴 삭제
+		smdao.removeMenuAll(bno);
+		//좋아요 삭제
+		sldao.removeLikeAll(bno);
+		return sdao.delete(bno);	
 	}
 
 	@Transactional
@@ -120,7 +146,7 @@ public class StoreBoardServiceImpl implements StoreBoardService {
                 .collect(Collectors.toList());
 	    
 	    //proBnoList로 file 테이블에서 파일 데이터 가져오기
-	    List<FileVO> fileList = fdao.getAllFileList(bnoList);
+	    List<FileVO> fileList = sfdao.getAllFileList(bnoList);
 	    
 		PagingHandler ph = new PagingHandler(pgvo, totalCount, list, fileList);
 		return ph;
@@ -133,22 +159,57 @@ public class StoreBoardServiceImpl implements StoreBoardService {
 
 	@Override
 	public int repost(long bno) {
-		int isOk = sdao.repost(bno);
-		return 0;
+		return sdao.repost(bno);
 	}
 
 	@Override
 	public int removeFile(String uuid) {
-		return fdao.removeFile(uuid);
+		return sfdao.removeFile(uuid);
 	}
-
+	
+	//특정 메뉴 삭제
 	@Override
 	public int removeMenu(long id) {
-		return mdao.removeMenu(id);
+		return smdao.removeMenu(id);
 	}
 
+	//기존 메뉴 삭제
 	@Override
 	public int removeBeforeMenu(long bno) {
-		return mdao.removeMenuAll(bno);
+		return smdao.removeMenuAll(bno);
 	}
+	
+	//좋아요 눌렀었는지 체크 => fillheart 표시 위함
+	@Override
+	public int checkLike(String user, long bno) {
+		return sldao.checkLike(user, bno);
+	}
+
+	@Transactional
+	@Override
+	public int updateLike(LikeItemVO lvo) {
+		//첫 좋아요 체크
+		int isFirst = sldao.checkFirstLike(lvo);
+		
+		if(isFirst==0){
+			sdao.updateLikeCnt(lvo, 1);
+			sldao.insertLike(lvo);	
+			return sldao.countTotalLikes(lvo);
+		} else {
+			//좋아요 수정 
+			//status>0,=> 1로 변경, 좋아요 -1
+			int status = sldao.checkStatus(lvo);
+			if(status>0) {
+				sdao.updateLikeCnt(lvo, -1);
+				//0
+				sldao.updateLike(lvo);
+				return sldao.countTotalLikes(lvo); 
+			} else {
+				sdao.updateLikeCnt(lvo, 1);
+				sldao.updateLike(lvo);
+				return sldao.countTotalLikes(lvo); 
+			}
+		}
+	}
+
 }

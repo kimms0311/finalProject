@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.avo.www.domain.LikeItemVO;
 import com.avo.www.domain.PagingVO;
 import com.avo.www.domain.ProductBoardVO;
 
@@ -28,5 +29,7 @@ public interface StoreBoardDAO {
 	int repost(long bno);
 
 	long selectOneBno();
+
+	int updateLikeCnt(@Param("lvo") LikeItemVO lvo, @Param("i") int i);
 
 }
