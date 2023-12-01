@@ -36,7 +36,7 @@ document.addEventListener('click',(e)=>{
 // 서버에 board 데이터 요청
 async function getMoreBoardForServer(category, page){
     try {
-        const resp = await fetch('/'+category+'/'+page);
+        const resp = await fetch('/'+category+'/page/'+page);
         const result = await resp.json();
         return result;
     } catch (error) {

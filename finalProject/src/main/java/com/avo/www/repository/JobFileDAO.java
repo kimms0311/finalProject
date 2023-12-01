@@ -3,6 +3,7 @@ package com.avo.www.repository;
 import java.util.List;
 
 import com.avo.www.domain.FileVO;
+import com.avo.www.domain.ProductBoardVO;
 
 public interface JobFileDAO {
 
@@ -11,5 +12,7 @@ public interface JobFileDAO {
 	List<FileVO> getFileList(long proBno);
 
 	int removeFileAll(long proBno);
+
+	List<FileVO> allFlieList();
 
 }

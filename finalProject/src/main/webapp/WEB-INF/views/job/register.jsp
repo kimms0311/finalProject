@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %> 
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,10 +13,14 @@
 
 
 <div class="bodyContainer">
-		
+	
+	<!-- 로그인한 mvo가져오기 -->
+	<sec:authentication property="principal.mvo" var="authMvo"/>
+
+	
 	<form action="/job/register" method="post" enctype="multipart/form-data" >
-	<input type="hidden" class="form-control" id="proEmail" name="proEmail" value="proEmail">
-	<input type="hidden" class="form-control" id="proNickName" name="proNickName" value="proNickName">
+	<input type="hidden" class="form-control" id="proEmail" name="proEmail" value="${authMvo.memEmail }">
+	<input type="hidden" class="form-control" id="proNickName" name="proNickName" value="${authMvo.memNickName }">
 	  <div class="mb-3">
 	    <label for="proTitle" class="form-label">제목</label>
 	    <input type="text" class="form-control" name="proTitle" id="proTitle">

@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <!DOCTYPE html>
 <html>
@@ -29,9 +30,15 @@
 <jsp:include page="../common/header.jsp" />
 
 <div class="bodyContainer">
-
-	<!-- 첨부된 이미지 슬라이드로 뿌리기... -->
+	<!-- 로그인 한 회원 일 경우에만 principal 가져오기 -->
+	<sec:authorize access="isAuthenticated()">
+		<!-- 작성자와 현재 로그인한 mem의 memEmail여부 일치 확인용 -->
+		<sec:authentication property="principal.mvo.memEmail" var="memEmail"/>
+		    <!-- 댓글용 닉네임 -->
+		<sec:authentication property="principal.mvo.memNickName" var="memNickName"/>
+	</sec:authorize>
 	
+	<!-- 첨부된 이미지 슬라이드로 뿌리기... -->
 	<div id="carouselExampleIndicators" class="carousel slide">
 	<c:set value="${jbdto.flist}" var="flist"></c:set>
 		<div class="carousel-indicators">
@@ -90,21 +97,20 @@
 			<p><strong><i class="bi bi-pencil"></i>상세내용<i class="bi bi-pencil"></i></strong></p>
 			<p>${jbdto.pbvo.proContent}</p>
 			<p>
-			조회수 ${jbdto.pbvo.proReadCnt} <a href="/job/like?pbno=${jbdto.pbvo.proBno}"><i class="bi bi-heart"></i>찜하기 ${pbvo.proLikeCnt}</a>
+			조회수 ${jbdto.pbvo.proReadCnt} <i class="bi bi-heart" id="likeBtn"></i>찜하기 ${pbvo.proLikeCnt}
 			</p>
 		</div>
 		
 		<!-- 지도 넣으면 좋겠다. -->
 	</div>
 	
-
-	
-	
-	<!--
-	멤버이메일이랑 pbvo이메일 같으면 보이게하는걸로 바꿀거야 
-	 -->
-		<a href="/job/modify?proBno=${jbdto.pbvo.proBno}"><button class="btn btn-success">수정</button></a>
-		<a href="/job/remove?proBno=${jbdto.pbvo.proBno}"><button class="btn btn-success">삭제</button></a>
+	<sec:authorize access="isAuthenticated()">
+	    <c:if test="${memEmail eq jbdto.pbvo.proEmail}">
+			<a href="/job/modify?proBno=${jbdto.pbvo.proBno}"><button class="btn btn-success">수정</button></a>
+			<a href="/job/remove?proBno=${jbdto.pbvo.proBno}"><button class="btn btn-success">삭제</button></a>
+		</c:if>
+	</sec:authorize>
+	 
 
 	
 	<!-- 후기 라인 -->
@@ -113,10 +119,17 @@
 	<span><strong>후기</strong></span>
 		<!-- 후기 등록 라인 -->
 		<div class="rePost">
-			<img alt="" src="/resources/image/logoimage.png">
-			<span id="reWriter"><strong>nickName </strong></span>
-			<input type="text" placeholder="후기를 작성해주세요." id="reContent">
-			<button type="button" class="btn btn-success" id="rePostBtn">등록</button>
+		    <img alt="" src="/resources/image/logoimage.png">
+		    <span id="reWriter"><strong>${memNickName}</strong></span>
+			<sec:authorize access="isAuthenticated()">
+				<input type="text" placeholder="후기를 작성해주세요." id="reContent">
+			    <button type="button" class="btn btn-success" id="rePostBtn">등록</button>
+			</sec:authorize>
+			<sec:authorize access="isAnonymous()">
+				<input type="text" placeholder="로그인 해주세요" id="reContent">
+			    <button type="button" class="btn btn-success" id="rePostBtn" disabled="disabled">등록</button>
+			</sec:authorize>
+		    
 		</div>
 		
 		<!-- 후기 표시 라인 -->
@@ -141,13 +154,11 @@
 
 
 	
-	
-	
 </div>
 
 <script type="text/javascript">
     let proBnoVal = `<c:out value="${jbdto.pbvo.proBno}"/>`;
-    console.log(proBnoVal);
+    let memEmail = `<c:out value="${memEmail}"/>`;
 </script>
 
 <script type="text/javascript">
@@ -170,6 +181,21 @@
 
 <script type="text/javascript" src="/resources/js/jobBoardRegister.js"></script>
 <script type="text/javascript" src="/resources/js/jobBoardComment.js"></script>
+<script type="text/javascript" src="/resources/js/jobLike.js"></script>
+
+<script type="text/javascript">
+    let checkLike = ${checkLike};
+    console.log("checkLike >> " + checkLike);
+    // checkLike 따라 아이콘 토글
+    if (checkLike > 0) {
+        likeBtn.classList.toggle('bi-heart-fill', true);
+        likeBtn.classList.toggle('bi-heart', false);
+    } else {
+        likeBtn.classList.toggle('bi-heart-fill', false);
+        likeBtn.classList.toggle('bi-heart', true);
+    }
+</script>
+
 
  <jsp:include page="../common/footer.jsp" />
 

@@ -2,20 +2,16 @@ package com.avo.www.service;
 
 import java.util.List;
 
+import com.avo.www.domain.FileVO;
 import com.avo.www.domain.JobBoardDTO;
+import com.avo.www.domain.LikeItemVO;
 import com.avo.www.domain.ProductBoardVO;
 
 public interface JobBoardService {
 
-//	int post(ProductBoardVO pbvo);
-
 	JobBoardDTO getDetail(long proBno);
 
-	List<ProductBoardVO> getList();
-
 	ProductBoardVO jobLike(long proBno);
-
-//	int modify(ProductBoardVO pbvo);
 
 	int post(JobBoardDTO jbdto);
 
@@ -23,7 +19,15 @@ public interface JobBoardService {
 
 	int remove(long proBno);
 
-//	List<ProductBoardVO> getList(long pbno, PagingVO pgvo);
+	List<JobBoardDTO> getList();
+
+	List<FileVO> allFlieList();
+
+	int insertLike(LikeItemVO livo);
+
+	int updateLike(LikeItemVO livo);
+
+	int checkLike(long proBno, String memEmail);
 
 
 }

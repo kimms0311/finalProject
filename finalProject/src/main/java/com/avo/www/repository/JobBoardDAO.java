@@ -4,11 +4,10 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.avo.www.domain.JobBoardDTO;
 import com.avo.www.domain.ProductBoardVO;
 
 public interface JobBoardDAO {
-
-//	int post(ProductBoardVO pbvo);
 
 	ProductBoardVO detail(long proBno);
 
