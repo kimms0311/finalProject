@@ -1,4 +1,3 @@
-//서연
 //지도 api
 document.getElementById('addr').addEventListener('click', ()=>{
     //카카오 지도 발생
@@ -10,99 +9,112 @@ document.getElementById('addr').addEventListener('click', ()=>{
             document.getElementById('sido').value = data.sido;
             document.getElementById('sigg').value = data.sigungu;
             document.getElementById('emd').value = data.bname;
+            registerBtnAbled();
         }
     }).open();
 })
 
-document.addEventListener('click',()=>{
-    document.getElementById('e').value
-})
-
 //비밀번호 눈 버튼 
-document.getElementById('showPwBtn').addEventListener('click',(e)=>{
+document.getElementById('showPwBtn1').addEventListener('click',(e)=>{
     let pwInput = document.getElementById('pw1');
 
     if (pwInput.type === "password") {
         pwInput.type = "text";
-        let showPwBtn = document.getElementById('showPwBtn');
+        let showPwBtn = document.getElementById('showPwBtn1');
         showPwBtn.className = showPwBtn.className.replace('bi-eye-slash', 'bi-eye');
     } else {
         pwInput.type = "password";
-        let showPwBtn = document.getElementById('showPwBtn');
+        let showPwBtn = document.getElementById('showPwBtn1');
         showPwBtn.className = showPwBtn.className.replace('bi-eye', 'bi-eye-slash');
     }
 })
 
-//이메일 정규표현식&중복체크
-let emailVal = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
-document.getElementById('email').addEventListener('change',()=>{
-    let email = document.getElementById('email').value;
-    console.log(email);
-    //정규표현식
-    if(!emailVal.test(email)){
-        document.getElementById('emailMsg').style = "display:inline-block";
-        document.getElementById('emailMsg2').style = "display:none";
-    }else{
-        document.getElementById('emailMsg').style = "display:none";
-        //이메일 존재 여부
-        hasEmail(email).then(result =>{
-            if(result == 1){
-                document.getElementById('emailMsg2').style = "display:inline-block";
-            }else{
-                document.getElementById('emailMsg2').style = "display:none";
-            }
-        })
+document.getElementById('showPwBtn2').addEventListener('click',(e)=>{
+    let pwInput = document.getElementById('pw2');
+
+    if (pwInput.type === "password") {
+        pwInput.type = "text";
+        let showPwBtn = document.getElementById('showPwBtn2');
+        showPwBtn.className = showPwBtn.className.replace('bi-eye-slash', 'bi-eye');
+    } else {
+        pwInput.type = "password";
+        let showPwBtn = document.getElementById('showPwBtn2');
+        showPwBtn.className = showPwBtn.className.replace('bi-eye', 'bi-eye-slash');
     }
 })
-
-//이메일 전송 메서드
-async function hasEmail(email){
-    try{
-        const resp = await fetch('/member/email/'+email);
-        const result = await resp.text();
-        return result;
-
-    }catch(err){
-        console.log(err);
-    }
-}
 
 //비밀번호 정규표현식
 let pwVal = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,16}$/;
-document.getElementById('pw').addEventListener('change',()=>{
-    let pw = document.getElementById('pw').value;
-    console.log(pw);
+
+document.getElementById('pw1').addEventListener('keyup',()=>{
+    let pw1 = document.getElementById('pw1').value;
+    let pw2 = document.getElementById('pw2').value;
 
     //문자길이
-    if(pw.length < 8 || pw.length > 16){
-        document.getElementById('pwMsg2').style = "display:inline-block";
+    if(pw1.length < 8 || pw1.length > 16){
+        document.getElementById('pwMsg2_1').style = "display:inline-block";
     }else{
-        document.getElementById('pwMsg2').style = "display:none";
+        document.getElementById('pwMsg2_1').style = "display:none";
         //정규표현식
-        if(!pwVal.test(pw)){
-            document.getElementById('pwMsg').style = "display:inline-block";
-        }else{
-            document.getElementById('pwMsg').style = "display:none";
-        }
-    }
+        if(!pwVal.test(pw1)){
+            document.getElementById('pwMsg1_1').style = "display:inline-block";
+            document.getElementById('pwMsg1_2').style = "display:none";
+            document.getElementById('pwMsg2_2').style = "display:none";
+            registerBtnAbled();
+        } else{
+            document.getElementById('pwMsg1_1').style = "display:none";
 
-    
+            //비밀번호 입력 체크
+            if(pw1!=='' && pw2=='') {
+                document.getElementById('pwMsg2_2').style = "display:inline-block";
+            } else {
+                document.getElementById('pwMsg2_2').style = "display:none";
+                registerBtnAbled();
+            }
+        }
+    }   
 })
 
-//닉네임 중복체크
-document.getElementById('nick').addEventListener('change',()=>{
+document.getElementById('pw2').addEventListener('keyup',()=>{
+    let pw1 = document.getElementById('pw1').value;
+    let pw2 = document.getElementById('pw2').value;
+
+    //비밀번호 입력 체크
+    if(pw1!=='' && pw2=='') {
+        document.getElementById('pwMsg2_2').style = "display:inline-block";
+     } else if(pw1=='' && pw2=='') {
+        document.getElementById('pwMsg1_1').style = "display:none";
+        document.getElementById('pwMsg2_1').style = "display:none";
+        document.getElementById('pwMsg1_2').style = "display:none";
+        document.getElementById('pwMsg2_2').style = "display:none";
+        registerBtnAbled();
+     } else {
+         document.getElementById('pwMsg2_2').style = "display:none";
+  
+        //비밀번호 일치 체크
+        if(pw1!=pw2){
+            document.getElementById('pwMsg1_2').style = "display:inline-block";
+        } else {
+            document.getElementById('pwMsg1_2').style = "display:none";
+            registerBtnAbled();
+        }
+     }
+})
+
+//닉네임 중복 체크
+document.getElementById('nick').addEventListener('change', async ()=>{
     let nick = document.getElementById('nick').value;
     console.log(nick);
     
-    hasNick(nick).then(result =>{
-        if(result == 1){
-            document.getElementById('nickMsg').style = "display:inline-block";
-        }else{
-            document.getElementById('nickMsg').style = "display:none";
-        }
-    })
-
+    const result = await hasNick(nick);
+    if(result == 1){
+        document.getElementById('nickMsg').style = "display:inline-block";
+    }else{
+        document.getElementById('nickMsg').style = "display:none";
+        registerBtnAbled();
+    }
 })
+
 //닉네임 전송 메서드
 async function hasNick(nick){
     try{
@@ -115,32 +127,50 @@ async function hasNick(nick){
     }
 }
 
+//모든 조건 충족시 가입하기 버튼오픈
+function registerBtnAbled(){
+    const pwMsg1_1 = document.getElementById('pwMsg1_1');
+    const pwMsg2_1 = document.getElementById('pwMsg2_1');
+    const pwMsg1_2 = document.getElementById('pwMsg1_2');
+    const pwMsg2_2 = document.getElementById('pwMsg2_2');
+    const nickMsg = document.getElementById('nickMsg');
+    const addrValue = document.getElementById('addr').value;
+    const nickValue = document.getElementById('nick').value;
 
+    const pwMsg1_1Display = window.getComputedStyle(pwMsg1_1).getPropertyValue('display');
+    const pwMsg2_1Display = window.getComputedStyle(pwMsg2_1).getPropertyValue('display');
+    const pwMsg1_2Display = window.getComputedStyle(pwMsg1_2).getPropertyValue('display');
+    const pwMsg2_2Display = window.getComputedStyle(pwMsg2_2).getPropertyValue('display');
+    const nickMsgDisplay = window.getComputedStyle(nickMsg).getPropertyValue('display');
 
-//하연
-document.getElementById('pw2').addEventListener('change',()=>{
-    let pw1 = document.getElementById('pw1').value;
-    let pw2 = document.getElementById('pw2').value;
+    if(pwMsg1_1Display === 'none' && pwMsg2_1Display === 'none'&& pwMsg1_2Display === 'none' && pwMsg2_2Display === 'none' && nickMsgDisplay ==='none'
+        && addrValue !== '' && nickValue !== ''){
+       document.getElementById('regiBtn').disabled = false;
+   } else {
+       document.getElementById('regiBtn').disabled = true;
+   }
+}
 
-    //비밀번호 일치 확인
-    if(pw1!=pw2){
-        document.getElementById('pwMsg3').style = "display:inline-block";
-    } else {
-        document.getElementById('pwMsg3').style = "display:none";
+//탈퇴 버튼
+async function deleteMemBtn(email){
+    try{
+        const url = '/hmember/deleteMember/'+email;
+        const config ={
+            method: 'delete'
+        };
+        const resp = await fetch(url, config);
+        const result = await resp.text();
+        return result;
+    }catch(err){
+        console.log(err);
     }
-})
+}
 
-//비밀번호 눈 버튼 
-document.getElementById('showPwBtn2').addEventListener('click',(e)=>{
-    let pwInput2 = document.getElementById('pw2');
-
-    if (pwInput2.type === "password") {
-        pwInput2.type = "text";
-        let showPwBtn = document.getElementById('showPwBtn2');
-        showPwBtn.className = showPwBtn.className.replace('bi-eye-slash', 'bi-eye');
-    } else {
-        pwInput2.type = "password";
-        let showPwBtn = document.getElementById('showPwBtn2');
-        showPwBtn.className = showPwBtn.className.replace('bi-eye', 'bi-eye-slash');
+document.getElementById('deleteMemBtn').addEventListener('click',(e)=>{
+    if (confirm('정말 탈퇴하시겠어요? \n작성한 댓글은 자동으로 삭제되지 않습니다.')) {
+        deleteMemBtn(email);
+        //alert('아포카트 회원 탈퇴가 완료되었습니다.');
     }
-})
+});
+
+

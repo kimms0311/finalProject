@@ -1,3 +1,7 @@
+window.onload = function() {
+    setTimeout(()=> document.getElementById('loading').style.display = 'none', 500);
+};
+
 // console.log("전체 업체 개수 : " + listLength);
 // var remainder = listLength % 2;
 // console.log("나머지 : " + remainder);
