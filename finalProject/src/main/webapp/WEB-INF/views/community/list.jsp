@@ -7,95 +7,29 @@
 <head>
 <meta charset="UTF-8">
 <title>Community List</title>
-<style type="text/css">
-	.user_profile>*, .item-info>*{
-		display: inline;
-	}
-	.cmBoard, .CommunityCategory{
-		margin: 20px 0;
-		width: 80%;
-	}
-	.bodyContainer, .cmBoard{
-		display: flex;
-		justify-content: center;
-		flex-wrap: wrap;
-	}
-	.boardMenuName{
-		margin: 0;
-		padding: 0;
-	}
-	.CommunityCategory{
-		display: flex;
-		justify-content: center;
-		background-color: yellow;
-	}
-	.menu{
-		margin: 0 10px;
-		text-decoration: none;
-		color: black;
-		border: 1px solid black;
-	}
-	.cmBoard{
-		background-color: lightgrey;
-	}
-	.user_profile, .communityContentLine,.communityContentLine>a , .item-info{	
-		width :650px;
-	}
-	.oneBoard{
-		height: 300px;
-		margin: 20px 0;
-		border: 1px solid black;
-		position: relative;
-	}
-	.user_profile{
-		background-color: yellow;
-	}
-	.communityContentLine{
-		background-color: white;
-		height: 225px;
-	}
-	.bodyContainer{
-		position: relative;
-	}
-	.moreBtn{
-		 position: absolute;
-         bottom: 20px; 
-         left: 50%;
-         transform: translateX(-50%);
-	}
-	.commuRegiBtn{
-		position: fixed;
-		bottom: 0;
-		right: 0;
-	}
-	.thumbImg{
-		width: 650px;
-		height: 200px;
-	}
-	.item-info{
-	    display: flex;
-	    justify-content: space-between;
-	    
-	    position: absolute;
-	    bottom: 0;
-	    background-color: green;
-	}
-</style>
+<link rel="stylesheet" href="../resources/css/communityBoardList.css">
 </head>
 <body>
 <jsp:include page="../common/header.jsp" />
 <div class="bodyContainer">
 
+<!-- <div class="userLocation">
+	<p><i class="bi bi-geo-alt"></i>OO동 동네소식</p>
+</div> -->
+
 <div class="CommunityCategory">
-	<button class="menu">전체</button>
-	<button class="menu">일상</button>
-	<button class="menu">모임</button>
-	<button class="menu">질문</button>
-	<button class="menu">동네생활정보</button>
-	<button class="menu">찾습니다</button>
-	<button class="menu">해주세요</button>
-	<button class="menu">동네사진전</button>
+	<a href="/community/list?cmMenu=전체" class="menu active">전체</a>
+	<a href="/community/list?cmMenu=일상" class="menu">일상</a>
+	<a href="/community/list?cmMenu=모임" class="menu">모임</a>
+	<a href="/community/list?cmMenu=질문" class="menu">질문</a>
+	<a href="/community/list?cmMenu=동네생활정보" class="menu">동네생활정보</a>
+	<a href="/community/list?cmMenu=찾습니다" class="menu">찾습니다</a>
+	<a href="/community/list?cmMenu=해주세요" class="menu">해주세요</a>
+	<a href="/community/list?cmMenu=동네사진전" class="menu">동네사진전</a>
 </div>
+
+<!-- 로딩페이지 -->
+<div id="loading"></div>
 
 <!-- 작성된 글 출력 공간 -->
 <div class="cmBoard" id="cmBoard">
@@ -106,7 +40,7 @@
 			<i class="bi bi-person-circle"></i>
 			<b>${bvo.cmNickName}</b>
 			<p>${bvo.cmRegAt }</p>
-			<p>${bvo.cmEmd }</p>
+			<p><i class="bi bi-geo-alt-fill"></i>${bvo.cmEmd }</p>
 		</div>
 		
 		<a class="communityContentLine" href="/community/detail?cmBno=${bvo.cmBno }">
@@ -129,10 +63,9 @@
 		</div>
 	</div>
 </div>
-<div class="d-grid gap-2 col-6 mx-auto">
-	<button class="btn btn-primary moreBtn" type="button" id="moreBtn" data-page="1" style="visiblity:hidden">more +</button>
+<div class="">
+	<button class="moreBtn" type="button" id="moreBtn" data-page="1" style="visiblity:hidden">more +</button>
 </div>
-
 
 </div>
 <a href="/community/register">
@@ -142,7 +75,7 @@
 <jsp:include page="../common/footer.jsp" />
 <script type="text/javascript" src="/resources/js/communityBoardList.js"></script>
 <script type="text/javascript">
-let myMenu = "전체";
+let myMenu = `<c:out value="${cmMenu}"/>`;
 getMoreBoard(1, myMenu);
 </script>
 </body>

@@ -1,1 +1,107 @@
-@charset "UTF-8";
+	.bodyContainer{
+		display: flex;
+		justify-content: center;
+		flex-wrap: wrap;
+	}
+	
+	.CommunityCategory{
+		margin: 40px 0 20px 0;
+		width: 80%;
+		
+		display: flex;
+		justify-content: center;
+	}
+	.menu{
+		margin: 0 10px;
+		text-decoration: none;
+		color: black;
+		border: 2px solid #84a331;
+		border-radius: 5px;
+		padding: 3px 5px;
+	}
+	.menu:hover{
+		font-weight: 800;
+		background-color: #84a331;
+		color: white;	
+	}
+	.active{
+		font-weight: 800;
+		background-color: #84a331;
+		color: white;		
+	}
+	.choiceMenu{
+		font-weight: 800;
+		background-color: #84a331;
+		color: white;	
+	}
+	
+	.cmBoard{
+		width: 80%;
+		
+		display: flex;
+		justify-content: center;
+		flex-wrap: wrap;
+	}
+	.oneBoard{
+		margin: 20px 0;
+		border: 1px solid #d3d3d3;
+		position: relative;
+		border-radius: 5px;
+	}
+	.boardMenuName{
+		/* 양옆 위 아래 */
+		margin: 15px 16px 0;
+	}
+	.user_profile>*, .item-info>*{
+		display: inline;
+	}
+	.user_profile, .communityContentLine,.communityContentLine>a , .item-info{	
+		width :650px;
+		margin-left: 10px;
+	}
+	.user_profile{
+		height: 40px;
+		margin: 10px 0 0 15px;
+	}
+	.user_profile>*{
+		line-height: 40px;
+	}
+	.communityContentLine{
+		margin: 0 15px;
+		text-decoration: none;
+		color: black;
+	}
+	a>p{
+		margin: 0;
+	}
+	.thumbImg{
+		width: 650px;
+		height: 500px;
+		margin-top: 20px;
+	}
+	.item-info{
+	    display: flex;
+	    justify-content: space-between;
+/* 	    background-color: green; */
+	    height: 40px;
+	    margin: 0 15px;
+	}
+	.item-info>*{
+		line-height: 40px;
+	}
+	
+	.moreBtn{
+		width: 650px;
+		height: 50px;
+		background-color: #606C38;
+		border: none;
+		border-radius: 5px;
+		margin: 40px 0 60px 0;
+		color: white;
+		font-weight: 800;
+	}
+	.commuRegiBtn{
+		position: fixed;
+		bottom: 0;
+		right: 0;
+	}
