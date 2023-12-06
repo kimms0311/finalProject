@@ -9,4 +9,10 @@
 	<select id="getPw" resultType="String">
 		select mem_pw from member where mem_email = #{email}
 	</select>
+	<update id="modifyPwEmpty">
+		update member set mem_nick_name = #{memNickName}, mem_sido = #{memSido}, mem_sigg = #{memSigg}, mem_emd = #{memEmd}, mem_mod_at = now() where mem_email = #{memEmail}
+  	</update>
+  	<update id="modify">
+  		update member set mem_pw = #{memPw}, mem_nick_name = #{memNickName}, mem_sido = #{memSido}, mem_sigg = #{memSigg}, mem_emd = #{memEmd}, mem_mod_at = now() where mem_email = #{memEmail}
+  	</update>	
 </mapper>

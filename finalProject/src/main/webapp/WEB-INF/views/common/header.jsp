@@ -55,7 +55,7 @@
 	        <sec:authentication property="principal.mvo.memEmail" var="authEmail" />
 				<div id="myMenu" class="off">
 					<ul>
-						<li><a href="/member/detail?memEmail=${authEmail }">마이페이지</a></li>
+						<li><a href="/hmember/detail?memEmail=${authEmail }">마이페이지</a></li>
 						<li><a href="#" id="logoutLink">로그아웃</a></li>
 						<form action="/member/logout" method="post" id="logoutForm">
 			        		<input type="hidden" name="memEmail" value="${authEmail }">
