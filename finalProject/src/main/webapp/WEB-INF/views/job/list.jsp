@@ -14,6 +14,9 @@
 </head>
 <body>
 <jsp:include page="../common/header.jsp" />
+   <div id="loading">
+      <!-- 로딩페이지 -->
+   </div>
 <div class="bodyContainer">
 	<!-- 메인 이벤트 페이지 -->
 	<div class="jobListPart" style="background-image: url('https://img1.daumcdn.net/thumb/R1280x0/?fname=http://t1.daumcdn.net/brunch/service/user/6H5a/image/CnQJJgE1yTpFPvPdKB0Pi5jms2A.png')">
@@ -90,6 +93,11 @@
 	<button type="button" id="moreBtn" class="btn btn-success" onclick="loadMore()">더 보기</button>
 	
 </div>
+<script type="text/javascript">
+	window.onload = function() {
+	    setTimeout(()=> document.getElementById('loading').style.display = 'none', 500);
+	};
+</script>
 <jsp:include page="../common/footer.jsp" />
 </body>
 </html>

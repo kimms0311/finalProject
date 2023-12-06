@@ -26,7 +26,7 @@ public class JobBoardServiceImpl implements JobBoardService {
 	@Inject
 	private JobFileDAO fdao;
 	@Inject
-	private JobLikeDAO Ldao;
+	private JobLikeDAO ldao;
 	
 //	@Override
 //	@Transactional
@@ -152,18 +152,28 @@ public class JobBoardServiceImpl implements JobBoardService {
 
 	@Override
 	public int insertLike(LikeItemVO livo) {
-		return Ldao.insertLike(livo);
+		int isOk = ldao.insertLike(livo);
+		return (isOk > 0)? jdao.updateLikeCnt(livo,1) : 0;
 	}
 
 	@Override
-	public int updateLike(LikeItemVO livo) {
-		return Ldao.updateLike(livo);
+	public int deleteLike(LikeItemVO livo) {
+		int isOk = ldao.deleteLike(livo);
+		// deleteLike 성공시 Like count 실행
+		return (isOk > 0)? jdao.updateLikeCnt(livo,-1) : 0;
 	}
 
 	@Override
 	public int checkLike(long proBno, String memEmail) {
-		return Ldao.checkLike(proBno,memEmail);
+	    return ldao.checkLike(proBno, memEmail);
 	}
+
+	@Override
+	public int checkLikeCnt(long proBno) {
+		return jdao.checkLikeCnt(proBno);
+	}
+
+
 
 
 

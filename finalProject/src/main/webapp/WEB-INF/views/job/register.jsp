@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %> 
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -41,30 +42,20 @@
 	    <input type="text" class="form-control" name="proPrice" id="proPrice">
 
 		<label for="jobAddress" class="form-label">근무지역</label>
-	    <input type="text" class="form-control" name="address" id="address">
-		
-		<label for="jobDay" class="form-label">근무요일</label>
-		<div class="form-check">
-			<label><input type="checkbox" name="days" value="월"> 월요일</label>
-	        <label><input type="checkbox" name="days" value="화"> 화요일</label>
-	        <label><input type="checkbox" name="days" value="수"> 수요일</label>
-	        <label><input type="checkbox" name="days" value="목"> 목요일</label>
-	        <label><input type="checkbox" name="days" value="금"> 금요일</label>
-	        <label><input type="checkbox" name="days" value="토"> 토요일</label>
-	        <label><input type="checkbox" name="days" value="일"> 일요일</label>
-		</div>
-		
-		<label for="jobHour">근무시간</label><br>
-		<input type="number" id="startHour" min="0" max="24"> :
-		<input type="number" id="startMinute" min="0" max="59">
-		~
-		<input type="number" id="endHour" min="0" max="24"> :
-		<input type="number" id="endMinute" min="0" max="59">
+	    <input type="text" class="form-control" name="address" id="proAddress">
+	    	<!-- 주소 받아오기 -->
+			<input type="hidden" class="form-control" name="proSido" id="proSido">
+			<input type="hidden" class="form-control" name="proSigg" id="proSigg">
+			<input type="hidden" class="form-control" name="proEmd" id="proEmd">
+	
+	    
+	    
 	  </div>
+
 
 	  <div class="mb-3">
 	    <label for="proContent" class="form-label">상세 내용</label>
-		<textarea class="form-control" name="proContent" id="proContent" rows="10">자세한 근무 내용을 적어주세요.</textarea>
+		<textarea class="form-control" name="proContent" id="proContent" rows="10" placeholder="자세한 근무 내용을 적어주세요. ex)근무요일, 근무시간, 우대사항"></textarea>
 	  </div>
 	  
 	  <div class="mb-3">
@@ -85,6 +76,24 @@
 
 
 <script type="text/javascript" src="/resources/js/jobBoardRegister.js"></script>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script type="text/javascript">
+	// 주소입력창 클릭시 카카오주소 연결
+	document.getElementById('proAddress').addEventListener('click', ()=>{
+	    new daum.Postcode({
+	        oncomplete: function(data) { //선택시 입력값 세팅
+	            console.log(data);
+	        	//input에 보여질 전체주소값 설정
+			    let address = data.sido + ' ' + data.sigungu + ' ' + data.bname;
+	            document.getElementById('proAddress').value = address ;
+	            //db에 넣을 주소값 설정
+	            document.getElementById('proSido').value = data.sido;
+	            document.getElementById('proSigg').value = data.sigungu;
+	            document.getElementById('proEmd').value = data.bname;
+	        }
+	    }).open();
+	})
+</script>
 <jsp:include page="../common/footer.jsp" />
 
 </body>

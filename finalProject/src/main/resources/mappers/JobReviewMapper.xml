@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.avo.www.repository.JobReviewDAO">
+	
+  	<insert id="postReview">
+  		insert into review(re_bno,re_user_id,re_content,re_score)
+  		values(#{reBno},#{reUserId},#{reContent},#{reScore})
+  	</insert>
+
+
+</mapper>
