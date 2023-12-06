@@ -1,18 +1,23 @@
 package com.avo.www.controller;
 
+import java.security.Principal;
+
 import javax.inject.Inject;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.avo.www.domain.CommunityCmtVO;
+import com.avo.www.domain.PagingVO;
 import com.avo.www.domain.ReviewVO;
-import com.avo.www.service.CommunityCmtService;
+import com.avo.www.handler.PagingHandler;
 import com.avo.www.service.JobReviewService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -25,39 +30,42 @@ public class JobReviewController {
 	@Inject
 	private JobReviewService jrsv;
 	
+	// 리뷰 작성
 	@PostMapping(value="/post", consumes = "application/json", produces = MediaType.TEXT_PLAIN_VALUE)
 	public ResponseEntity<String> post(@RequestBody ReviewVO rvo){
-		log.info(">>>> rvo>> "+rvo);
+		log.info(">>>> review post >> rvo>> "+rvo);
 		int isOk = jrsv.postReview(rvo);
 		return isOk > 0 ? new ResponseEntity<String>("1", HttpStatus.OK) 
 				: new ResponseEntity<String>("0", HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
+	// 리뷰 리스트, 페이징
+	@GetMapping(value = "/{reBno}/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<PagingHandler> spread(@PathVariable("reBno")long reBno, 
+			@PathVariable("page")int page){
+		log.info(">>>> reBno / page >> "+reBno +" / "+page);
+		PagingVO pgvo = new PagingVO(page, 5);
+		return new ResponseEntity<PagingHandler>(
+				jrsv.getList(reBno, pgvo), HttpStatus.OK);
+	}
+	
+	// 리뷰 삭제
+	@DeleteMapping(value="/del/{reRno}/{reWriter}", produces = MediaType.TEXT_PLAIN_VALUE)
+	public ResponseEntity<String> erase(@PathVariable("reRno")long reRno, @PathVariable("reWriter")String reWriter, 
+			Principal principal){
+		log.info(">>>> review delete >> reWriter>  "+reWriter);
+		String username = principal.getName(); 
+		log.info(">>>> review delete >> username>  "+username);
+		int isOk = 0;
+		if(reWriter.equals(username)) {
+			 isOk = jrsv.remove(reRno);
+		}
+		return isOk > 0 ?  new ResponseEntity<String>("1", HttpStatus.OK) :
+			new ResponseEntity<String>("0", HttpStatus.INTERNAL_SERVER_ERROR);
 		
-//	@GetMapping(value = "/{bno}/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
-//	public ResponseEntity<PagingHandler> spread(@PathVariable("bno")long bno, 
-//			@PathVariable("page")int page){
-//		log.info(">>>> bno / page >> "+bno +"   "+page);
-//		PagingVO pgvo = new PagingVO(page, 5);
-//		return new ResponseEntity<PagingHandler>(
-//				csv.getList(bno, pgvo), HttpStatus.OK);
-//	}
-//	
-//	@DeleteMapping(value="/del/{cno}/{writer}", produces = MediaType.TEXT_PLAIN_VALUE)
-//	public ResponseEntity<String> erase(@PathVariable("cno")long cno, @PathVariable("writer")String writer, 
-//			Principal principal){
-//		log.info(">>>>>> comment delete >> writer>  "+writer);
-//		String username = principal.getName(); 
-//		log.info(">>>>>> comment delete >> username>  "+username);
-//		int isOk = 0;
-//		if(writer.equals(username)) {
-//			 isOk = csv.remove(cno);
-//		}
-//		return isOk > 0 ?  new ResponseEntity<String>("1", HttpStatus.OK) :
-//			new ResponseEntity<String>("0", HttpStatus.INTERNAL_SERVER_ERROR);
-//		
-//	}
-//	 
+	}
+	
+//	// 리뷰 수정
 //	@PutMapping(value = "/{cno}", consumes = "application/json", 
 //			produces = MediaType.TEXT_PLAIN_VALUE)
 //	public ResponseEntity<String> edit(@PathVariable("cno")long cno,

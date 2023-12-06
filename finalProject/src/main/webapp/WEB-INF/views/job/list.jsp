@@ -46,7 +46,7 @@
 	
 	                    <div class="jobInfoArea">
 	                        <span>${jbdto.pbvo.proTitle}</span>
-	                        <span class="d-inline-block text-truncate" style="max-width: 200px;">인천시 서구 남산돈까스 갑자기 생각났동 258-71번지 원조돈까스</span>
+	                        <span class="d-inline-block text-truncate" style="max-width: 200px;">${jbdto.pbvo.proSido} ${jbdto.pbvo.proSigg} ${jbdto.pbvo.proEmd}</span>
 	                        <span>${jbdto.pbvo.proMenu}
 	                            <strong><fmt:formatNumber type="number" maxFractionDigits="3" value="${jbdto.pbvo.proPrice}" />원</strong>
 	                        </span>
@@ -79,7 +79,7 @@
 	
 	                    <div class="jobInfoArea">
 	                        <span>${jbdto.pbvo.proTitle}</span>
-	                        <span class="d-inline-block text-truncate" style="max-width: 200px;">인천시 서구 남산돈까스 갑자기 생각났동 258-71번지 원조돈까스</span>
+	                        <span class="d-inline-block text-truncate" style="max-width: 200px;">${jbdto.pbvo.proSido} ${jbdto.pbvo.proSigg} ${jbdto.pbvo.proEmd}</span>
 	                        <span>${jbdto.pbvo.proMenu}
 	                            <strong><fmt:formatNumber type="number" maxFractionDigits="3" value="${jbdto.pbvo.proPrice}" />원</strong>
 	                        </span>

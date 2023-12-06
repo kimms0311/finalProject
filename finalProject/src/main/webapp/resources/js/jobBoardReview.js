@@ -1,3 +1,6 @@
+//----------------------------------------------------------------------------
+// REVIEW POST SECTION
+
 document.getElementById("rePostBtn").addEventListener('click',()=>{
     
     const reContent = document.getElementById('reContent').value;
@@ -32,7 +35,7 @@ document.getElementById("rePostBtn").addEventListener('click',()=>{
                 selectedRating.checked = false;
             }
 
-            // getReviewList(reData.proBno);
+            spreadReviewList(reData.proBno);
         });
     }
 });
@@ -54,130 +57,185 @@ async function postReviewToServer(reData) {
         console.log(error);
     }
 }
-// async function spreadReviewFromServer(proBno, page){
-//     try{
-//         const resp = await fetch('/review/'+proBno+'/'+page);
-//         const result = await resp.json();
-//         return result;
-//     }catch(error){
-//         console.log(error);
-//     }
-// }
 
-// //무조건 첨을 뿌릴때는 첫페이지 값을 뿌려야 함.
-// function getReviewList(proBno, page=1){
-//     spreadReviewFromServer(proBno, page).then(result =>{
-//         console.log(result); //ph 객체 pgvo, totalCount, cmtList
-//         if(result.reList.length>0){
-//             const ul = document.getElementById('reListArea');
-//             //다시 댓글을 뿌릴때 기존 값 삭제  1page일 경우만
-//             if(page==1){
-//                 ul.innerText="";
-//             }
-//             for(let rvo of result.reList){
-//                 let li = `<li class="list-group-item" data-cno="${rvo.reRno}" data-writer="reUserId">`;
-//                 li+= `<div class="mb-3 reWriterInfo">`;
-//                 li+= `<img alt="" src="/resources/image/logoimage.png">`;
-//                 li+= `<span><strong>reUserId</strong></span>`;
-//                 li+= `${rvo.content}`;
-//                 li+= `<span class="badge rounded-pill text-bg-dark">구월동</span>`;
-//                 li+= `<span class="badge rounded-pill text-bg-dark">${rvo.regAt}</span>`;
-//                 li+= `</div>`;
-//                 li+= `<span>여기서 일하지마세요 ㅋㅋ </span>`;
-//                 li+= `<button type="button" class="btn btn-outline-danger mod" data-bs-toggle="modal" data-bs-target="#myModal">e</button>`;
-//                 li+= `<button type="button" class="btn btn-outline-warning del">x</button>`;
-//                 li+= `</li>`;
-//                 ul.innerHTML+=li;
-//             }
+//----------------------------------------------------------------------------
+// REVIEW LIST SECTION
 
+console.log("proBnoVal >> " + proBnoVal);
+// 서버
+async function getReviewFromServer(reBno, page){
+    try{
+        const resp = await fetch('/jobReview/'+reBno+'/'+page);
+        const result = await resp.json();
+        return result;
+    }catch(error){
+        console.log(error);
+    }
+}
 
-//             //댓글 페이징 코드
-//             let moreBtn = document.getElementById('moreBtn');
-//             console.log(moreBtn);
-//             //db에서 pgvo + list 같이 가져와야 값을 줄 수 있음.
-//             if(result.pgvo.pageNo < result.endPage){
-//                 moreBtn.style.visibility ='visible'; //버튼 표시
-//                 moreBtn.dataset.page = page + 1;
-//             }else {
-//                 moreBtn.style.visibility = 'hidden'; //버튼 숨김
-//             }
+//리뷰 리스트 뿌리는 함수
+function spreadReviewList(reBno=proBnoVal, page=1){ //시작은 1페이지로 지정
+    getReviewFromServer(reBno, page).then(result =>{
+        console.log("result>> " ,result); //ph 객체 pgvo, totalCount, jobReList
+        console.log(result.totalCount);
+        if(result.jobReList.length > 0){
+            const ul = document.getElementById('reListArea');
+            //1page일 경우에만 기존 값 삭제 
+            if(page==1){
+                ul.innerText="";
+            }
+            for(let rvo of result.jobReList){
+                let li = `<li class="list-group-item">`;
+                li+= `<div class="mb-3 reWriterInfo">`;
+                li+= `<img class="frofileImg"  alt="frofile error" src="../resources/image/기본 프로필.png">`;
+                li+= `<span><strong>${rvo.reUserId}</strong></span>`;
+                
+                // li+= `<p class="badge rounded-pill text-bg-dark">구월동</p>`; 멤버 주소 가져올 수 있으면 차후 추가
+                li+= `<span class="badge rounded-pill text-bg-dark">${rvo.regAt}</span>`;
+                li+= `</div>`;
+                //별점 평가 표시
+                li+= `<div class="mb-3">`;
+                for(let i = 1 ; i <= 5 ; i++){
+                    if(i<=rvo.reScore){
+                        li += `<label for="starFill${i}">★</label>`;
+                    }else{
+                        li += `<label for="starEmpty${i}">★</label>`;
+                    }
+                }
+                li+= `<input type="text" value="${rvo.reContent}"  readonly="readonly">`;
+                li+= `<button type="button" class="mod">수정</button>`;
+                li+= `<button type="button" class="del">삭제</button>`;
+                li+= `</li>`;
+                ul.innerHTML+=li;
+            }
+				
+				
+            //댓글 페이징 코드
+            let moreBtn = document.getElementById('moreBtn');
+            console.log(moreBtn);
+            //db에서 pgvo + list 같이 가져와야 값을 줄 수 있음.
+            if(result.pgvo.pageNo < result.endPage){
+                moreBtn.style.visibility ='visible'; //버튼 표시
+                moreBtn.dataset.page = page + 1;
+            }else {
+                moreBtn.style.visibility = 'hidden'; //버튼 숨김
+            }
 
-//         }else{
-//             let li = `<li class="list-group-item">Comment List Empty</li>`;
-//             innerHTML = li;
-//         }
-//     })
-// }
-// async function eraseReviewAtServer(cno, writer) {
-//     try {
-//         const url = '/review/del/'+cno+'/'+writer;
-//         const config = {
-//             method: 'delete'
-//         };
-//         const resp = await fetch(url, config);
-//         const result = await resp.text();
-//         return result;
-//     } catch (err) {
-//         console.log(err);
-//     }
-// }
+        }else{
+            // 임시로 적어둔 댓글내용 초기화
+            const ul = document.getElementById('reListArea');
+            ul.innerText="";
+            let li = `<li class="list-group-item">Comment List Empty</li>`;
+            ul.innerHTML = li;
+        }
 
-// document.addEventListener('click',(e)=>{
-//     if(e.target.classList.contains('del')){
-//         let li = e.target.closest('li');
-//         let cnoVal = li.dataset.cno;
-//         let writerVal = li.dataset.writer;
-//         console.log(writerVal);
-//         eraseReviewAtServer(cnoVal, writerVal).then(result=>{
-//             if(result ==1){
-//                 alert('댓글삭제완료~!!');
-//                 getReviewList(bnoVal);
-//             }else if(result ==0){
-//             	alert('작성자가 일치하지 않습니다.');
-//             }
-//         })
-//     }else if(e.target.classList.contains('mod')){
-//         let li = e.target.closest('li');
-//         //nextSibling() : 같은 부모의 다음 형제 객체를 반환
-//         let cmtText = li.querySelector('.fw-bold').nextSibling;
+        //별점 평균 구하여 표시
+        // 별을 표시할 div 요소 선택
+        const userStarDiv = document.querySelector('.userStar');
 
-//         //기존내용 모달창에 반영 (수정하기 편하게...)
-//         document.getElementById('cmtTextMod').value = cmtText.nodeValue;
-//         //cmtModBtn에 data-cno 달기
-//         document.getElementById('cmtModBtn').setAttribute('data-cno', li.dataset.cno);
-//     }else if(e.target.id == 'cmtModBtn'){
-//         let cmtDataMod={
-//             cno :e.target.dataset.cno,
-//             content : document.getElementById('cmtTextMod').value
-//         };
-//         console.log(cmtDataMod);
-//         editReviewToServer(cmtDataMod).then(result => {
-//             if(parseInt(result)){
-//                 // 모달창 닫기
-//                 document.querySelector('.btn-close').click();
-//             }
-//             getReviewList(bnoVal);
-//         })
-//     }else if(e.target.id == 'moreBtn'){
-//         getReviewList(bnoVal, parseInt(e.target.dataset.page));
-//     }
+        
+        
+        // jobReList가 있는지 확인하여 리뷰가 있는 경우 실행
+        if (result.jobReList && result.jobReList.length > 0) {
+            // jobReList에서 reScore의 평균 계산
+            const averageRating = result.jobReList.reduce((sum, review) => sum + review.reScore, 0) / result.jobReList.length;
+            // userStarDiv 초기화
+            userStarDiv.innerHTML = '';
 
-// })
+            // 평균값만큼 반복하여 별 생성
+            for (let i = 1 ; i <= 5 ; i++) {
+                const starLabel = document.createElement('label');
+                starLabel.setAttribute('for', `averageStar${i}`);
+                
+                // 별의 평균값 이상인 경우 채워진 별을 추가, 아니면 빈 별을 추가
+                if (i <= averageRating) {
+                    starLabel.innerHTML = `<label for="starFill${i}">★</label>`;
+                } else {
+                    starLabel.innerHTML = `<label for="starEmpty${i}">★</label>`;
+                }
+                userStarDiv.appendChild(starLabel);
+            }
+        }else {
+            // 리뷰가 없는 경우 기본 별점 표시
+            userStarDiv.innerHTML = `<label for="starEmpty">★★★★★</label>`;
+        }
+    })
+    
+}
+//----------------------------------------------------------------------------
+// REVIEW DEL & MOD SECTION
 
-// async function editReviewToServer(cmtDataMod){
-//     try{
-//         const url = '/review/'+cmtDataMod.cno;
-//         const config ={
-//             method: 'put',
-//             headers: {
-//                 'Content-Type' : 'application/json; charset=utf-8'
-//             },
-//             body: JSON.stringify(cmtDataMod)
-//         };
-//         const resp = await fetch(url, config);
-//         const result = await resp.text();
-//         return result;
-//     }catch(err){
-//         console.log(err);
-//     }
-// }
+// 리뷰 삭제 정보 서버로 보내기
+async function eraseReviewAtServer(reRno, reWriter) {
+    try {
+        const url = '/review/del/'+reRno+'/'+reWriter;
+        const config = {
+            method: 'delete'
+        };
+        const resp = await fetch(url, config);
+        const result = await resp.text();
+        return result;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+//리뷰 삭제, 수정
+document.addEventListener('click',(e)=>{
+    // target의 class가 'del'일 경우 삭제
+    if(e.target.classList.contains('del')){
+        let li = e.target.closest('li');
+        let rnoVal = li.dataset.reRno;
+        let writerVal = li.dataset.reWriter;
+        console.log(writerVal);
+        eraseReviewAtServer(cnoVal, writerVal).then(result=>{
+            if(result == 1){
+                alert('댓글 삭제');
+                getReviewList(bnoVal);
+            }else if(result == 0){
+            	alert('작성자가 일치하지 않습니다.');
+            }
+        })
+    }else if(e.target.classList.contains('mod')){
+        let li = e.target.closest('li');
+        //nextSibling() : 같은 부모의 다음 형제 객체를 반환
+        let cmtText = li.querySelector('.fw-bold').nextSibling;
+
+        //cmtModBtn에 data-cno 달기
+        document.getElementById('cmtModBtn').setAttribute('data-cno', li.dataset.cno);
+    }else if(e.target.id == 'cmtModBtn'){
+        let cmtDataMod={
+            cno :e.target.dataset.cno,
+            content : document.getElementById('cmtTextMod').value
+        };
+        console.log(cmtDataMod);
+        editReviewToServer(cmtDataMod).then(result => {
+            if(parseInt(result)){
+                // 모달창 닫기
+                document.querySelector('.btn-close').click();
+            }
+            getReviewList(bnoVal);
+        })
+    }else if(e.target.id == 'moreBtn'){
+        getReviewList(bnoVal, parseInt(e.target.dataset.page));
+    }
+
+})
+
+async function editReviewToServer(cmtDataMod){
+    try{
+        const url = '/review/'+cmtDataMod.cno;
+        const config ={
+            method: 'put',
+            headers: {
+                'Content-Type' : 'application/json; charset=utf-8'
+            },
+            body: JSON.stringify(cmtDataMod)
+        };
+        const resp = await fetch(url, config);
+        const result = await resp.text();
+        return result;
+    }catch(err){
+        console.log(err);
+    }
+}

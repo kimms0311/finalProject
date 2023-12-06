@@ -60,11 +60,13 @@
 	
 	<div class="profileSecction">
 		<div class="userInfo">
-			<span><i class="bi bi-person-circle"></i>${jbdto.pbvo.proNickName}</span>
+			<span><img class="frofileImg" alt="frofile error" src="../resources/image/기본 프로필.png"></i>${jbdto.pbvo.proNickName}</span>
 		</div>
 		<div class="userScore">
-			별이다섯개
-			<i class="bi bi-thermometer-half"></i>매너점수
+			<i class="bi bi-thermometer-half"></i>매너온도
+			<div class="userStar">
+			</div>
+			
 		</div>
 	</div>
 	<hr>
@@ -109,7 +111,7 @@
 	<span><strong>후기</strong></span>
 		<!-- 후기 등록 라인 -->
 		<div class="rePost">
-		    <img alt="frofile error" src="../resources/image/logoimage.png">
+		    <img class="frofileImg"  alt="frofile error" src="../resources/image/기본 프로필.png">
 		    <input type="hidden" id="reUserId" value="${memEmail }">
 		    <strong><span id="reWriter">${memNickName}</span></strong>
 			<sec:authorize access="isAuthenticated()">
@@ -148,7 +150,7 @@
 		<ul class="list-group list-group-flush" id="reListArea">
 		  <li class="list-group-item">
 		  	<div class="mb-3 reWriterInfo">
-			  	<img alt="frofile error" src="../resources/image/logoimage.png">
+			  	<img class="frofileImg"  alt="frofile error" src="../resources/image/기본 프로필.png">
 				<span><strong>reUserId</strong></span>
 				<p class="badge rounded-pill text-bg-dark">구월동</p>
 				<p class="badge rounded-pill text-bg-dark">regAt</p>
@@ -168,16 +170,7 @@
 	
 </div>
 
-<script type="text/javascript">
-    const proBnoVal = `<c:out value="${jbdto.pbvo.proBno}"/>`;
-    
-    const memEmail = `<c:out value="${memEmail}"/>`;
-    
-</script>
 <!-- <script type="text/javascript">
-
-	let reScore = $('input[name=rating]:checked').val();
-	console.log(reScore);
 
     /* 이미지 클릭했을 때 원본이미지 모달창 */
     $(document).ready(function() {
@@ -197,8 +190,19 @@
 </script> -->
 
 
-<script type="text/javascript" src="/resources/js/jobBoardReview.js"></script>
+<!-- 공통 -->
+<script type="text/javascript">
+    const proBnoVal = `<c:out value="${jbdto.pbvo.proBno}"/>`;
+    const memEmail = `<c:out value="${memEmail}"/>`;
+    
+</script>
+<!-- 좋아요 -->
 <script type="text/javascript" src="/resources/js/jobLike.js"></script>
+<!-- 후기 -->
+<script type="text/javascript" src="/resources/js/jobBoardReview.js"></script>
+<script type="text/javascript">
+	spreadReviewList();
+</script>
 
  <jsp:include page="../common/footer.jsp" />
 

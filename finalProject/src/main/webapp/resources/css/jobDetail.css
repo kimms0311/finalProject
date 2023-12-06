@@ -11,7 +11,7 @@
 	margin: 10px;
 }
 
-.rePost img, .reWriterInfo img {
+.frofileImg {
     width: 50px;
     height: 50px;
     object-fit: cover;
@@ -44,15 +44,15 @@
 	}
 	
 	/* 별점평가 부분 */
-	.myform fieldset {
+	.myform fieldset, .myStar fieldset {
     display: inline-block;
     direction: rtl;
 	}
 
-	.myform input[type=radio] {
+	.myform input[type=radio], .myStar input[type=radio] {
 	    display: none;
 	}
-	.myform label {
+	.myform label, .myStar label {
 	    font-size: 30px;
 	    color: transparent;
 	    text-shadow: 0 0 0 #f0f0f0;
@@ -63,9 +63,16 @@
 	.myform label:hover ~ label {
 	    text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
 	}
-	.myform input[type=radio]:checked ~ label {
+	.myform input[type=radio]:checked ~ label, .myStar input[type=radio]:checked ~ label {
 	    text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
 	}
 	
+	label[for^="starFill"]{
+		color: rgba(250, 208, 0, 0.99);
+	}
+	
+	label[for^="starEmpty"]{
+		color: #f0f0f0;
+	}
 	
 	
