@@ -78,6 +78,7 @@ function spreadReviewList(reBno=proBnoVal, page=1){ //시작은 1페이지로 �
     getReviewFromServer(reBno, page).then(result =>{
         console.log("result>> " ,result); //ph 객체 pgvo, totalCount, jobReList
         console.log(result.totalCount);
+
         if(result.jobReList.length > 0){
             const ul = document.getElementById('reListArea');
             //1page일 경우에만 기존 값 삭제 
@@ -105,7 +106,7 @@ function spreadReviewList(reBno=proBnoVal, page=1){ //시작은 1페이지로 �
                 li+= `<input type="text" value="${rvo.reContent}" class="reContent" readonly="readonly">`;
                 li+= `<input type="hidden" value="${rvo.reRno}" class="reRno">`;
                 // 작성자와 로그인한 mem이 일치하는 경우에만 수정,삭제버튼 보이게 설정
-                if(rvo.reWriter == memEmail && memEmail!=""){
+                if(rvo.reUserId == memEmail && memEmail!=""){
                 li+= `<button type="button" class="mod">수정</button>`;
                 li+= `<button type="button" class="del">삭제</button>`;
                 }

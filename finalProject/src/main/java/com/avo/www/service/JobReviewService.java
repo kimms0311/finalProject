@@ -12,6 +12,4 @@ public interface JobReviewService {
 
 	int remove(long reRno);
 
-	int modify(long reRno, ReviewVO rvo);
-
 }

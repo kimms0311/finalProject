@@ -17,6 +17,4 @@ public interface JobReviewDAO {
 
 	int delete(long reRno);
 
-	int update(@Param("reRno")long reRno, @Param("rvo")ReviewVO rvo);
-
 }

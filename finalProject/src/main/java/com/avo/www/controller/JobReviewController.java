@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -66,19 +65,14 @@ public class JobReviewController {
 		
 	}
 	
-	// 리뷰 수정
-	@PutMapping(value = "/{reRno}", consumes = "application/json", produces = MediaType.TEXT_PLAIN_VALUE)
-	public ResponseEntity<String> edit(@PathVariable("reRno") long reRno, @RequestBody ReviewVO rvo) {
-		log.info("reRno >> " + reRno);    
-	    // 예를 들어, 다음과 같이 사용할 수 있습니다.
-	    int result = jrsv.modify(reRno, rvo);
-
-	    // 결과에 따라 응답을 반환
-	    return result > 0
-	            ? new ResponseEntity<String>("1", HttpStatus.OK)
-	            : new ResponseEntity<String>("0", HttpStatus.INTERNAL_SERVER_ERROR);
-	}
-
-	
-
+//	// 리뷰 수정
+//	@PutMapping(value = "/{cno}", consumes = "application/json", 
+//			produces = MediaType.TEXT_PLAIN_VALUE)
+//	public ResponseEntity<String> edit(@PathVariable("cno")long cno,
+//			@RequestBody CommentVO cvo){
+//		return csv.modify(cvo) > 0? new ResponseEntity<String>("1", HttpStatus.OK) : 
+//			new ResponseEntity<String>("0", HttpStatus.INTERNAL_SERVER_ERROR);
+//	}
+//	
+//
 }
