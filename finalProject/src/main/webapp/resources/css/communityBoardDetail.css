@@ -1,0 +1,276 @@
+	.bodyContainer{
+		width: 80%;
+		display: flex;
+		justify-content: center;
+		flex-wrap: wrap;
+	}
+
+	.boardLine{
+		border: 1px solid #d3d3d3;
+		border-radius: 5px;
+		width: 800px;
+		margin: 40px 0;
+	}
+	
+	.boardMenuNameDiv{
+		margin: 16px 24px 0 24px;	
+	}
+	.boardMenuName{
+		background-color: #d3d3d3;
+		padding: 6px 9px;
+		border-radius: 22px;
+		margin: 0;
+		font-size: 12px;
+		text-decoration: none;
+		color: black;
+	}
+	.boardMenuName:hover{
+		text-decoration: underline;
+	}
+	
+	/* 사용자 정보 라인 */
+	.top_line>*, .top_line div>*, .under_line>*, .under_line div>* {
+		display: inline;
+	}
+	.top_line{
+		height: 40px;
+		margin: 10px 24px 0 24px;
+		display: flex;
+		justify-content: space-between;
+	}
+	.cmCon{
+		margin: 10px;
+	}
+	.userDropdownMenu{
+		display: flex;
+		justify-content: center;
+	}
+	.boardUserBtn{
+		border: none;
+		background: none;
+		font-size: 18px;
+		color: gray;
+	}
+	.boardUserMenu{
+		z-index: 10;
+		position: absolute;
+		border: 1px solid #d3d3d3;
+    	border-radius: 5px;
+		background-color: #fff;
+		margin-top: 35px;
+    	margin-right: 75px;
+	    padding: 14px;
+	    text-align: center;
+	    width: 95px;
+	    height: 80px;
+	}
+	.boardUserMenu li a{
+		color: black;
+		text-decoration: none;
+	}
+	.boardUserMenu li a:hover{
+		font-weight: 800;
+	}
+	.bi-chat-dots-fill{
+		margin: 0 3px;
+	}
+	.chat{
+		color: gray;
+		border: 1px solid #d3d3d3;
+		border-radius: 10px;
+		text-decoration: none;
+		padding: 5px;
+	}
+	.chat:hover{
+		font-weight: 800;
+	}
+	
+	/* 제목, 내용, 사진 라인 */
+	.middle_line{
+		margin: 0 24px;
+	}
+	.imgDiv{
+		display: flex;
+		justify-content: center;
+	}
+	.cm_images{
+		width: 750px;
+		margin-bottom: 10px;
+	}
+	
+	/* 좋아요, 댓글개수 라인 */
+	.under_line{
+		margin: 0 24px 10px 24px;
+		display: flex;
+		justify-content: space-between;
+		height: 40px;
+	}
+	.under_line>*{
+		line-height: 40px;
+	}
+	.bi-heart, .bi-heart-fill{
+		cursor: pointer;
+		color: red;
+	}
+	
+	
+	/* 댓글 */
+	/* 작성 */
+	.commentWriteLine{
+		width: 800px;
+	}
+	.commentWrite2{
+		margin-bottom: 40px;
+		padding: 20px;
+		height: 50px;
+		border: 1px solid #d3d3d3;
+		border-radius: 5px;
+		line-height: 7px;
+	}
+	.commentWrite{
+		margin-bottom: 40px;
+		padding: 20px;
+		height: 120px;
+		border: 1px solid #d3d3d3;
+		border-radius: 5px;
+		position: relative;
+	}
+	.commentWrite>*{
+		display: block;
+	}
+	.cmtWriter{
+		margin-bottom: 5px;
+		font-weight: 800; 
+	}
+	.cmtText{
+	    width: 100%;
+		border: none;
+		resize: none;    
+		overflow: hidden;
+    	overflow-wrap: break-word;
+	}
+	.cmtText:focus{
+	  	outline: none;
+	}
+	.cmtPostBtn{
+		position: absolute;
+		right: 0;
+		bottom: 0;
+		border: none;
+	    background: none;
+	    margin: 0 15px 15px 0;
+	}
+	/* 리스트 */
+	.commentLine{
+		width: 800px;
+		border: 1px solid #d3d3d3;
+		border-radius: 5px;
+		padding: 20px;
+	}
+	.cmtUserLine>*{
+		display: inline;
+	}
+	.cmtUserLine{
+		display: flex;
+		justify-content: space-between;
+	}
+	.cmtLi{
+		/*background-color: yellow;*/
+		margin: 0 15px;
+		padding: 18px 0 17px 0;
+		border-bottom: 0.5px solid #d3d3d3;
+	}
+	.cmtLi2{
+		margin: 0 15px;
+		padding: 18px 0 17px 40px;
+		border-bottom: 0.5px solid #d3d3d3;
+	}
+	/*:not(:last-child)*/
+	.cmtUserMenu{
+		z-index: 10;
+		position: absolute;
+		border: 1px solid #d3d3d3;
+    	border-radius: 5px;
+		background-color: #fff;
+	    margin-left: -100px;
+	    margin-top: 25px;
+	    padding: 14px;
+	    text-align: center;
+	    width: 95px;
+	    height: 80px;
+	}
+	.cmtUserMenu a{
+		color: black;
+		text-decoration: none;
+	}
+	.cmtUserMenu a:hover{
+		font-weight: 800;
+	}
+	
+	/* 대댓글 */
+	/* 작성 */
+	.reCmtBtn{
+		border: none;
+		background: none;
+		padding: 5px 0 0 0;
+	}
+	.reCmtBtn:hover{
+		font-weight: 800;
+	}
+	.reCommentWrite{
+		margin: 20px 0;
+		padding: 20px;
+		height: 120px;
+		border: 1px solid #d3d3d3;
+		border-radius: 5px;
+		position: relative;
+	}
+	.reText{
+		margin-top: 5px;
+	}
+	.cmtCancelBtn{
+		position: absolute;
+		right: 0;
+		bottom: 0;
+		border: none;
+	    background: none;
+	    margin: 0 70px 15px 0;
+	}
+	/* 리스트 */
+	.parentUl, .repliesUl{
+		padding: 0;
+	}
+	.last-comment{
+		border-bottom: none;
+		padding-bottom: 0; 
+	}
+	.last-comment li:last-child{
+		border-bottom: none;
+		padding-bottom: 0; 
+	}
+	
+	/* 바닥 버튼 라인 */
+	.bottomBtn{
+		margin: 15px 0 20px 0;
+		width: 800px;
+		display: flex;
+		justify-content: flex-end;
+	}
+	.listBtn{
+		margin-right: 8px;
+	}
+	.listBtn, .topBtn{
+		border: none;
+		border-radius: 5px;
+		background-color: #93b336;
+		padding: 8px 13px;
+		color: white;
+	}
+	.cmContent{
+		border: none;
+		resize: none;
+		margin: 5px 0;
+	}
+	.cmContent:focus{
+		outline: none;
+	}

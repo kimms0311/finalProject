@@ -11,6 +11,9 @@
 <link rel="stylesheet" href="../resources/css/storeBoardList.css">
 </head>
 <body class="bodyContainer">
+<div id="loading">
+<!-- 로딩페이지 -->
+</div>
 <jsp:include page="../common/header.jsp" />
 <a href="/store/register">register</a>
 
