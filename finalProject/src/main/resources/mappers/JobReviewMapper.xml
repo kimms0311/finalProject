@@ -13,9 +13,12 @@
   	</select>
   	<select id="selectListPaging" resultType="com.avo.www.domain.ReviewVO">
   		select * from review where re_bno = #{reBno}
-  		order by re_bno desc
+  		order by re_rno desc
   		limit #{pgvo.pageStart}, #{pgvo.qty}
   	</select>
+  	<delete id="delete">
+  		delete from review where re_rno = #{reRno}
+  	</delete>
 
 
 </mapper>

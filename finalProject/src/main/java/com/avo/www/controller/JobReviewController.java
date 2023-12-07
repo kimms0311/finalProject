@@ -50,8 +50,8 @@ public class JobReviewController {
 	}
 	
 	// 리뷰 삭제
-	@DeleteMapping(value="/del/{reRno}/{reWriter}", produces = MediaType.TEXT_PLAIN_VALUE)
-	public ResponseEntity<String> erase(@PathVariable("reRno")long reRno, @PathVariable("reWriter")String reWriter, 
+	@DeleteMapping(value="/del/{rnoVal}/{reWriter}", produces = MediaType.TEXT_PLAIN_VALUE)
+	public ResponseEntity<String> erase(@PathVariable("rnoVal")long reRno, @PathVariable("reWriter")String reWriter, 
 			Principal principal){
 		log.info(">>>> review delete >> reWriter>  "+reWriter);
 		String username = principal.getName(); 

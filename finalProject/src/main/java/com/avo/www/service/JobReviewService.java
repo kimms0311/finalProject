@@ -10,4 +10,6 @@ public interface JobReviewService {
 
 	PagingHandler getList(long reBno, PagingVO pgvo);
 
+	int remove(long reRno);
+
 }

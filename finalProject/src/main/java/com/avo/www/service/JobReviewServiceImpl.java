@@ -43,7 +43,10 @@ public class JobReviewServiceImpl implements JobReviewService{
 		log.info("getList >> ph >> " + ph);
 		// paging Handler 값 완성 리턴
 		return ph;
-		
+	}
 
+	@Override
+	public int remove(long reRno) {
+		return jrdao.delete(reRno);
 	}
 }

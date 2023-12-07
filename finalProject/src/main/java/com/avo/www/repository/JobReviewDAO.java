@@ -15,4 +15,6 @@ public interface JobReviewDAO {
 
 	List<ReviewVO> selectListPaging(@Param("reBno")long reBno, @Param("pgvo") PagingVO pgvo);
 
+	int delete(long reRno);
+
 }
