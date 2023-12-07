@@ -18,7 +18,7 @@
 </div> -->
 
 <div class="CommunityCategory">
-	<a href="/community/list?cmMenu=전체" class="menu active">전체</a>
+	<a href="/community/list?cmMenu=전체" class="menu cmActive">전체</a>
 	<a href="/community/list?cmMenu=일상" class="menu">일상</a>
 	<a href="/community/list?cmMenu=모임" class="menu">모임</a>
 	<a href="/community/list?cmMenu=질문" class="menu">질문</a>
