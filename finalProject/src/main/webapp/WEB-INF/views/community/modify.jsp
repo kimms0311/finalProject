@@ -8,6 +8,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Community Modify</title>
+<link rel="stylesheet" href="../resources/css/communityBoardRegister.css">
 </head>
 <body>
 <jsp:include page="../common/header.jsp" />
@@ -15,57 +16,83 @@
 <sec:authentication property="principal.mvo.memEmail" var="authEmail" />
 <sec:authentication property="principal.mvo.memNickName" var="authNick" />
 
+<div class="imgLine"></div>
+
 <div class="bodyContainer">
+
+<div class="formLine">
 <form action="/community/modify" method="post" enctype="multipart/form-data">
 	<input type="hidden" name="cmEmail" value="${authEmail }">
 	<input type="hidden" name="cmNickName" value="${authNick }">
 	<input type="hidden" name="cmBno" value="${bvo.cmBno }">
-	
-	<select name="cmMenu">
-	    <option value="일상" ${bvo.cmMenu eq '일상' ? 'selected' : '' }>일상</option>
-	    <option value="모임" ${bvo.cmMenu eq '모임' ? 'selected' : '' }>모임</option>
-	    <option value="질문" ${bvo.cmMenu eq '질문' ? 'selected' : '' }>질문</option>
-	    <option value="동네생활정보" ${bvo.cmMenu eq '동네생활정보' ? 'selected' : '' }>동네생활정보</option>
-	    <option value="찾습니다" ${bvo.cmMenu eq '찾습니다' ? 'selected' : '' }>찾습니다</option>
-	    <option value="해주세요" ${bvo.cmMenu eq '해주세요' ? 'selected' : '' }>해주세요</option>
-	    <option value="동네사진전" ${bvo.cmMenu eq '동네사진전' ? 'selected' : '' }>동네사진전</option>
-    </select>
-    <div class="mb-3">
-		<input type="text" name="cmTitle" class="form-control" value="${bvo.cmTitle }">
+    
+    <div class="form">
+    	<p class="label">제목</p>
+		<input type="text" name="cmTitle" class="titleInput" value="${bvo.cmTitle }">
 	</div>
-	<div class="mb-3">
-		<textarea rows="3" cols="30" name="cmContent" class="form-control">${bvo.cmContent }</textarea>
+	
+	<div class="form">
+		<p class="label">카테고리</p>
+		<select name="cmMenu" class="cmMenu">
+		    <option value="일상" ${bvo.cmMenu eq '일상' ? 'selected' : '' }>일상</option>
+		    <option value="모임" ${bvo.cmMenu eq '모임' ? 'selected' : '' }>모임</option>
+		    <option value="질문" ${bvo.cmMenu eq '질문' ? 'selected' : '' }>질문</option>
+		    <option value="동네생활정보" ${bvo.cmMenu eq '동네생활정보' ? 'selected' : '' }>동네생활정보</option>
+		    <option value="찾습니다" ${bvo.cmMenu eq '찾습니다' ? 'selected' : '' }>찾습니다</option>
+		    <option value="해주세요" ${bvo.cmMenu eq '해주세요' ? 'selected' : '' }>해주세요</option>
+		    <option value="동네사진전" ${bvo.cmMenu eq '동네사진전' ? 'selected' : '' }>동네사진전</option>
+	    </select>
+    </div>
+	<div class="form">
+		<p class="label">내용</p>
+		<textarea rows="3" cols="30" name="cmContent" class="contentInput">${bvo.cmContent }</textarea>
 	</div>
 	
 	<!-- 파일 띄우고 지우기 버튼 추가 -->
 	<c:set value="${bdto.flist }" var="flist" />
 	<c:if test="${flist.size() > 0 }">
-		<c:forEach items="${flist }" var="fvo">
-			<c:choose>
-				<c:when test="${fvo.fileType > 0 }">
-					<div>
-						<img alt="그림없음" src="/upload/community/${fn:replace(fvo.saveDir,'\\','/')}/${fvo.uuid}_th_${fvo.fileName}">
-						<button type="button" class="btn btn-danger fileDel" data-uuid="${fvo.uuid }">X</button>
-					</div>					
-				</c:when>
-			</c:choose>
-		</c:forEach>
+		<div class="form uploadedImg">
+			<p class="label">등록된 이미지</p>
+			<ul class="uploadedImgUl">
+			<c:forEach items="${flist }" var="fvo" varStatus="loop">
+				<c:choose>
+					<c:when test="${fvo.fileType > 0 }">
+							<li class="imageLi ${loop.last ? 'last-file' : ''}">	
+								<div class="oneImg"><img alt="그림없음" class="imgs" src="/upload/community/${fn:replace(fvo.saveDir,'\\','/')}/${fvo.uuid}_th_${fvo.fileName}">${fvo.fileName }</div>
+								<button type="button" class="imageCancelBtn fileDel" data-uuid="${fvo.uuid }">X</button>
+							</li>
+					</c:when>
+				</c:choose>
+			</c:forEach>
+			</ul>
+		</div>
 	</c:if>
 	
 	<!-- 파일 다시 추가 -->
-	<div class="mb-3">
+	<p class="label">새로운 이미지</p>
+	<div class="form fileForm">
 		<input type="file" class="form-control" name="files" id="files" multiple="multiple" style="display:none;">
-		<button type="button" id="trigger" class="btn btn-success">new file</button>
+		<input type="text" readonly="readonly" class="fileInput" placeholder="20MB 미만의 이미지를 업로드 해주세요"> 
+		<button type="button" id="trigger" class="fileBtn">파일첨부</button>
 	</div>
 	<!-- 첨부파일 표시 영역 -->
-	<div class="mb-3" id="fileZone">
-	
+	<div class="fileZone" id="fileZone" style="display:none">
+
 	</div>
+
 	
-	<button type="submit" class="btn btn-secondary" id="regBtn">등록</button>
+	<div class="cmButtons">
+		<a href="/community/detail?cmBno=${bvo.cmBno }"><button type="button" class="cancelBtn">취소</button></a>
+		<button type="submit" class="regBtn" id="regBtn">수정하기</button>
+	</div>
 </form>
 </div>
 
+</div>
+
+<script type="text/javascript">
+    let uploadFileSize = `<c:out value="${flist.size() }"/>`;
+</script>
 <script type="text/javascript" src="/resources/js/communityBoardRegister.js"></script>
 <script type="text/javascript" src="/resources/js/communityBoardModify.js"></script>
 <jsp:include page="../common/footer.jsp" />

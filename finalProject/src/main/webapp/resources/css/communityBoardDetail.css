@@ -59,7 +59,8 @@
 		background-color: #fff;
 		margin-top: 35px;
     	margin-right: 75px;
-	    padding: 0;
+	    padding: 14px;
+	    text-align: center;
 	    width: 95px;
 	    height: 80px;
 	}
@@ -176,7 +177,7 @@
 	.cmtLi{
 		/*background-color: yellow;*/
 		margin: 0 15px;
-		padding: 18px 0 17px;
+		padding: 18px 0 17px 0;
 		border-bottom: 0.5px solid #d3d3d3;
 	}
 	.cmtLi2{
@@ -191,13 +192,19 @@
 		border: 1px solid #d3d3d3;
     	border-radius: 5px;
 		background-color: #fff;
-		margin-top: 35px;
-    	margin-right: 75px;
-    	padding: 15px;
+	    margin-left: -100px;
+	    margin-top: 25px;
+	    padding: 14px;
+	    text-align: center;
+	    width: 95px;
+	    height: 80px;
 	}
 	.cmtUserMenu a{
 		color: black;
 		text-decoration: none;
+	}
+	.cmtUserMenu a:hover{
+		font-weight: 800;
 	}
 	
 	/* 대댓글 */
@@ -233,6 +240,14 @@
 	.parentUl, .repliesUl{
 		padding: 0;
 	}
+	.last-comment{
+		border-bottom: none;
+		padding-bottom: 0; 
+	}
+	.last-comment li:last-child{
+		border-bottom: none;
+		padding-bottom: 0; 
+	}
 	
 	/* 바닥 버튼 라인 */
 	.bottomBtn{
@@ -250,4 +265,12 @@
 		background-color: #93b336;
 		padding: 8px 13px;
 		color: white;
+	}
+	.cmContent{
+		border: none;
+		resize: none;
+		margin: 5px 0;
+	}
+	.cmContent:focus{
+		outline: none;
 	}

@@ -94,7 +94,7 @@ public class CommunityBoardServiceImpl implements CommunityBoardService {
 		}else {
 			//board 등록이 잘 됐고, 넣어야 하는 파일값이 존재한다면
 			if(isMo > 0 && bdto.getFlist().size() > 0) {
-				long cmBno = cbdao.getFlistBno(); //방금 등록한 글의 bno 구하기
+				long cmBno = bdto.getBvo().getCmBno(); 
 				//모든 파일에 bno 세팅
 				for(FileVO fvo : bdto.getFlist()) {
 					fvo.setBno(cmBno);

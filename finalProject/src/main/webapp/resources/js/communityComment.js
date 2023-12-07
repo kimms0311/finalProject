@@ -82,7 +82,7 @@ function spreadCommentList(bno){
                     if(cvo.cmtAnswerCnt > 0){
                         let str = `<li class="cmtLi" data-cmtcno="${cvo.cmtCno}">삭제된 댓글입니다.</li>`;
                         str += `<ul class="repliesUl" id="replies-${cvo.cmtCno}">`; // 자식 댓글을 위한 ul 요소 추가
-                        ul.innerHTML = str;
+                        ul.innerHTML += str;
                     }  
                 }else{
                     let str = `<li class="cmtLi" data-cmtcno="${cvo.cmtCno}">`;
@@ -94,10 +94,10 @@ function spreadCommentList(bno){
                     //수정, 삭제 버튼
                     if(cvo.cmtEmail == userEmail){ 
                         str += `<div class="userDropdownMenu">
-                        <button class="boardUserBtn" type="button">
-                            <i class="bi bi-three-dots"></i>
+                        <button class="boardUserBtn cmtUserBtn" type="button">
+                            <i class="bi bi-three-dots cmtUserBtn"></i>
                         </button>
-                        <ul class="cmtUserMenu">
+                        <ul class="cmtUserMenu menu-off" style="display:none">
                             <a class="modBtn" href="#" data-bs-toggle="modal" data-bs-target="#myModal">수정하기</a>
                             <a class="delBtn" href="#">삭제하기</a>
                         </ul>
@@ -118,6 +118,7 @@ function spreadCommentList(bno){
                     }
                     
                     ul.innerHTML += str;
+                    
                 }
                 
                 //자식댓글
@@ -135,12 +136,12 @@ function spreadCommentList(bno){
                             //수정, 삭제 버튼
                             if(cvo.reEmail == userEmail){
                                 str += `<div class="userDropdownMenu">
-                                <button class="boardUserBtn" type="button">
-                                    <i class="bi bi-three-dots"></i>
+                                <button class="boardUserBtn cmtUserBtn" type="button">
+                                    <i class="bi bi-three-dots cmtUserBtn"></i>
                                 </button>
-                                <ul class="cmtUserMenu">
-                                    <a class="modBtn" href="#" data-bs-toggle="modal" data-bs-target="#myModal">수정</a>
-                                    <a class="delBtn" href="#">삭제</a>
+                                <ul class="cmtUserMenu menu-off" style="display:none">
+                                    <a class="modBtn" href="#" data-bs-toggle="modal" data-bs-target="#myModal">수정하기</a>
+                                    <a class="delBtn" href="#">삭제하기</a>
                                 </ul>
                                 </div>`
                             }
@@ -151,6 +152,10 @@ function spreadCommentList(bno){
                             str += `</div></li></ul>`;
                             
                             reUl.innerHTML += str;
+
+                            // 마지막 댓글에 클래스 추가
+                            const lastComment = ul.lastElementChild;
+                            lastComment.classList.add('last-comment');
                            
                         }
                     }
@@ -454,3 +459,16 @@ document.getElementById('boardUserMenuBtn').addEventListener('click',()=>{
     }
 
 })
+
+document.addEventListener('click', (e)=> {
+    if (e.target.classList.contains('cmtUserBtn')) {
+        const userMenu = e.target.closest('.cmtContainer').querySelector('.cmtUserMenu');
+        if(userMenu.classList.contains('menu-off')){
+            userMenu.classList.replace('menu-off', 'menu-on');
+            userMenu.style = "display:inline-block";
+        }else{
+            userMenu.classList.replace('menu-on', 'menu-off');
+            userMenu.style = "display:none";
+        }
+    }
+});
