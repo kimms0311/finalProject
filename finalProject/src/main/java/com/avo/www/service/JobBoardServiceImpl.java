@@ -1,5 +1,6 @@
 package com.avo.www.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -9,8 +10,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.avo.www.domain.FileVO;
 import com.avo.www.domain.JobBoardDTO;
+import com.avo.www.domain.LikeItemVO;
 import com.avo.www.domain.ProductBoardVO;
 import com.avo.www.repository.JobFileDAO;
+import com.avo.www.repository.JobLikeDAO;
 import com.avo.www.repository.JobBoardDAO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +25,8 @@ public class JobBoardServiceImpl implements JobBoardService {
 	private JobBoardDAO jdao;
 	@Inject
 	private JobFileDAO fdao;
+	@Inject
+	private JobLikeDAO Ldao;
 	
 //	@Override
 //	@Transactional
@@ -39,8 +44,36 @@ public class JobBoardServiceImpl implements JobBoardService {
 	
 	@Transactional
 	@Override
-	public List<ProductBoardVO> getList() {
-		return jdao.getList();
+	public List<JobBoardDTO> getList() {
+	    List<ProductBoardVO> list = jdao.getList();
+	    List<FileVO> flist = allFlieList();
+	    
+	    List<JobBoardDTO> allList = new ArrayList<>();
+
+	    // productList의 각 항목에 대해 JobBoardDTO를 생성하고 fileList에서 매칭되는 FileVO를 찾아 추가
+	    for (ProductBoardVO product : list) {
+	        JobBoardDTO jbdto = new JobBoardDTO();
+	        jbdto.setPbvo(product);
+	        
+	        // fileList를 담을 리스트를 초기화
+	        List<FileVO> matchingFiles = new ArrayList<>();
+	        
+	        // productList의 proBno와 fileList의 bno가 일치하는 경우에만 추가
+	        for (FileVO file : flist) {
+	            if (file.getBno() == product.getProBno()) {
+	                matchingFiles.add(file);
+	                log.info("matchingFile >> " + matchingFiles);
+	                break;
+	            }
+	        }
+	        
+	        // JobBoardDTO에 fileList 설정
+	        jbdto.setFlist(matchingFiles);
+
+	        allList.add(jbdto);
+	    }
+
+	    return allList;
 	}
 
 	@Transactional
@@ -110,6 +143,28 @@ public class JobBoardServiceImpl implements JobBoardService {
 		int isOk = fdao.removeFileAll(proBno);
 		return (isOk > 0)? jdao.delete(proBno) : 0;
 	}
+
+
+	@Override
+	public List<FileVO> allFlieList() {
+		return fdao.allFlieList();
+	}
+
+	@Override
+	public int insertLike(LikeItemVO livo) {
+		return Ldao.insertLike(livo);
+	}
+
+	@Override
+	public int updateLike(LikeItemVO livo) {
+		return Ldao.updateLike(livo);
+	}
+
+	@Override
+	public int checkLike(long proBno, String memEmail) {
+		return Ldao.checkLike(proBno,memEmail);
+	}
+
 
 
 }

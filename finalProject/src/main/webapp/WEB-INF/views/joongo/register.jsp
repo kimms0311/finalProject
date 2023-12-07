@@ -37,7 +37,6 @@
 		</div>
 		<div class="form-floating">
 			<jsp:include page="menuSelect.jsp"/>
-			<label for="menu">카테고리</label>
 	    </div>
 		<div class="form-floating">
 			<textarea class="form-control" id="content" name="proContent" required="required"></textarea>

@@ -22,6 +22,7 @@ public class CommunityBoardVO {
 	private int cmLikeCnt;
 	private int cmReadCnt;
 	private int cmCmtCnt;
+	private int cmFileCnt;	
 	private String cmRegAt;
 	private String cmModAt;
 	private String cmSido;

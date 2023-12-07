@@ -91,20 +91,24 @@ function spreadCommentList(bno){
                     str += `<div class="fw-bold"><i class="bi bi-person-circle"></i>${cvo.cmtNickName}`;
                     str += `<span class="badge rounded-pill text-bg-success">${cvo.cmtModAt}</span>`;
                     //수정, 삭제 버튼
-                    str += `<div class="dropdown">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                ...
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <a class="dropdown-item modBtn" href="#" data-bs-toggle="modal" data-bs-target="#myModal">수정</a>
-                                    <a class="dropdown-item delBtn" href="#">삭제</a>
-                                </ul>
-                            </div>`
+                    if(cvo.cmtEmail == userEmail){ 
+                        str += `<div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        ...
+                        </button>
+                        <ul class="dropdown-menu">
+                        <a class="dropdown-item modBtn" href="#" data-bs-toggle="modal" data-bs-target="#myModal">수정</a>
+                        <a class="dropdown-item delBtn" href="#">삭제</a>
+                        </ul>
+                        </div>`
+                    }
                     str += `</div>`;
                     
                     str += `<div class="cmCon">${cvo.cmtContent}</div>`;
-                    
-                    str += `<div><button class="reCmtBtn no-${cvo.cmtCno}" data-cmtnickname="${cvo.cmtNickName}">답글쓰기</button></div>`;
+
+                    if(userEmail){
+                        str += `<div><button class="reCmtBtn no-${cvo.cmtCno}" data-cmtnickname="${cvo.cmtNickName}">답글쓰기</button></div>`;
+                    }
                     
                     str += `</div></li></ul>`;
 
@@ -128,15 +132,17 @@ function spreadCommentList(bno){
                             str += `<div class="fw-bold">ㄴ<i class="bi bi-person-circle"></i>${cvo.reNickName}`;
                             str += `<span class="badge rounded-pill text-bg-success">${cvo.reModAt}</span>`;
                             //수정, 삭제 버튼
-                            str += `<div class="dropdown">
-                                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        ...
-                                        </button>
-                                        <ul class="dropdown-menu">
-                                            <a class="dropdown-item modBtn" href="#" data-bs-toggle="modal" data-bs-target="#myModal">수정</a>
-                                            <a class="dropdown-item delBtn" href="#">삭제</a>
-                                        </ul>
-                                    </div>`
+                            if(cvo.reEmail == userEmail){
+                                str += `<div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                ...
+                                </button>
+                                <ul class="dropdown-menu">
+                                <a class="dropdown-item modBtn" href="#" data-bs-toggle="modal" data-bs-target="#myModal">수정</a>
+                                <a class="dropdown-item delBtn" href="#">삭제</a>
+                                </ul>
+                                </div>`
+                            }
                             str += `</div>`;
                             
                             str += `<div class="cmCon">${cvo.reContent}</div>`;
@@ -155,15 +161,6 @@ function spreadCommentList(bno){
             ul.innerHTML = str;
         }
         
-        //댓글 페이징 코드
-        let moreBtn = document.getElementById('moreBtn');
-        //DB에서 pgvo + list 같이 가져와야 값을 줄 수 있음.
-        if(result.pgvo.pageNo < result.endPage){ 
-            moreBtn.style.visibility = 'visible'; //다시 나타냄
-            moreBtn.dataset.page = page + 1;
-        }else{
-            moreBtn.style.visibility = 'hidden';
-        }
     })
 }
 
@@ -251,9 +248,6 @@ document.addEventListener('click', (e)=>{
             spreadCommentList(bnoVal);
         })
 
-    //페이징 버튼
-    }else if(e.target.id == 'moreBtn'){
-        spreadCommentList(bnoVal, parseInt(e.target.dataset.page));
     }
 })
 
@@ -286,9 +280,9 @@ document.addEventListener('click', (e)=>{
 
     
         let str = `<div class="input-group mb-3 commentWrite">`;
-        str += `<input type="hidden" id="writerEmail" value="hong@naver.com">
+        str += `<input type="hidden" id="writerEmail" value="${userEmail}">
                 <input type="hidden" id="cmtCno" value=${cmtCno}>
-                <span class="input-group-text" id="reWriter">hong</span>
+                <span class="input-group-text" id="reWriter">${userNick}</span>
                 <input type="text" class="form-control" id="reText" placeholder="Add Comment">
                 <button type="button" id="rePostBtn" class="btn btn-secondary rePostBtn">등록</button>
                 <button type="button" id="cancelBtn" class="btn btn-success cancelBtn">취소</button></div>`; 

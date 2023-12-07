@@ -37,7 +37,7 @@ public class SearchController {
 		// 검색결과에 들어온 카테고리 종류 구하기
 		List<String> category = new ArrayList<String>();
 		for(ProductBoardVO bvo : pbvo) {
-			category.add(bvo.getProCategory());
+			category.add(bvo.getProCategory().substring(3));
 		}
 		log.info(">>>>>>> category >>>>> "+category);
 		m.addAttribute("category", category);

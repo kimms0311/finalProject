@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
     <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+    <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %> 
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,11 +12,13 @@
 <body>
 <jsp:include page="../common/header.jsp" />
 <c:set value="${bdto.bvo}" var="bvo" />
+<sec:authentication property="principal.mvo.memEmail" var="authEmail" />
+<sec:authentication property="principal.mvo.memNickName" var="authNick" />
 
 <div class="bodyContainer">
 <form action="/community/modify" method="post" enctype="multipart/form-data">
-	<input type="hidden" name="cmEmail" value="kang@naver.com">
-	<input type="hidden" name="cmNickName" value="kang">
+	<input type="hidden" name="cmEmail" value="${authEmail }">
+	<input type="hidden" name="cmNickName" value="${authNick }">
 	<input type="hidden" name="cmBno" value="${bvo.cmBno }">
 	
 	<select name="cmMenu">

@@ -21,7 +21,7 @@ public interface JoongoBoardService {
 
 	int remove(long bno);
 
-	PagingHandler getListMore(PagingVO pgvo);
+	List<ProductBoardVO> getListMore(PagingVO pgvo);
 
 	int insertOrUpdate(LikeItemVO livo);
 
@@ -38,6 +38,8 @@ public interface JoongoBoardService {
 	int deleteFile(String uuid);
 
 	List<FileVO> getThumb(long bno);
+
+	int selectJoongoTotal(PagingVO pgvo);
 
 
 }

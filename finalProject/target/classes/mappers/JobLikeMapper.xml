@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.avo.www.repository.JobLikeDAO">
+
+	<insert id="insertLike">
+	    insert into product_like (li_user_id, li_bno, li_status) values (#{liUserId}, #{liBno}, #{liStatus} - 2)
+	</insert>
+
+	<update id="updateLike">
+	    update product_like set li_status = li_status + #{liStatus}, li_reg_at = now() where li_user_id = #{liUserId} and li_bno = #{liBno}
+	</update>
+	
+	<select id="checkLike" resultType="int">
+    	select li_status from product_like where li_bno = #{proBno} and li_user_id = #{memEmail}
+	</select>
+
+	
+</mapper>
