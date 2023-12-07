@@ -86,15 +86,10 @@ public class HmemberServiceImpl implements HmemberService {
 
 	@Override
 	public int memDelete(String email) {
-		int isDel = 0;
-		//중고 게시글 삭제
-		isDel = hdao.jgDelete(email);
+		//중고, 알바, 업체 게시글 삭제
+		int isDel = hdao.jjsDelete(email);
 		//동네 게시글 삭제
 		isDel = hdao.cmDelete(email);
-		//알바 게시글 삭제
-		isDel = hdao.jobDelete(email);
-		//업체 게시글 삭제
-		isDel = hdao.stDelete(email);
 		//권한 삭제
 		isDel = hdao.amDelte(email);
 		//멤버 삭제

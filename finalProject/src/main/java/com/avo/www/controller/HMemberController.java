@@ -5,7 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -46,14 +49,18 @@ public class HMemberController {
 	@GetMapping({"/detail", "/modify"})
 	public void detail(Model m, @RequestParam("memEmail") String email)  {
 		FileVO fvo = hsv.getProfile(email);
-		String src = null;
+		String backSrc = null;
+		String mainSrc = null;
 		if(fvo!=null) {
-			src = "/upload/profile/" + fvo.getSaveDir().replace('\\', '/') + "/" + fvo.getUuid() + "_" + fvo.getFileName();
+			backSrc = "/upload/profile/" + fvo.getSaveDir().replace('\\', '/') + "/" + fvo.getUuid() + "_" + fvo.getFileName();
+			mainSrc = "/upload/profile/" + fvo.getSaveDir().replace('\\', '/') + "/" + fvo.getUuid() + "_" + fvo.getFileName();
 		} else {
-			src = "../resources/image/기본 프로필.png";
+			backSrc = "../resources/image/기본 프로필 배경.png";
+			mainSrc = "../resources/image/기본 프로필.png";
 		}
 		m.addAttribute("mvo", hsv.getDetail(email));
-		m.addAttribute("src", src);
+		m.addAttribute("backSrc", backSrc);
+		m.addAttribute("mainSrc", mainSrc);
 	}
 	
 	@GetMapping("/checkPw") 
@@ -124,12 +131,12 @@ public class HMemberController {
 	}
 	
 	@DeleteMapping(value="/deleteMember/{email}")
-	public String deleteMember(RedirectAttributes re, @PathVariable String email) {
-		int isDel = hsv.memDelete(email);
-		re.addAttribute("isDel", isDel);
-		log.info("zzzzzzzzzzzzz 장난하나");
-		
-		 return "/";
+	public ResponseEntity<String> deleteMember(RedirectAttributes re, HttpSession session, @PathVariable String email) {
+		int isDel = hsv.memDelete(email);	
+		session.invalidate();
+		return isDel > 0? 
+			new ResponseEntity<String>("1", HttpStatus.OK)
+			 : new ResponseEntity<String>("0", HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
 }

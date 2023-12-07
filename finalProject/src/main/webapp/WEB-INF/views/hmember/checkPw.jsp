@@ -6,29 +6,26 @@
 <head>
 <meta charset="UTF-8">
 <title>Check Password</title>
-<style type="text/css">
-#resultZone{
-	color: red;
-}
-</style>
+<link rel="stylesheet" href="../resources/css/hmemberCheckPw.css">
 </head>
-<body class="bodyContainer">
+<body>
 <jsp:include page="../common/header.jsp" />
+<div class="bodyContainer">
 <form action="/hmember/passOrFail" method="post">
-<div>
-<div>비밀번호를 다시 한번 입력해 주세요.</div>
-<input type="password" name="inputPw"> <br>
-<div id="resultZone"></div>
-<button type="submit">확인하기</button>
-</div>
+	<p class="siteTitle">Avocart</p>
+	<div class="pwInput">
+	  <label for="p" class="labels">비밀번호를 다시 한번 입력해 주세요.</label>
+	  <input type="password" name="inputPw" id="pw" class="inputs">
+	  <i class="bi bi-eye-slash" id="showPwBtn"></i>
+	</div>
+	<div class="msg" id="resultZone"></div>
+	<button type="submit" class="checkBtn">확인하기</button>
 </form>
+</div>
 <jsp:include page="../common/footer.jsp" />
-</body>
-<script>
+<script type="text/javascript">
 let isOk = `<c:out value="${isOk}"/>`;
-let resultZone = document.getElementById('resultZone');
-if (isOk == -1) {
-    resultZone.innerText = '잘못된 비밀번호입니다.';
-} 
 </script>
+<script type="text/javascript" src="/resources/js/hmemberCheckPw.js"></script>
+</body>
 </html>

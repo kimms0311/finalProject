@@ -78,7 +78,7 @@ function getStoreList(page = 1, type = null) {
         } else {
             //result.prodList가 비어있는 경우
             const noResultMessage = document.createElement('div');
-            noResultMessage.innerText = '결과가 없습니다.';
+            noResultMessage.innerText = '게시글이 존재하지 않습니다.';
             ul.appendChild(noResultMessage);
             moreBtn.style.visibility = 'hidden';
         }
