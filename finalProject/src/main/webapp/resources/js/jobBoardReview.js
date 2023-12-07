@@ -104,8 +104,11 @@ function spreadReviewList(reBno=proBnoVal, page=1){ //시작은 1페이지로 �
                 }
                 li+= `<input type="text" value="${rvo.reContent}" class="reContent" readonly="readonly">`;
                 li+= `<input type="hidden" value="${rvo.reRno}" class="reRno">`;
+                // 작성자와 로그인한 mem이 일치하는 경우에만 수정,삭제버튼 보이게 설정
+                if(rvo.reWriter == memEmail && memEmail!=""){
                 li+= `<button type="button" class="mod">수정</button>`;
                 li+= `<button type="button" class="del">삭제</button>`;
+                }
                 li+= `</li>`;
                 ul.innerHTML+=li;
             }
@@ -197,16 +200,16 @@ document.addEventListener('click',(e)=>{
             	alert('작성자가 일치하지 않습니다.');
             }
         })
+    // target의 class가 'mod' 일 경우 수정
     }else if (e.target.classList.contains('mod')) {
-        console.log("Mod button clicked");
         const rnoVal = e.target.closest('li').querySelector('.reRno').value;
         const reWriter = e.target.closest('li').querySelector('.reUserId').innerText;
 
         // content input 태그의 readonly 속성을 제거하여 수정 가능하게 변경
-        const reContent = e.target.closest('li').querySelector('.reContent');
-        reContent.removeAttribute('readonly');
+        const reModContent = e.target.closest('li').querySelector('.reContent');
+        reModContent.removeAttribute('readonly');
 
-        // 버튼 텍스트를 "확인"으로 변경
+        // mod버튼의 텍스트를 "확인"으로 변경
         e.target.textContent = '확인';
 
         // "확인" 버튼 클릭 시 이벤트 핸들러 추가
@@ -215,10 +218,10 @@ document.addEventListener('click',(e)=>{
             const reDataMod = {
                 reRno: rnoVal,
                 reUserId: reWriter,
-                reContent: reContent.value
+                reContent: reModContent.value
             };
 
-            console.log(reDataMod);
+            console.log("reDataMod",reDataMod);
 
             // 서버로 수정된 내용 전송
             editReviewToServer(reDataMod).then(result => {
@@ -235,7 +238,8 @@ document.addEventListener('click',(e)=>{
 
 async function editReviewToServer(reDataMod){
     try{
-        const url = '/jobReview/'+reDataMod.rno;
+        const reRno = reDataMod.reRno;
+        const url = '/jobReview/'+reRno;
         const config ={
             method: 'put',
             headers: {

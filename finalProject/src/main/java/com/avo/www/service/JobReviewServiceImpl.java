@@ -49,4 +49,9 @@ public class JobReviewServiceImpl implements JobReviewService{
 	public int remove(long reRno) {
 		return jrdao.delete(reRno);
 	}
+
+	@Override
+	public int modify(long reRno, ReviewVO rvo) {
+		return jrdao.update(reRno,rvo);
+	}
 }
