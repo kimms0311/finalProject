@@ -63,6 +63,6 @@ function getSearchCondition(){
 
 //로그아웃
 document.getElementById('logoutLink').addEventListener('click', (e)=>{
-	e.preventDefault(); //기존에 있던 이벤트를 없애는 형태
-	document.getElementById('logoutForm').submit();
+   e.preventDefault(); //기존에 있던 이벤트를 없애는 형태
+   document.getElementById('logoutForm').submit();
 })
