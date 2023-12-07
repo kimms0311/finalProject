@@ -5,8 +5,8 @@
 <mapper namespace="com.avo.www.repository.JobBoardDAO">
 
 	<insert id="post" parameterType="pbvo">
-		insert into product(pro_title,pro_email,pro_nick_name,pro_content,pro_price,pro_category,pro_menu)
-		values(#{proTitle},#{proEmail},#{proNickName},#{proContent},#{proPrice},'job',#{proMenu})
+		insert into product(pro_title,pro_email,pro_nick_name,pro_content,pro_price,pro_category,pro_menu,pro_sido,pro_sigg,pro_emd)
+		values(#{proTitle},#{proEmail},#{proNickName},#{proContent},#{proPrice},'job',#{proMenu},#{proSido},#{proSigg},#{proEmd})
 	</insert>
 	
 	<select id="selectOneBno" resultType="long">
@@ -36,6 +36,14 @@
 	<update id="delete">
   		update product set pro_is_del = 'Y' where pro_bno = #{proBno}
 	</update>
+	
+   <update id="updateLikeCnt">
+      update product set pro_like_cnt = pro_like_cnt + #{i} where pro_bno = #{livo.liBno}
+   </update>
+   
+   <select id="checkLikeCnt" resultType="int">
+   		select pro_like_cnt from product where pro_bno = #{proBno}
+   </select>
 	
 <!--
 	<select id="getList" resultType="pbvo">

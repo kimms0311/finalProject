@@ -23,6 +23,7 @@ function fileValidation(fileName, fileSize){
 
 document.addEventListener('change', (e)=>{
     if(e.target.id == 'files'){
+        document.getElementById('fileZone').style = "display:block";
         //파일을 다시 추가할 때는 버튼 상태를 원래대로 변경. true가 된 애를 다시 열어주기 위해
         document.getElementById('regBtn').disabled = false;
         //input file element에 저장된 file의 정보를 가져오는 property
@@ -36,22 +37,101 @@ document.addEventListener('change', (e)=>{
         
         let isOk = 1; //여러 파일이 모두 검증에 통과해야 하기 때문에
                       //*로 각 파일마다 통과여부 확인
-        let ul = `<ul class="list-group">`;
-            for(let file of fileObj){
-                let validResult = fileValidation(file.name, file.size); //0 or 1로 리턴
+        let ul = `<ul class="imageUl">`;
+            for (let i = 0; i < fileObj.length; i++) {
+                let file = fileObj[i];
+                let validResult = fileValidation(file.name, file.size); // 0 or 1로 리턴
                 isOk *= validResult;
-                ul += `<li class="list-group-item>`;
-                ul += `<div class="mb-3">`;
-                ul += `${validResult ? '<div class="mb-3 text-primary">업로드 가능 </div>' : '<div class="mb-3 text-danger">업로드 불가능 </div>'}`;
-                ul += `${file.name} </div>`;
-                ul += `<span class="badge rounded-pill text-bg-${validResult ? 'success' : 'danger'}"> ${file.size}Byte</span></li>`;
+                ul += `<li class="imageLi ${i === fileObj.length - 1 ? 'last-file' : ''}" id="${file.name}">`; 
+                ul += `<div class="oneImg">`; //마지막 파일일 때 클래스 추가
+                ul += `${file.name} `;
+                ul += `<span class="${validResult ? 'imgOk' : 'imgNo'}"> ${validResult ? '가능' : '불가능'}</span></div>
+                       <button class="imageCancelBtn" data-filename="${file.name}">X</button></li>`;
             }
             ul += `</ul>`;
             div.innerHTML = ul;
-
+            
             if(isOk == 0){ //첨부 불가능한 파일이 있다면
                 document.getElementById('regBtn').disabled = true;
             }
+            
+        }
+    })
 
+    //파일 삭제버튼 메서드
+    document.addEventListener('click', (e) => {
+        const fileInput = document.getElementById('files');
+        const fileObj = fileInput.files;
+        let fileObjLength = fileObj.length;
+    
+        if (e.target.classList.contains('imageCancelBtn')) {
+            const filename = e.target.dataset.filename;
+            const liToRemove = document.getElementById(filename);
+    
+            if (liToRemove) {
+                fileObjLength--;
+                liToRemove.remove();
+    
+                // 새로운 FileList 생성
+                const newFileList = createFileListWithoutFileName(fileObj, filename);
+    
+                // 새로운 FileList를 input에 설정
+                fileInput.files = newFileList;
+            }
+    
+            console.log(fileObjLength);
+    
+            if (fileObjLength == 0) {
+                document.getElementById('fileZone').style = "display:none";
+            }
+        }
+    });
+    
+    function createFileListWithoutFileName(fileList, fileNameToRemove) {
+        const newFiles = [];
+    
+        for (let i = 0; i < fileList.length; i++) {
+            if (fileList[i].name !== fileNameToRemove) {
+                newFiles.push(fileList[i]);
+            }
+        }
+        console.log(newFiles);
+        // 새로운 FileList 생성
+        const newFileList = new DataTransfer();
+    
+        for (const file of newFiles) {
+            newFileList.items.add(file);
+        }
+    
+        return newFileList.files;
     }
-})
+    // document.addEventListener('click', (e) => {
+    //     const fileObj = document.getElementById('files').files;
+    //     let fileObjLength = fileObj.length;
+    //     if (e.target.classList.contains('imageCancelBtn')) {
+    //         const filename = e.target.dataset.filename;
+    //         const liToRemove = document.getElementById(filename);
+    //         if (liToRemove) {
+    //             liToRemove.remove();
+    //             fileObjLength--;
+    //         }
+    //         console.log(fileObjLength);
+    //         if(fileObjLength == 0){
+    //             const ulToRemove = document.getElementById('imageUl');
+    //             if (ulToRemove) {
+    //                 ulToRemove.remove();
+    //             }
+    //         }
+    //     }
+    // });
+    
+    //ul += `${validResult ? '<div class="text-primary">업로드 가능 </div>' : '<div class="text-danger">업로드 불가능 </div>'}`;
+
+//    for(let file of fileObj){
+//        let validResult = fileValidation(file.name, file.size); //0 or 1로 리턴
+//        isOk *= validResult;
+//        ul += `<li>`;
+//        ul += `<div class="oneImg">`;
+//        ul += `${file.name} `;
+//        ul += `<span class="badge rounded-pill text-bg-${validResult ? 'success' : 'danger'}"> ${validResult ? '가능' : '불가능'}</span></div></li>`;
+//    }

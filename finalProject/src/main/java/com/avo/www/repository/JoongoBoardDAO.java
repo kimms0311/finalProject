@@ -22,7 +22,7 @@ public interface JoongoBoardDAO {
 
    List<ProductBoardVO> getListMore(PagingVO pgvo);
 
-   int selectJoongoTotal();
+   int selectJoongoTotal(PagingVO pgvo);
 
    void setReadCnt(@Param("bno") long bno, @Param("i") int i);
 

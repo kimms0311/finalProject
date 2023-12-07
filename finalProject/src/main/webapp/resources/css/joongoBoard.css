@@ -1,0 +1,294 @@
+/* 스크롤 바 없애는 css */
+/* body{
+    -ms-overflow-style: none;
+}
+::-webkit-scrollbar{
+    display: none;
+} */
+@font-face {
+    font-family: 'suit';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+.bodyController{
+    font-family: 'suit';
+}
+/* joongo board list css start */
+.boardMenuArea{
+    padding: 90px 0 30px;
+}
+.boardMenuArea p{
+    display: inline-block;
+}
+.boardMenuArea select{
+    padding: 5px 20px 5px 5px;
+    border: 1px solid #d3d3d3;
+    border-radius: 5px;
+    background: url(../image/down_arrow.png) no-repeat 92% 50%/12px auto;
+    appearance: none;
+    outline: none;
+}
+/* .boardMenuArea select option:checked,
+.boardMenuArea select option:hover{
+    background: #84a331;
+    color: #333;
+} */
+
+.boardListArea{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px 15px;
+    margin-bottom: 15px;
+    font-family: 'suit';
+}
+.boardListArea .oneList{
+    /* width: 25% - calc(45px / 1440px); */
+    width: 24.218%;
+}
+.boardListArea .oneList a{
+    display: block;
+    width: 100%;
+    text-decoration: none;
+    color: #333;
+    margin-bottom: 20px;
+    border: 1px solid #ededed;
+    border-radius: 10px;
+    transition: 0.5s;
+}
+.boardListArea .oneList:hover a{
+    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
+}
+.oneList a img{
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 10px 10px 0 0;
+}
+/* itemInfo start */
+.itemInfo{
+    padding: 22px 20px;
+    box-sizing: border-box;
+}
+.itemInfo h5{
+    font-size: 18px;
+    font-weight: 300;
+    margin-bottom: 15px;
+}
+.itemInfo b{
+    font-size: 20px;
+    display: block;
+    margin-bottom: 10px;
+}
+.itemInfo p{
+    display: inline-block;
+    position: relative;
+    margin: 0 10px 0 0;
+}
+.itemInfo p::after{
+    content: "";
+    width: 1px;
+    height: 10px;
+    background-color: #aaa;
+    position: absolute;
+    top: 5px;
+    right: -5px;
+}
+.itemInfo p, .itemInfo small{
+    font-size: 14px;
+    color: #aaa;
+}
+/* itemInfo end */
+/* moreBtnArea start */
+.moreBtnArea{
+    text-align: center;
+}
+.moreBtnArea .moreBtn{
+    font-size: 16px;
+    width: 120px;
+    height: 50px;
+    padding-right: 20px;
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    border-radius: 25px;
+    background: url(../image/down_arrow.png) no-repeat 80% 50% / 10px auto;
+    box-shadow: 0 0 5px rgba(110, 110, 110, 0.2);
+    margin-bottom: 90px;
+    transition: 0.2s;
+}
+.moreBtnArea .moreBtn:hover{
+    background-color: #eee;
+}
+/* moreBtnArea end */
+/* joongo board list end */
+
+/* joongo board detail start */
+/* prodArea start */
+.prodArea{
+    width: 100%;
+    background-color: #dadf80d2;
+    padding: 50px 0;
+    font-family: 'suit';
+}
+.prodArea .wrap{
+    width: 1400px;
+    margin: 0 auto;
+    padding: 0 350px;
+}
+.prodArea .wrap span{
+    display: inline-block;
+    padding: 4px 8px;
+    background-color: #85a331;
+    color: #fff;
+    font-size: 12px;
+    border-radius: 8px;
+    margin-bottom: 5px;
+}
+.prodArea .wrap h3{
+    font-size: 24px;
+}
+.prodArea .wrap h2{
+    font-size: 36px;
+    font-weight: 600;
+}
+.prodArea .wrap p{
+    font-size: 14px;
+    color: #606060;
+}
+/* prodArea end */
+/* floatMenu start */
+section.floatMenu{
+    position: fixed;
+    top: 20%;
+    right: 5%;
+    padding: 20px 0;
+    width: 80px;
+    height: 180px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 40px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    font-family: 'suit';
+}
+section.floatMenu button{
+    background-color: transparent;
+    border: 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+section.floatMenu button i{
+    display: inline-block;
+    width: 100%;
+    font-size: 20px;
+}
+section.floatMenu button span{
+    font-size: 12px;
+}
+section.floatMenu button i{
+    color: #d3d3d3;
+}
+section.floatMenu button i.bi-heart-fill:not(.no-login){
+    color: #a33131;
+}
+/* floatMenu end */
+.joongoDetailContainer{
+    width: 700px;
+    margin: 70px auto 90px;
+    position: relative;
+    font-family: 'suit';
+}
+.joongoDetailContainer > div{
+    width: 100%;
+}
+.joongoDetailContainer > div:not(:last-child){
+    margin-bottom: 30px;
+}
+.carousel-inner img {
+    width: 100%;
+    height: 600px;
+    object-fit: cover;
+}
+.contentArea textarea{
+    width: 100%;
+    border: 0;
+    resize: none;
+}
+.contentArea textarea:focus{
+    outline: 0;
+}
+.profileArea{
+    border-top: 1px solid #efefef;
+    border-bottom: 1px solid #efefef;
+    padding: 20px 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+.profileArea > img{
+    width: 50px;
+    height: 50px;
+    margin-right: 20px;
+    border: 1px solid #d3d3d3;
+    object-fit: cover;
+    border-radius: 25px;
+}
+.profileArea .writerInfo{
+    width: calc(100% - 150px);
+}
+.profileArea .writerInfo p,
+.profileArea .writerInfo b{
+    display: inline-block;
+    height: 25px;
+    width: 100%;
+    margin: 0;
+}
+.profileArea button{
+    align-items: center;
+    border: 1px solid #774f2f;
+    background-color: #fff;
+    color: #774f2f;
+    width: 80px;
+    height: 40px;
+    border-radius: 20px;
+}
+.profileArea button:hover{
+    background-color: #774f2f;
+    color: #fff;
+    transition: 0.2s;
+}
+.writerBtnArea{
+    display: flex;
+    justify-content: center;
+}
+.writerBtnArea button{
+    background-color: #fff;
+    font-size: 16px;
+    width: 100px;
+    height: 55px;
+    border-radius: 28px;
+}
+.writerBtnArea button[type=submit]:hover{
+    background-color: #84a331;
+    color: #fff;
+    transition: 0.2s;
+}
+.writerBtnArea button[type=button]:hover{
+    background-color: #aaa;
+    color: #fff;
+    transition: 0.2s;
+}
+.writerBtnArea button[type=submit]{
+    border: 2px solid #84a331;
+    color: #84a331;
+    margin-right: 25px;
+}
+.writerBtnArea button[type=button]{
+    border: 2px solid #aaa;
+    color: #aaa;
+}
+/* joongo board detail end */

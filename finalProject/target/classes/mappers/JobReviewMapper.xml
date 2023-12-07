@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.avo.www.repository.JobReviewDAO">
+	
+  	<insert id="postReview">
+  		insert into review(re_bno,re_user_id,re_content,re_score)
+  		values(#{reBno},#{reUserId},#{reContent},#{reScore})
+  	</insert>
+  	<select id="selectOntBnoTotalCount" resultType="int">
+  		select count(re_rno) from review where re_bno = #{reBno}
+  	</select>
+  	<select id="selectListPaging" resultType="com.avo.www.domain.ReviewVO">
+  		select * from review where re_bno = #{reBno}
+  		order by re_rno desc
+  		limit #{pgvo.pageStart}, #{pgvo.qty}
+  	</select>
+  	<delete id="delete">
+  		delete from review where re_rno = #{reRno}
+  	</delete>
+
+
+</mapper>

@@ -68,9 +68,15 @@
 </div>
 
 </div>
-<a href="/community/register">
-	<button type="button" class="btn btn-success commuRegiBtn">등록</button>
-</a>
+
+<div class="fixedBtn">
+	<a href="/community/register">
+		<button type="button">글쓰기</button>
+	</a>
+	<button type="button">채팅하기</button>
+	<button type="button">고객센터</button>
+	<button type="button">TOP</button>
+</div>
 
 <jsp:include page="../common/footer.jsp" />
 <script type="text/javascript" src="/resources/js/communityBoardList.js"></script>

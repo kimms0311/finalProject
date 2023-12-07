@@ -4,8 +4,8 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.avo.www.repository.JoongoBoardDAO">
    <insert id="insert">
-      insert into product (pro_email, pro_nick_name, pro_title, pro_content, pro_price, pro_category, pro_menu)
-      values(#{proEmail}, #{proNickName}, #{proTitle}, #{proContent}, #{proPrice}, #{proCategory}, #{proMenu})
+      insert into product (pro_email, pro_nick_name, pro_title, pro_content, pro_price, pro_category, pro_menu, pro_sido, pro_sigg, pro_emd)
+      values(#{proEmail}, #{proNickName}, #{proTitle}, #{proContent}, #{proPrice}, #{proCategory}, #{proMenu}, #{proSido}, #{proSigg}, #{proEmd})
    </insert>
    <select id="selectOneBno" resultType="long">
       select max(pro_bno) from product;
@@ -18,10 +18,13 @@
    <select id="getListMore" resultType="com.avo.www.domain.ProductBoardVO">
       select * from product
       where pro_category = 'joongo' AND pro_is_del = 'N'
-      order by pro_re_at desc limit #{pageStart}, #{qty}
+      <include refid="boardSelect" />
+      limit #{pageStart}, #{qty}
    </select>
    <select id="selectJoongoTotal" resultType="int">
-      select count(pro_bno) from product where pro_category = 'joongo' AND pro_is_del = 'N'
+      select count(pro_bno) from product
+      where pro_category = 'joongo' AND pro_is_del = 'N'
+      <include refid="boardSelect" />
    </select>
    <select id="getDetail" resultType="com.avo.www.domain.ProductBoardVO">
       select * from product where pro_bno = #{proBno} AND pro_is_del = 'N'
@@ -53,6 +56,23 @@
 		<include refid="search"/>
 	</select>
 
+
+	<sql id="boardSelect">
+		<if test="type != '선택'.toString()">
+			AND pro_menu = #{type}
+		</if>
+		<if test="sorted != null">
+			<choose>
+				<when test="sorted == 'newest'.toString()">
+					order by pro_re_at DESC
+				</when>
+				<when test="sorted == 'oldest'.toString()">
+					order by pro_re_at ASC
+				</when>
+			</choose>
+		</if>
+	</sql>
+	
 	<sql id="search">
 		<choose>
 			<when test="srcCondit != null">

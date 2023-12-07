@@ -1,7 +1,6 @@
 package com.avo.www.controller;
 
 
-import java.io.Console;
 import java.security.Principal;
 import java.util.List;
 
@@ -25,7 +24,6 @@ import com.avo.www.domain.JobBoardDTO;
 import com.avo.www.domain.LikeItemVO;
 import com.avo.www.domain.ProductBoardVO;
 import com.avo.www.handler.FileHandler;
-import com.avo.www.security.MemberVO;
 import com.avo.www.service.JobBoardService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -90,47 +88,37 @@ public class JobBoardController {
 	   return "redirect:/job/list";
    }
    
-   @GetMapping({ "/detail", "/modify" })
-   public void detail(Model m, @RequestParam("proBno") long proBno, Principal principal) {
-       // String으로 지정하지 않고 void로 설정 시 알아서 detail이나 modify중 진입 경로대로 감
-       log.info(">>>>> job get detail or modify page >> ");
-       log.info("proBno >> " + proBno);
-       
-       Integer checkLike;
+	@GetMapping({ "/detail", "/modify" })
+	public void detail(Model m, @RequestParam("proBno")long proBno, Principal principal) {
+		//String으로 지정하지 않고 void로 설정 시 알아서 detail이나 modify중 진입 경로대로 감
 
-       // 로그인 한 상태일 경우 현재 사용자의 이메일 가져오기
-       if (principal != null) {
-           String memEmail = principal.getName();
-           log.info(" principal.getName() >> " + principal.getName());
+	    log.info(">>>>> job get detail or modify page >> ");
+	    log.info("proBno >> " + proBno);
+	    
+	    //찜하기 옆에 보여질 게시글에 대한 likeCnt;
+	    int checkLikeCnt = jbsv.checkLikeCnt(proBno);
+		    if(checkLikeCnt > 0) {
+		    	m.addAttribute("checkLikeCnt", checkLikeCnt);
+		    }
+	    
 
-           checkLike = jbsv.checkLike(proBno, memEmail);
-       }
-	       // 찜하기 여부 확인
-		   if (checkLike == null) {
-			   checkLike = 0;
-			   log.info("checkLike >> " + checkLike);
-		   }
-		   // 찜하기 여부를 모델에 추가
-		   if (checkLike > 0) {
-			   m.addAttribute("checkLike", checkLike);
-			   log.info("checkLike > 0 >> " + checkLike);
+	    // 로그인 한 상태일 경우 현재 사용자의 이메일 가져오기
+	    if(principal != null) {
+		    String memEmail = principal.getName();
+		    log.info(" principal.getName() >> " +  principal.getName());
+	
+		    // 찜하기 여부 확인
+		    int checkLike = jbsv.checkLike(proBno, memEmail);
 
-       // 파일 내용도 포함해서 같이 가져가야 함
-       JobBoardDTO jbdto = jbsv.getDetail(proBno);
-       log.info("jbdto >> " + jbdto);
+			    // 찜하기 여부 보내기
+			    if (checkLike > 0) {
+			        m.addAttribute("checkLike", checkLike);
+			    }
+	    }
 
-       if (jbdto != null) {
-           ProductBoardVO pbvo = jbdto.getPbvo();
-           log.info("pbvo >> " + pbvo);
-
-           List<FileVO> flist = jbdto.getFlist();
-           log.info("flist >> " + flist);
-
-           m.addAttribute("jbdto", jbdto);
-       }
-		   }
-   }
-
+	    // 파일 내용도 포함해서 같이 가져가야 함
+	    m.addAttribute("jbdto", jbsv.getDetail(proBno));
+	}
 
 	@PostMapping("/modify")
 	public String modify(RedirectAttributes re, ProductBoardVO pbvo,
@@ -166,12 +154,12 @@ public class JobBoardController {
 
         // likeVO service 전송
         // status가 3일 경우 첫 찜하기 이므로 like insert로 생성
-        if(livo.getLiStatus() == 3) {
+        if(livo.getLiStatus() == 1) {
         	int isOk = jbsv.insertLike(livo);
         	log.info("찜 "+(isOk > 0 ? "성공" : "실패"));
         }else {
-        int isOk = jbsv.updateLike(livo);
-        log.info("like>> updateLike >> else live >> " + livo);
+        int isOk = jbsv.deleteLike(livo);
+        log.info("like>> deleteLike >> else live >> " + livo);
         log.info("찜 "+(isOk > 0 ? "성공" : "실패"));
         }
         
@@ -180,8 +168,6 @@ public class JobBoardController {
 		return new ResponseEntity<String>("", HttpStatus.OK);
 	}
 
-	
-	
 	
 	
 	 @GetMapping("/about")

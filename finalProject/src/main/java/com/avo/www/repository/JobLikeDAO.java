@@ -8,9 +8,8 @@ public interface JobLikeDAO {
 
 	int insertLike(LikeItemVO livo);
 
-	int updateLike(LikeItemVO livo);
+	int deleteLike(LikeItemVO livo);
 
 	int checkLike(@Param("proBno")long proBno, @Param("memEmail") String memEmail);
-	
 
 }

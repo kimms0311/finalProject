@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.avo.www.domain.JobBoardDTO;
+import com.avo.www.domain.LikeItemVO;
 import com.avo.www.domain.ProductBoardVO;
 
 public interface JobBoardDAO {
@@ -24,6 +25,10 @@ public interface JobBoardDAO {
 	long selectOneBno();
 
 	int delete(long proBno);
+
+	int updateLikeCnt(@Param("livo")LikeItemVO livo,@Param("i")int i);
+
+	int checkLikeCnt(long proBno);
 
 //	PagingHandler getList(long pbno, PagingVO pgvo);
 

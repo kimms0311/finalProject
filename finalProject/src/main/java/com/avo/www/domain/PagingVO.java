@@ -13,6 +13,7 @@ public class PagingVO {
 	private String keyword; // 검색어
 	private String type; // 카테고리 타입
 	private String srcCondit; // 검색조건 ex)제목,내용,작성자 등
+	private String sorted; // 정렬 ex) 최신순, 오래된 순
 	
 	public PagingVO() {
 		this(1,8); // 한 페이지당 글 8개씩 출력

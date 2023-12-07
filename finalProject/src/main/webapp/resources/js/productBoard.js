@@ -4,7 +4,7 @@
 /*
 Joongo list에서 추가하는 구조
 
-<div class="col">
+<div class="oneList">
 	<div class="card h-100">
 		<img src="../resources/image/logoimage.png" class="card-img-top" alt="...">
 		<div class="card-body">
@@ -16,27 +16,81 @@ Joongo list에서 추가하는 구조
 		</div>
 	</div>
 </div>
+
+<div class="oneList">
+    <a href="/joongo/detail?proBno=${list.proBno}">
+    <img src="../resources/image/logoimage.png" class="card-img-top" alt="...">
+        <div class="itemInfo">
+            <h5>${list.proTitle}</h5>
+            <b>${price}</b>
+            <p>${list.proEmd}</p>
+            <small>${list.proRegAt }</small>
+        </div>
+    </a>
+</div>
 */
+
+
+// 페이지가 다 로드되면 로딩화면 삭제
+window.onload = function() {
+    setTimeout(()=> document.getElementById('loading').style.display = 'none', 500);
+};
+
+// 현재 페이지 링크 복사
+function clip(){
+	navigator.clipboard.writeText(window.location.href);
+	alert('url이 복사되었습니다.');
+}
 
 // 현재 페이지 url을 가져와서 category 항목만 가져옵니다.
 let url = window.location.pathname;
 let category = url.substring(url.indexOf('/')+1,url.lastIndexOf('/'));
 console.log(category);
-getMoreBoard(category,1);
+
+
+// menu (세부 카테고리) 가져오기
+let menu = document.getElementById('menu').value;
+let sortedBy = document.getElementById('sortedBy').value;
+
+
+// 셀렉트 버튼 눌렀을 때 검색
+document.getElementById('menu').addEventListener('change',()=>{
+    // 메뉴 설정
+    menu = document.getElementById('menu').value;
+    console.log(menu);
+
+    // 로딩화면 제어
+    document.getElementById('loading').style.display = 'block';
+    getMoreBoard(category,1,menu,sortedBy);
+    setTimeout(()=> document.getElementById('loading').style.display = 'none', 200);
+})
+
+document.getElementById('sortedBy').addEventListener('change',()=>{
+    // 메뉴 설정
+    sortedBy = document.getElementById('sortedBy').value;
+    console.log(sortedBy);
+
+    // 로딩화면 제어
+    document.getElementById('loading').style.display = 'block';
+    getMoreBoard(category,1,menu,sortedBy);
+    setTimeout(()=> document.getElementById('loading').style.display = 'none', 200);
+})
+
+
 
 // 더보기 버튼을 눌렀는지 판단
 document.addEventListener('click',(e)=>{
     console.log(e.target);
     if(e.target.id == 'moreBtn'){
         console.log('더보기 버튼');
-        getMoreBoard(category, parseInt(e.target.dataset.page));
+        getMoreBoard(category, parseInt(e.target.dataset.page), menu, sortedBy);
     }
 })
 
 // 서버에 board 데이터 요청
-async function getMoreBoardForServer(category, page){
+async function getMoreBoardForServer(category, page, proMenu, proSort){
     try {
-        const resp = await fetch('/'+category+'/page/'+page);
+        const resp = await fetch('/'+category+'/page/'+page+'/'+proMenu+'/'+proSort);
         const result = await resp.json();
         return result;
     } catch (error) {
@@ -59,12 +113,13 @@ async function getThumbnailToServer(category, bno){
 }
 
 // 서버에 요청한 데이터로 board 출력
-async function getMoreBoard(category, page = 1) {
+async function getMoreBoard(category, page = 1, proMenu = menu, proSort = sortedBy) {
     try {
-        const result = await getMoreBoardForServer(category, page);
+        const result = await getMoreBoardForServer(category, page, proMenu, proSort);
         console.log(result);
 
         if (result.prodList.length > 0) {
+            document.querySelector('.boardMenuArea h3 b').innerText = result.totalCount;
             let boardArea = document.getElementById('boardArea');
 
             if (page == 1) {
@@ -73,21 +128,19 @@ async function getMoreBoard(category, page = 1) {
 
             for (let prod of result.prodList) {
                 let price = prod.proPrice.toLocaleString('ko-KR');
-                let li = `<div class="col"><div class="card h-100">`;
+                let upDate = prod.proReAt.substring(0,10);
+                let li = `<div class="oneList"><a href="/joongo/detail?proBno=${prod.proBno}">`;
 
                 if (prod.proFileCnt > 0) {
                     let thumb = await getThumbnailToServer(category, prod.proBno);
-                    li += `<img src="/upload/product/${thumb.saveDir.replaceAll('\\','/')}/${thumb.uuid}_${thumb.fileName}" class="card-img-top" alt="...">`;
+                    li += `<img src="/upload/product/${thumb.saveDir.replaceAll('\\','/')}/${thumb.uuid}_${thumb.fileName}" alt="제품사진">`;
                 } else {
-                    li += `<img src="../resources/image/logoimage.png" class="card-img-top" alt="...">`;
+                    li += `<img src="../resources/image/logoimage.png" class="card-img-top" alt="사진 없을 때 띄우는 아보카도">`;
                 }
                 
-                li += `<div class="card-body">`;
-                li += `<h5 class="card-title"><a href="/joongo/detail?proBno=${prod.proBno}">${prod.proTitle}</a></h5>`;
-                li += `<p class="card-text">${price}</p>`;
-                li += `<p class="card-text">${prod.proEmail}</p>`;
-                li += `</div><div class="card-footer"><small class="text-body-secondary">${prod.proRegAt }</small>`;
-                li += `</div></div></div>`;
+                li += `<div class="itemInfo"><h5>${prod.proTitle}</h5><b>${price}원</b>`;
+                li += `<p>${prod.proEmd}</p><small>${upDate }</small>`;
+                li += `</div></a></div>`;
                 boardArea.innerHTML += li;
             }
             
@@ -105,6 +158,9 @@ async function getMoreBoard(category, page = 1) {
             moreBtn.style.visibility = 'hidden';
         }
     } catch (error) {
-        console.error(error);
+        console.log(error);
     }
 }
+
+// board 선언
+getMoreBoard(category);

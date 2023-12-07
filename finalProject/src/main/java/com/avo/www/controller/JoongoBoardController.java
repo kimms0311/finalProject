@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.avo.www.domain.FileVO;
@@ -62,9 +63,24 @@ public class JoongoBoardController {
 		// file upload handler
 		if(files[0].getSize() > 0) {
 			flist = fh.uploadFiles(files, "product");
-			
 		}
 		
+		//사용자 객체 가져오기
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {        	
+        	//Principal => AuthMember 변환
+        	AuthMember member = (AuthMember) authentication.getPrincipal();
+        	log.info(">>>>>> member 확인 >>>>> "+member.getMvo());
+        	//주소 추출
+        	String sido = member.getMvo().getMemSido();
+        	String sigg = member.getMvo().getMemSigg();
+        	String emd = member.getMvo().getMemEmd();
+        	pbvo.setProSido(sido);
+        	pbvo.setProSigg(sigg);
+        	pbvo.setProEmd(emd);
+        }
+        log.info(">>>>>>>>>>>> pbvo 확인 >>>>>>>> "+pbvo);
+        
 		int isOk = jbsv.register(new ProductBoardDTO(pbvo, flist));
 		log.info("등록 "+(isOk > 0 ? "성공" : "실패"));
 		
@@ -142,12 +158,20 @@ public class JoongoBoardController {
 		return "redirect:/joongo/list";
 	}
 	
-	@GetMapping(value = "/page/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<PagingHandler> moreBtn(@PathVariable("page")int page, Model m){
+	@GetMapping(value = "/page/{page}/{proMenu}/{proSort}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<PagingHandler> moreBtn(@PathVariable("page")int page,
+			@PathVariable("proMenu")String proMenu, @PathVariable("proSort")String proSort, Model m){
 		log.info(">>>>>>>>>> page >>>>>>> "+page);
+		log.info("proMenu, sorted >>>> "+proMenu+", "+proSort);
 		PagingVO pgvo = new PagingVO(page, 8);
+		pgvo.setType(proMenu);
+		pgvo.setSorted(proSort);
 		
-		return new ResponseEntity<PagingHandler>(jbsv.getListMore(pgvo),HttpStatus.OK);
+		int totalCount = jbsv.selectJoongoTotal(pgvo);
+		PagingHandler ph = new PagingHandler(pgvo, totalCount, 8);
+		ph.setProdList(jbsv.getListMore(pgvo));
+		
+		return new ResponseEntity<PagingHandler>(ph,HttpStatus.OK);
 	}
 	
 	@PostMapping(value = "/like", consumes = "application/json", produces = MediaType.TEXT_PLAIN_VALUE)
