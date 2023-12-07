@@ -12,13 +12,10 @@ public interface HmemberDAO {
 
 	int modify(MemberVO mvo);
 
-	int jgDelete(String email);
+	//탈퇴 관련
+	int jjsDelete(String email);
 
 	int cmDelete(String email);
-
-	int jobDelete(String email);
-
-	int stDelete(String email);
 
 	int amDelte(String email);
 

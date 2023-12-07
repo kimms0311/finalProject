@@ -8,13 +8,13 @@ input:focus {outline: none;}
    border-bottom: 1px solid #d3d3d3;
 }
 #loading{
-	width: 100%;
-	height: calc(100vh - 180px);
-	display: block;
-	background-image: url("../image/Spinner-5.gif");
-	background-repeat: no-repeat;
-	background-position: center;
-	background-size: auto;
+   width: 100%;
+   height: calc(100vh - 180px);
+   display: block;
+   background-image: url("../image/Spinner-5.gif");
+   background-repeat: no-repeat;
+   background-position: center;
+   background-size: auto;
 }
 
 /* header start */
@@ -188,12 +188,6 @@ nav ul li.active a{
    color: #323f11;
    border-bottom: 5px solid #323f11;
    padding: 15px 0 10px;
-}
-nav ul li.active a{
-	font-weight: 600;
-	color: #323f11;
-	border-bottom: 5px solid #323f11;
-	padding: 15px 0 10px;
 }
 nav ul li:hover{
    font-weight: 600;

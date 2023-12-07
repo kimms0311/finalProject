@@ -5,16 +5,15 @@
 <mapper namespace="com.avo.www.repository.JobLikeDAO">
 
 	<insert id="insertLike">
-	    insert into product_like (li_user_id, li_bno, li_status) values (#{liUserId}, #{liBno}, #{liStatus} - 2)
+	    insert into product_like (li_user_id, li_bno, li_status) values (#{liUserId}, #{liBno}, #{liStatus})
 	</insert>
 
-	<update id="updateLike">
-	    update product_like set li_status = li_status + #{liStatus}, li_reg_at = now() where li_user_id = #{liUserId} and li_bno = #{liBno}
-	</update>
+	<delete id="deleteLike">
+		delete from product_like where li_user_id = #{liUserId} and li_bno = #{liBno}
+	</delete>
 	
 	<select id="checkLike" resultType="int">
-    	select li_status from product_like where li_bno = #{proBno} and li_user_id = #{memEmail}
+    	select count(li_user_id) from product_like where li_bno = #{proBno} and li_user_id = #{memEmail} and li_status = 1
 	</select>
-
 	
 </mapper>

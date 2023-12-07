@@ -10,19 +10,8 @@
 <head>
 <meta charset="UTF-8">
 <title>job register page</title>
-<style type="text/css">
-	#carouselExampleIndicators{
-		margin-top: 50px;
-	}
 
-	.carousel-inner img {
-		width: 100%;
-		height: 600px;
-		object-fit: cover;
-		margin: 0 auto; /* 가운데 정렬을 위한 margin 설정 */
-}
-	
-</style>
+
 <link rel="stylesheet" href="/resources/css/page.css">
 <link rel="stylesheet" href="/resources/css/jobDetail.css">
 </head>
@@ -71,12 +60,13 @@
 	
 	<div class="profileSecction">
 		<div class="userInfo">
-			<span><i class="bi bi-person-circle"></i>${pbvo.proNickName}</span>
-			<p>아보시 카도동</p>
+			<span><img class="frofileImg" alt="frofile error" src="../resources/image/기본 프로필.png"></i>${jbdto.pbvo.proNickName}</span>
 		</div>
 		<div class="userScore">
-			별이다섯개
-			<i class="bi bi-thermometer-half"></i>매너점수
+			<i class="bi bi-thermometer-half"></i>매너온도
+			<div class="userStar">
+			</div>
+			
 		</div>
 	</div>
 	<hr>
@@ -89,15 +79,17 @@
 	<div class="jobInfoSecction">
 		<p><strong><i class="bi bi-coin"></i>${jbdto.pbvo.proMenu}
 		<fmt:formatNumber type="number" maxFractionDigits="3" value="${jbdto.pbvo.proPrice}" />원</strong></p>
-		<p><i class="bi bi-geo-alt">${jobAddress }</i> </p>
-		<p><i class="bi bi-calendar-check"></i>근무요일</p>
-		<p><i class="bi bi-clock"></i>근무시간</p>
+		<p><i class="bi bi-geo-alt"></i>근무지 <br> ${jbdto.pbvo.proSido} ${jbdto.pbvo.proSigg} ${jbdto.pbvo.proEmd}</p>
+<!--
+ 		<p><i class="bi bi-calendar-check"></i>근무요일</p>
+		<p><i class="bi bi-clock"></i>근무시간</p> 
+-->
 		
 		<div class="jobInfoDetail">
 			<p><strong><i class="bi bi-pencil"></i>상세내용<i class="bi bi-pencil"></i></strong></p>
 			<p>${jbdto.pbvo.proContent}</p>
 			<p>
-			조회수 ${jbdto.pbvo.proReadCnt} <i class="bi bi-heart" id="likeBtn"></i>찜하기 ${pbvo.proLikeCnt}
+			조회수 ${jbdto.pbvo.proReadCnt} <i class="bi bi-heart${checkLike > 0 ? '-fill' : '' }" id="likeBtn"></i>찜하기 ${pbvo.proLikeCnt} <span id="checkLikeCnt">${checkLikeCnt }</span> 
 			</p>
 		</div>
 		
@@ -111,7 +103,7 @@
 		</c:if>
 	</sec:authorize>
 	 
-
+	
 	
 	<!-- 후기 라인 -->
 	<div class="container">
@@ -119,10 +111,32 @@
 	<span><strong>후기</strong></span>
 		<!-- 후기 등록 라인 -->
 		<div class="rePost">
-		    <img alt="" src="/resources/image/logoimage.png">
-		    <span id="reWriter"><strong>${memNickName}</strong></span>
+		    <img class="frofileImg"  alt="frofile error" src="../resources/image/기본 프로필.png">
+		    <input type="hidden" id="reUserId" value="${memEmail }">
+		    <strong><span id="reWriter">${memNickName}</span></strong>
 			<sec:authorize access="isAuthenticated()">
+			<div class="mb-3 myform">
+				<fieldset>
+					<input type="radio" name="rating" value="5" id="rate1">
+					<label for="rate1">★</label>
+					
+					<input type="radio" name="rating" value="4" id="rate2">
+					<label for="rate2">★</label>
+					
+					<input type="radio" name="rating" value="3" id="rate3">
+					<label for="rate3">★</label>
+					
+					<input type="radio" name="rating" value="2" id="rate4">
+					<label for="rate4">★</label>
+					
+					<input type="radio" name="rating" value="1" id="rate5">
+					<label for="rate5">★</label>
+				</fieldset>
+				
 				<input type="text" placeholder="후기를 작성해주세요." id="reContent">
+			</div>
+				
+
 			    <button type="button" class="btn btn-success" id="rePostBtn">등록</button>
 			</sec:authorize>
 			<sec:authorize access="isAnonymous()">
@@ -136,8 +150,8 @@
 		<ul class="list-group list-group-flush" id="reListArea">
 		  <li class="list-group-item">
 		  	<div class="mb-3 reWriterInfo">
-			  	<img alt="" src="/resources/image/logoimage.png">
-				<span><strong>reUserId </strong></span>
+			  	<img class="frofileImg"  alt="frofile error" src="../resources/image/기본 프로필.png">
+				<span><strong>reUserId</strong></span>
 				<p class="badge rounded-pill text-bg-dark">구월동</p>
 				<p class="badge rounded-pill text-bg-dark">regAt</p>
 		  	</div>
@@ -156,12 +170,8 @@
 	
 </div>
 
-<script type="text/javascript">
-    let proBnoVal = `<c:out value="${jbdto.pbvo.proBno}"/>`;
-    let memEmail = `<c:out value="${memEmail}"/>`;
-</script>
+<!-- <script type="text/javascript">
 
-<script type="text/javascript">
     /* 이미지 클릭했을 때 원본이미지 모달창 */
     $(document).ready(function() {
         $("span img").click(function() {
@@ -176,26 +186,23 @@
             $(".modal").toggle();
         });
     });
-</script>
+    
+</script> -->
 
 
-<script type="text/javascript" src="/resources/js/jobBoardRegister.js"></script>
-<script type="text/javascript" src="/resources/js/jobBoardComment.js"></script>
-<script type="text/javascript" src="/resources/js/jobLike.js"></script>
-
+<!-- 공통 -->
 <script type="text/javascript">
-    let checkLike = ${checkLike};
-    console.log("checkLike >> " + checkLike);
-    // checkLike 따라 아이콘 토글
-    if (checkLike > 0) {
-        likeBtn.classList.toggle('bi-heart-fill', true);
-        likeBtn.classList.toggle('bi-heart', false);
-    } else {
-        likeBtn.classList.toggle('bi-heart-fill', false);
-        likeBtn.classList.toggle('bi-heart', true);
-    }
+    const proBnoVal = `<c:out value="${jbdto.pbvo.proBno}"/>`;
+    const memEmail = `<c:out value="${memEmail}"/>`;
+    
 </script>
-
+<!-- 좋아요 -->
+<script type="text/javascript" src="/resources/js/jobLike.js"></script>
+<!-- 후기 -->
+<script type="text/javascript" src="/resources/js/jobBoardReview.js"></script>
+<script type="text/javascript">
+	spreadReviewList();
+</script>
 
  <jsp:include page="../common/footer.jsp" />
 

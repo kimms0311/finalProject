@@ -25,9 +25,11 @@ public interface JobBoardService {
 
 	int insertLike(LikeItemVO livo);
 
-	int updateLike(LikeItemVO livo);
+	int deleteLike(LikeItemVO livo);
 
 	int checkLike(long proBno, String memEmail);
+
+	int checkLikeCnt(long proBno);
 
 
 }

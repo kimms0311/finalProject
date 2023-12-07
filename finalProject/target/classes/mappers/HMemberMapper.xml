@@ -15,4 +15,16 @@
   	<update id="modify">
   		update member set mem_pw = #{memPw}, mem_nick_name = #{memNickName}, mem_sido = #{memSido}, mem_sigg = #{memSigg}, mem_emd = #{memEmd}, mem_mod_at = now() where mem_email = #{memEmail}
   	</update>	
+  	<update id="jjsDelete">
+  		update product set pro_is_del = 'Y' where pro_email = #{email}
+  	</update>
+  	<update id="cmDelete">
+  		update community set cm_is_del = 'Y' where cm_email = #{email}
+  	</update>
+  	<delete id="amDelte">  		
+  		delete from auth_member where email = #{email}
+  	</delete>
+  	<delete id="mbDelete">
+  		delete from member where mem_email = #{email}
+  	</delete>
 </mapper>

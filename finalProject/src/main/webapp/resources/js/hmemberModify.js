@@ -17,7 +17,7 @@ document.getElementById('addr').addEventListener('click', ()=>{
 //비밀번호 눈 버튼 
 document.getElementById('showPwBtn1').addEventListener('click',(e)=>{
     let pwInput = document.getElementById('pw1');
-
+    
     if (pwInput.type === "password") {
         pwInput.type = "text";
         let showPwBtn = document.getElementById('showPwBtn1');
@@ -160,7 +160,12 @@ async function deleteMemBtn(email){
         };
         const resp = await fetch(url, config);
         const result = await resp.text();
-        return result;
+        console.log(result);
+
+        if (result === '1') {
+            console.log("success");
+            window.location.replace('http://localhost:8089/');
+        }
     }catch(err){
         console.log(err);
     }
@@ -169,7 +174,6 @@ async function deleteMemBtn(email){
 document.getElementById('deleteMemBtn').addEventListener('click',(e)=>{
     if (confirm('정말 탈퇴하시겠어요? \n작성한 댓글은 자동으로 삭제되지 않습니다.')) {
         deleteMemBtn(email);
-        //alert('아포카트 회원 탈퇴가 완료되었습니다.');
     }
 });
 

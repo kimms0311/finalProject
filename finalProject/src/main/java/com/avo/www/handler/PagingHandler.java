@@ -8,6 +8,7 @@ import com.avo.www.domain.CommunityReCmtVO;
 import com.avo.www.domain.FileVO;
 import com.avo.www.domain.PagingVO;
 import com.avo.www.domain.ProductBoardVO;
+import com.avo.www.domain.ReviewVO;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -33,7 +34,9 @@ public class PagingHandler {
    private List<FileVO> prodFileList;
    
    private List<CommunityBoardVO> cmList;
-   
+
+   //23.12.06 미수 추가 리뷰 페이징용
+   private List<ReviewVO> jobReList;
    
    public PagingHandler(PagingVO pgvo, int totalCount, int minus) {
       
@@ -76,6 +79,12 @@ public class PagingHandler {
    public PagingHandler(int totalCount, PagingVO pgvo, List<CommunityBoardVO> cmList) {
 	      this(pgvo, totalCount, 9);
 	      this.cmList = cmList;
+	}
+
+   // 23.12.06 미수 추가 리뷰 페이징용
+   public PagingHandler(PagingVO pgvo, List<ReviewVO> jobReList, int totalCount) {
+	    this(pgvo, totalCount, 5);
+	    this.jobReList = jobReList;
 	}
 
 }

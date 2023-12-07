@@ -13,11 +13,11 @@ let regDay = regAt.slice(8,10);
  let timeDifference = Math.abs(today - new Date(regYear, regMonth-1, regDay)); 
  let daysDifference = Math.ceil(timeDifference / (1000*60*60*24));
 
-document.getElementById('calcDate').innerHTML = `<i class="bi bi-calendar"></i>아보카트 가입일 ${daysDifference} 일 전`;
+document.getElementById('calcDate').innerHTML = `<i class="bi bi-calendar"></i>아보카트 가입일<span class="black">${daysDifference} 일 전</span>`;
 
 //기본 프로필일 경우, 삭제 버튼 가리기
 document.addEventListener('DOMContentLoaded', function() {
-    if (src === "../resources/image/기본 프로필.png") {
+    if (mainSrc === "../resources/image/기본 프로필.png") {
         document.getElementById('delBtn').style.display = 'none';
     }
 });
@@ -37,7 +37,7 @@ function editProfile(event) {
     editProfile.style.display = editProfile.style.display === 'block' ? 'none' : 'block';
 }
 
-document.getElementById('backPro').addEventListener('click', editProfile);
+document.getElementById('mainPro').addEventListener('click', editProfile);
  
 document.getElementById('editBtn').addEventListener('click',()=>{
     const editProfile = document.getElementById('editProfile');
