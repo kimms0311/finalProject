@@ -83,18 +83,18 @@ public class CommunityBoardController {
 //		
 //		m.addAttribute("flist", flist);
 //	}
-//	@GetMapping("/list")
-//	public void list(@RequestParam(name = "cmMenu", required = false)String cmMenu, Model m) {
-//		log.info(">>>>> cmMenu >>> "+cmMenu);
-//	
-//		if(cmMenu == null) {
-//			m.addAttribute("cmMenu", "전체");
-//		}else {
-//			m.addAttribute("cmMenu", cmMenu);
-//		}
-//	}
 	@GetMapping("/list")
-	public void list() {}
+	public void list(@RequestParam(name = "cmMenu", required = false)String cmMenu, Model m) {
+		log.info(">>>>> cmMenu >>> "+cmMenu);
+	
+		if(cmMenu == null) {
+			m.addAttribute("cmMenu", "전체");
+		}else {
+			m.addAttribute("cmMenu", cmMenu);
+		}
+	}
+//	@GetMapping("/list")
+//	public void list() {}
 	//리스트 페이징
 	@GetMapping(value = "/page/{page}/{cmMenu}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<PagingHandler> moreBtn(@PathVariable("page")int page, @PathVariable("cmMenu")String cmMenu){

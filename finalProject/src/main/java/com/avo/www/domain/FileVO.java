@@ -21,5 +21,5 @@ public class FileVO {
    private long fileSize;
    private String regAt;
    private String category;
-   
+   private String prEmail;
 }

@@ -80,43 +80,45 @@ function spreadCommentList(bno){
                 //부모댓글
                 if(cvo.cmtIsDel == 'Y'){
                     if(cvo.cmtAnswerCnt > 0){
-                        let str = `<li class="list-group-item" data-cmtcno="${cvo.cmtCno}">삭제된 댓글입니다.</li>`;
-                        str += `<ul class="list-group" id="replies-${cvo.cmtCno}">`; // 자식 댓글을 위한 ul 요소 추가
-                        ul.innerHTML = str;
+                        let str = `<li class="cmtLi" data-cmtcno="${cvo.cmtCno}">삭제된 댓글입니다.</li>`;
+                        str += `<ul class="repliesUl" id="replies-${cvo.cmtCno}">`; // 자식 댓글을 위한 ul 요소 추가
+                        ul.innerHTML += str;
                     }  
                 }else{
-                    let str = `<li class="list-group-item" data-cmtcno="${cvo.cmtCno}">`;
-                    str += `<div>`; 
+                    let str = `<li class="cmtLi" data-cmtcno="${cvo.cmtCno}">`;
+                    str += `<div class="cmtContainer">`; 
     
-                    str += `<div class="fw-bold"><i class="bi bi-person-circle"></i>${cvo.cmtNickName}`;
-                    str += `<span class="badge rounded-pill text-bg-success">${cvo.cmtModAt}</span>`;
+                    str += `<div class="cmtUserLine">
+                            <div><i class="bi bi-person-circle"></i> ${cvo.cmtNickName} `;
+                    str += `<span class=""> ${cvo.cmtModAt}</span></div>`;
                     //수정, 삭제 버튼
                     if(cvo.cmtEmail == userEmail){ 
-                        str += `<div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        ...
+                        str += `<div class="userDropdownMenu">
+                        <button class="boardUserBtn cmtUserBtn" type="button">
+                            <i class="bi bi-three-dots cmtUserBtn"></i>
                         </button>
-                        <ul class="dropdown-menu">
-                        <a class="dropdown-item modBtn" href="#" data-bs-toggle="modal" data-bs-target="#myModal">수정</a>
-                        <a class="dropdown-item delBtn" href="#">삭제</a>
+                        <ul class="cmtUserMenu menu-off" style="display:none">
+                            <a class="modBtn" href="#" data-bs-toggle="modal" data-bs-target="#myModal">수정하기</a>
+                            <a class="delBtn" href="#">삭제하기</a>
                         </ul>
                         </div>`
                     }
                     str += `</div>`;
                     
-                    str += `<div class="cmCon">${cvo.cmtContent}</div>`;
+                    str += `<div class="cmtContentLine">${cvo.cmtContent}</div>`;
 
                     if(userEmail){
-                        str += `<div><button class="reCmtBtn no-${cvo.cmtCno}" data-cmtnickname="${cvo.cmtNickName}">답글쓰기</button></div>`;
+                        str += `<div class="cmtReBtnLine"><button class="reCmtBtn no-${cvo.cmtCno}" data-cmtnickname="${cvo.cmtNickName}">답글쓰기</button></div>`;
                     }
                     
                     str += `</div></li></ul>`;
 
                     if(cvo.cmtAnswerCnt > 0){
-                        str += `<ul class="list-group" id="replies-${cvo.cmtCno}">`; // 자식 댓글을 위한 ul 요소 추가
-                    } 
+                        str += `<ul class="repliesUl" id="replies-${cvo.cmtCno}">`; // 자식 댓글을 위한 ul 요소 추가
+                    }
                     
                     ul.innerHTML += str;
+                    
                 }
                 
                 //자식댓글
@@ -124,32 +126,36 @@ function spreadCommentList(bno){
                     if(result.length > 0){
                         for(let cvo of result){ 
                             let reUl = document.getElementById(`replies-${cvo.reCmtCno}`);
-                            //let reUl = document.getElementsByClassName(`replies-${cvo.reCmtCno}`)[0];
 
-                            let str = `<li class="list-group-item" data-recno=${cvo.reCno}>`;
-                            str += `<div class="re-comment">`; 
+                            let str = `<li class="cmtLi2" data-recno=${cvo.reCno}>`;
+                            str += `<div class="cmtContainer">`; 
 
-                            str += `<div class="fw-bold">ㄴ<i class="bi bi-person-circle"></i>${cvo.reNickName}`;
-                            str += `<span class="badge rounded-pill text-bg-success">${cvo.reModAt}</span>`;
+                            str += `<div class="cmtUserLine">
+                                    <div><i class="bi bi-person-circle"></i> ${cvo.reNickName} `;
+                            str += `<span class=""> ${cvo.reModAt}</span></div>`;
                             //수정, 삭제 버튼
                             if(cvo.reEmail == userEmail){
-                                str += `<div class="dropdown">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                ...
+                                str += `<div class="userDropdownMenu">
+                                <button class="boardUserBtn cmtUserBtn" type="button">
+                                    <i class="bi bi-three-dots cmtUserBtn"></i>
                                 </button>
-                                <ul class="dropdown-menu">
-                                <a class="dropdown-item modBtn" href="#" data-bs-toggle="modal" data-bs-target="#myModal">수정</a>
-                                <a class="dropdown-item delBtn" href="#">삭제</a>
+                                <ul class="cmtUserMenu menu-off" style="display:none">
+                                    <a class="modBtn" href="#" data-bs-toggle="modal" data-bs-target="#myModal">수정하기</a>
+                                    <a class="delBtn" href="#">삭제하기</a>
                                 </ul>
                                 </div>`
                             }
                             str += `</div>`;
                             
-                            str += `<div class="cmCon">${cvo.reContent}</div>`;
+                            str += `<div class="cmtContentLine">${cvo.reContent}</div>`;
                             
                             str += `</div></li></ul>`;
                             
                             reUl.innerHTML += str;
+
+                            // 마지막 댓글에 클래스 추가
+                            const lastComment = ul.lastElementChild;
+                            lastComment.classList.add('last-comment');
                            
                         }
                     }
@@ -157,7 +163,7 @@ function spreadCommentList(bno){
             }
 
         }else{
-            let str = `<li class="list-group-item">댓글 없음.</li>`;
+            let str = `<li class="list-group-item">첫 댓글을 남겨주세요.</li>`;
             ul.innerHTML = str;
         }
         
@@ -279,13 +285,13 @@ document.addEventListener('click', (e)=>{
         //let cmtNickName = e.target.dataset.cmtnickname;
 
     
-        let str = `<div class="input-group mb-3 commentWrite">`;
+        let str = `<div class="reCommentWrite">`;
         str += `<input type="hidden" id="writerEmail" value="${userEmail}">
                 <input type="hidden" id="cmtCno" value=${cmtCno}>
-                <span class="input-group-text" id="reWriter">${userNick}</span>
-                <input type="text" class="form-control" id="reText" placeholder="Add Comment">
-                <button type="button" id="rePostBtn" class="btn btn-secondary rePostBtn">등록</button>
-                <button type="button" id="cancelBtn" class="btn btn-success cancelBtn">취소</button></div>`; 
+                <span class="cmtWriter" id="reWriter">${userNick}</span>
+                <textarea rows="1" class="cmtText reText" id="reText" placeholder="댓글을 남겨주세요"></textarea>
+                <button type="button" id="rePostBtn" class="cmtPostBtn rePostBtn">등록</button>
+                <button type="button" id="cancelBtn" class="cmtCancelBtn cancelBtn">취소</button></div>`; 
         
         li.innerHTML += str;
 
@@ -293,7 +299,7 @@ document.addEventListener('click', (e)=>{
         let cancelBtn = li.querySelector('.cancelBtn');
         cancelBtn.addEventListener('click', ()=> {
             // 입력 폼을 제거
-            li.querySelector('.commentWrite').remove();
+            li.querySelector('.reCommentWrite').remove();
 
             // 답글 쓰기 버튼을 다시 보이게 함
             li.appendChild(button);
@@ -440,3 +446,29 @@ document.addEventListener('click', (e)=>{
         })
     }
 })
+
+//게시글 삭제, 수정버튼 보이게하기
+document.getElementById('boardUserMenuBtn').addEventListener('click',()=>{
+    let userMenu = document.getElementById('boardUserMenu');
+    if(userMenu.classList.contains('menu-off')){
+        userMenu.classList.replace('menu-off', 'menu-on');
+        userMenu.style = "display:inline-block";
+    }else{
+        userMenu.classList.replace('menu-on', 'menu-off');
+        userMenu.style = "display:none";
+    }
+
+})
+
+document.addEventListener('click', (e)=> {
+    if (e.target.classList.contains('cmtUserBtn')) {
+        const userMenu = e.target.closest('.cmtContainer').querySelector('.cmtUserMenu');
+        if(userMenu.classList.contains('menu-off')){
+            userMenu.classList.replace('menu-off', 'menu-on');
+            userMenu.style = "display:inline-block";
+        }else{
+            userMenu.classList.replace('menu-on', 'menu-off');
+            userMenu.style = "display:none";
+        }
+    }
+});

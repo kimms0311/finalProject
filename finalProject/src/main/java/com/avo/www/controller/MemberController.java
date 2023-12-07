@@ -91,7 +91,7 @@ public class MemberController {
 	}
 	
 	@GetMapping(value = "/test/{memEmail}", produces = MediaType.TEXT_PLAIN_VALUE)
-	public ResponseEntity<String> mail(@PathVariable("memEmail")String memEmail){
+	public ResponseEntity<String> mail(@PathVariable("memEmail")String memEmail, Model m){
 		log.info(">>>>> 인증 이메일 >>> "+memEmail);
 		
 		//인증번호 생성

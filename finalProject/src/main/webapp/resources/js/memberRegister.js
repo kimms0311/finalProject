@@ -278,21 +278,24 @@ document.getElementById('testBtn').addEventListener('click',()=>{
     const emailMsgDisplay = window.getComputedStyle(emailMsg).getPropertyValue('display');
     const emailMsg2Display = window.getComputedStyle(emailMsg2).getPropertyValue('display');
     //인증번호 input 보이게 해주기
-    if(emailMsgDisplay === 'none' && emailMsg2Display === 'none' && email !== ''){
-        document.getElementById('emailMsg3').style = "display:none";
-        document.getElementById('testNum').style = "display:inline-block";
-    }else{
-        document.getElementById('emailMsg3').style = "display:inline-block";
-        document.getElementById('testNum').style = "display:none";
-    }
+    // if(emailMsgDisplay === 'none' && emailMsg2Display === 'none' && email !== ''){
+    //     document.getElementById('emailMsg3').style = "display:none";
+    //     document.getElementById('testNum').style = "display:inline-block";
+    // }else{
+    //     document.getElementById('emailMsg3').style = "display:inline-block";
+    //     document.getElementById('testNum').style = "display:none";
+    // }
     
     if(emailMsgDisplay === 'inline-block' || emailMsg2Display === 'inline-block'){
         document.getElementById('emailMsg3').style = "display:none";
+    }else if(email == ''){
+        document.getElementById('emailMsg3').style = "display:inline-block";
     }
     
     //이메일을 controller에 전송해서 해당 이메일로 인증번호 보내고 
     //인증번호를 result값으로 받아와 내가 input에 적은 인증번호와 같은지 확인
     mailTest(email).then(result => {
+        alert('인증메일 발송');
         document.getElementById('testNum').addEventListener('change',()=>{
             if(result == document.getElementById('testNum').value){
                 document.getElementById('testO').style = "display:inline-block";
@@ -317,3 +320,10 @@ async function mailTest(email){
         console.log(err);
     }
 }
+document.getElementById('testNum').addEventListener('change',()=>{
+    if(document.getElementById('email').value == ''){
+        document.getElementById('emailMsg3').style = "display:inline-block";
+    }else{
+        document.getElementById('emailMsg3').style = "display:none";
+    }
+})

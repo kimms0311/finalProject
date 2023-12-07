@@ -8,33 +8,41 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<style>
-	#carouselExampleIndicators{
-		margin-top: 50px;
-		width: 50%;
-		margin: 0 auto;
-	}
-
-	.carousel-inner img {
-		width: 100%;
-		height: 600px;
-		object-fit: cover;
-		margin: 0 auto;
-	}
-	.bodyContainer > .profile > img{
-		width: 50px;
-		height: 50px;
-		border-radius: 25px;
-	}
-	.prodArea > .no-login{
-		color: #d3d3d3;
-	}
-</style>
+<link rel="stylesheet" href="../resources/css/joongoBoard.css">
 </head>
 <body>
 <jsp:include page="../common/header.jsp" />
-<div class="bodyContainer">
-	<!-- 상품이미지 여러 개일 경우 슬라이더 -->
+	<div class="prodArea">
+		<div class="wrap">
+			<span>${pbvo.proMenu }</span>
+			<h3>${pbvo.proTitle }</h3>
+			<h2><!-- 가격란 --></h2>
+			<p>${pbvo.proRegAt } | 조회 ${pbvo.proReadCnt }</p>
+		</div>
+	</div>
+	<div class="bodyContainer">
+		<section class="floatMenu">
+			<!-- 찜 (북마크) -->
+			<sec:authorize access="isAnonymous()">
+				<button type="button">
+					<i class="bi bi-heart-fill no-login"></i>
+					<span>찜하기</span>
+				</button>
+			</sec:authorize>
+			<sec:authorize access="isAuthenticated()">
+				<button type="button">
+					<i class="bi bi-heart${checkLike == 1 ? '-fill' : ''}"></i>
+					<span>찜하기</span>
+				</button>
+			</sec:authorize>
+			<!-- 누르면 링크 복사되는 버튼 -->
+			<button type="button" onclick="clip()">
+				<i class="bi bi-clipboard"></i>
+				<span>링크복사</span>
+			</button>
+		</section>
+		<div class="joongoDetailContainer">
+			<!-- 상품이미지 여러 개일 경우 슬라이더 -->
 			<div id="carouselExampleIndicators" class="carousel slide">
 			  <div class="carousel-indicators">
 				<c:forEach items="${flist }" var="fvo" varStatus="status">
@@ -57,47 +65,46 @@
 			    <span class="visually-hidden">Next</span>
 			  </button>
 			</div>
-	<div class="profile">
-		<img src="../resources/image/logoimage.png" class="card-img-top" alt="프로필 이미지">
-		<p>${pbvo.proNickName }</p>
-		<p>${pbvo.proSido } ${pbvo.proSigg }</p>
-		<p>조회 ${pbvo.proReadCnt }</p>
+			<div class="contentArea">
+				<textarea id="dynamicTextarea" cols="30" rows="10" readonly>${pbvo.proContent}</textarea>
+			</div>
+		<div class="profileArea">
+			<img src="../resources/image/logoimage.png" class="card-img-top" alt="프로필 이미지">
+			<div class="writerInfo">
+				<b>${pbvo.proNickName } 님</b>
+				<p>${pbvo.proEmd }</p>
+			</div>
+			<sec:authorize access="isAuthenticated()">
+				<sec:authentication property="principal.mvo.memEmail" var="authEmail"/>
+				<c:if test="${pbvo.proEmail ne authEmail}">
+					<!-- 글 작성자가 아닐 경우에만 띄울 버튼 -->
+					<button type="button">채팅 <i class="bi bi-chat-dots"></i></button>					
+				</c:if>
+			</sec:authorize>
+		</div>
+		
 		<sec:authorize access="isAuthenticated()">
-			<sec:authentication property="principal.mvo.memEmail" var="authEmail"/>
-			<c:if test="${pbvo.proEmail ne authEmail}">
-				<!-- 글 작성자가 아닐 경우에만 띄울 버튼 -->
-				<button type="button" class="btn btn-outline-warning">채팅하기</button>					
+			<c:if test="${pbvo.proEmail eq authEmail}">
+				<div class="writerBtnArea">
+					<!-- 글 작성자에게만 띄울 버튼 -->
+					<a href="/joongo/modify?proBno=${pbvo.proBno }"><button type="submit">수정</button></a>
+					<a href="/joongo/remove?proBno=${pbvo.proBno }"><button type="button">삭제</button></a>
+				</div>
 			</c:if>
 		</sec:authorize>
-	</div>
-	<div class="prodArea">
-		<sec:authorize access="isAnonymous()">
-			<i class="bi bi-heart-fill no-login"></i>
-		</sec:authorize>
-		<sec:authorize access="isAuthenticated()">
-			<i class="bi bi-heart${checkLike == 1 ? '-fill' : ''}"></i>
-		</sec:authorize>
+		</div>
 		
-		<h3>${pbvo.proTitle }</h3>
-		<p>${pbvo.proMenu } * ${pbvo.proRegAt }</p>
-		<h3>${pbvo.proPrice }</h3>
-		<textarea cols="30" rows="10" readonly>${pbvo.proContent }</textarea>
 	</div>
-	
-	<sec:authorize access="isAuthenticated()">
-		<c:if test="${pbvo.proEmail eq authEmail}">
-			<!-- 글 작성자에게만 띄울 버튼 -->
-			<a href="/joongo/modify?proBno=${pbvo.proBno }"><button type="submit" class="btn btn-success">수정</button></a>
-			<a href="/joongo/remove?proBno=${pbvo.proBno }"><button type="button" class="btn btn-danger">삭제</button></a>		
-		</c:if>
-	</sec:authorize>
-	
-</div>
 <jsp:include page="../common/footer.jsp" />
 <script>
 const bnoVal = `<c:out value="${pbvo.proBno}" />`;
 const userEmail = `<c:out value="${authEmail}" />`;
+let price = `<c:out value="${pbvo.proPrice}" />`;
+price = parseInt(price).toLocaleString('ko-KR');
+document.querySelector('.prodArea .wrap h2').append(price+'원');
+
 </script>
+<script src="/resources/js/abjustTextareaRows.js"></script>
 <script src="/resources/js/likeItem.js"></script>
 </body>
 </html>
