@@ -113,6 +113,11 @@
 		<option ${pbvo.proMenu eq "교육" ? "selected" : ""} value="교육">교육.강사</option>
 		<option ${pbvo.proMenu eq "기타" ? "selected" : ""} value="기타">기타</option>
 	</select> 
+	<select id="sort" class="sortSelect" name="sort">
+		<option value="newest">최신순</option>
+		<option value="oldest">오래된 순</option>
+		<option value="hotest">인기순</option>
+	</select>
 
 
 	<!-- 우리동네 알바 출력 리스트 -->                                                                                                                                                                                                                                                                                                                                                                                                   

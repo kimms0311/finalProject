@@ -3,15 +3,22 @@ window.onload = function() {
     setTimeout(()=> document.getElementById('loading').style.display = 'none', 500);
 };
 
-// select 메뉴 변경 시 이벤트 처리
-const menu = null;
-document.getElementById('menu').addEventListener('change', function () {
+// 메뉴, 정렬 값 가져오기
+const menu = document.getElementById('menu').value;
+const sort = document.getElementById('sort').value;
+
+// select menu 변경 시 이벤트 처리
+document.getElementById('menu').addEventListener('change', ()=>{
     // 선택된 메뉴 값 가져오기
     menu = document.getElementById('menu').value;
     console.log("menu >> " + menu);
-    
-    // 알바 리스트를 가져와서 출력하는 함수 호출
-    spreadProductList(selectedMenu);
+});
+
+// select sort 변경 시 이벤트 처리
+document.getElementById('sort').addEventListener('change', ()=>{
+    // 선택된 메뉴 값 가져오기
+    sort = document.getElementById('sort').value;
+    console.log("sort >> " + sort);
 });
 
 // 서버에서 알바 리스트 가져오기
@@ -73,26 +80,24 @@ function spreadProductList(menu, page = 1) {
 
 
 
-// 전역 변수로 현재 페이지 번호를 설정합니다.
-let currentPage = 1;
 
 // "더 보기" 버튼 클릭 시 호출될 함수
 async function loadMore() {
-    // 현재 페이지를 서버로 전송하여 다음 페이지의 데이터를 가져옵니다.
-    await getBoardList(proBno, currentPage);
+    console.log("더보기 클릭");
+    const currentPage = parseInt(document.getElementById('moreBtn').dataset.page);
 
-    // 현재 페이지를 증가시킵니다.
-    currentPage++;
+    getMoreProduct(category, currentPage, menu, sort);
 
-    // "더 보기" 버튼을 갱신합니다.
-    updateMoreButtonVisibility();
 }
 
-// "더 보기" 버튼을 갱신하는 함수
-function updateMoreButtonVisibility() {
-    let moreBtn = document.getElementById("moreBtn");
-
-    // 더 불러올 데이터가 있는 경우 버튼을 표시하고, 없는 경우 숨깁니다.
-    moreBtn.style.visibility = (currentPage <= totalPage) ? "visible" : "hidden";
+async function getMoreProductForServer(category, page, menu, sort){
+    try {
+        const resp = await fetch('/'+category+'/page/'+page+'/'+menu+'/'+sort);
+        const result = await resp.json();
+    } catch (error) {
+        console.log(error);
+    }
 }
+
+
 
