@@ -12,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,8 +23,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.avo.www.domain.FileVO;
 import com.avo.www.domain.JobBoardDTO;
 import com.avo.www.domain.LikeItemVO;
+import com.avo.www.domain.PagingVO;
 import com.avo.www.domain.ProductBoardVO;
 import com.avo.www.handler.FileHandler;
+import com.avo.www.handler.PagingHandler;
 import com.avo.www.service.JobBoardService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -38,32 +41,29 @@ public class JobBoardController {
    @Inject
 	private FileHandler fh;
    
-   @GetMapping("/list")
-   public String getList(Model m, ProductBoardVO pbvo) {
-	   log.info(">>>>> job list page >> ");
-	   log.info(">>>>> pbvo >> "+pbvo);
-	   
-	   
-	   List<JobBoardDTO> list = jbsv.getList();
-	   log.info(">>>>> get list >> "+list);
+// LIST에 페이징 추가
+   @GetMapping(value = "/list/{menu}/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
+   public ResponseEntity<JobBoardDTO> spread(
+           @PathVariable("menu") String menu, // 메뉴에 해당하는 파라미터 추가
+           @PathVariable("page") int page, Model m) {
 
-	   m.addAttribute("list",list);
-	   return ("/job/list");
+       log.info(">>>>> job list page >> ");
+       
+       
+       // 페이징 처리
+       PagingVO pgvo = new PagingVO(page, 8);
+
+       // menu 파라미터를 기반으로 작업 목록 가져오기
+       List<JobBoardDTO> list = jbsv.getList(menu, pgvo);
+       m.addAttribute("list", list);
+       
+//	   List<ProductBoardVO> list = jbsv.getHotList(pbno,pgvo);
+//	   m.addAttribute("hotList",hotList);
+       
+       return new ResponseEntity<>(list, HttpStatus.OK);
+//       return new ResponseEntity<PagingHandler>(jbsv.getList(pbno,pgvo),HttpStatus.OK);
    }
-   
-//   //LIST에 페이징추가
-//   @GetMapping(value="/list", produces = MediaType.APPLICATION_JSON_VALUE)
-//   public ResponseEntity<PagingHandler> spread(
-//			@PathVariable("proBno") long pbno, @PathVariable("page")int page, Model m){
-//	   log.info(">>>>> job list page >> ");
-//	   PagingVO pgvo = new PagingVO(page , 5);
-//	   List<ProductBoardVO> list = jbsv.getList(pbno,pgvo);
-//	   m.addAttribute("list",list);
-//	   
-//	   return new ResponseEntity<PagingHandler>(jbsv.getList(pbno,pgvo),HttpStatus.OK);
-//   }
-//   
-   
+	
    @GetMapping("/register")
    public void getRegister() {
 	   log.info(">>>>> job register page >> ");

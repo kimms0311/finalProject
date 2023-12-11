@@ -17,4 +17,6 @@ public interface JobReviewDAO {
 
 	int delete(long reRno);
 
+	int modify(ReviewVO rvo);
+
 }

@@ -5,7 +5,9 @@ import java.util.List;
 import com.avo.www.domain.FileVO;
 import com.avo.www.domain.JobBoardDTO;
 import com.avo.www.domain.LikeItemVO;
+import com.avo.www.domain.PagingVO;
 import com.avo.www.domain.ProductBoardVO;
+import com.avo.www.handler.PagingHandler;
 
 public interface JobBoardService {
 
@@ -19,8 +21,6 @@ public interface JobBoardService {
 
 	int remove(long proBno);
 
-	List<JobBoardDTO> getList();
-
 	List<FileVO> allFlieList();
 
 	int insertLike(LikeItemVO livo);
@@ -30,6 +30,8 @@ public interface JobBoardService {
 	int checkLike(long proBno, String memEmail);
 
 	int checkLikeCnt(long proBno);
+
+	List<JobBoardDTO> getList(String menu, PagingVO pgvo);
 
 
 }

@@ -62,7 +62,7 @@ async function postReviewToServer(reData) {
 // REVIEW LIST SECTION
 
 console.log("proBnoVal >> " + proBnoVal);
-// 서버
+// 서버에서 리뷰 가져오기
 async function getReviewFromServer(reBno, page){
     try{
         const resp = await fetch('/jobReview/'+reBno+'/'+page);
@@ -77,7 +77,6 @@ async function getReviewFromServer(reBno, page){
 function spreadReviewList(reBno=proBnoVal, page=1){ //시작은 1페이지로 지정
     getReviewFromServer(reBno, page).then(result =>{
         console.log("result>> " ,result); //ph 객체 pgvo, totalCount, jobReList
-        console.log(result.totalCount);
 
         if(result.jobReList.length > 0){
             const ul = document.getElementById('reListArea');
@@ -95,14 +94,23 @@ function spreadReviewList(reBno=proBnoVal, page=1){ //시작은 1페이지로 �
                 li+= `<span class="badge rounded-pill text-bg-dark">${rvo.regAt}</span>`;
                 li+= `</div>`;
                 //별점 평가 표시
-                li+= `<div class="mb-3">`;
-                for(let i = 1 ; i <= 5 ; i++){
-                    if(i<=rvo.reScore){
-                        li += `<label for="starFill${i}">★</label>`;
-                    }else{
-                        li += `<label for="starEmpty${i}">★</label>`;
-                    }
+                // 단순 표시 기능 구현 -> 23.12.11 별점 수정을 위해 radio로 변경함
+                // for(let i = 1 ; i <= 5 ; i++){
+                    //     if(i<=rvo.reScore){
+                        //         li += `<label for="starFill${i}">★</label>`;
+                        //     }else{
+                            //         li += `<label for="starEmpty${i}">★</label>`;
+                            //     }
+                // }
+                li += `<div class="mb-3">`;
+                li += `<fieldset>`;
+                // 1부터 5까지 반복하여 각 별 칸에 대해 체크 여부 확인
+                for (let i = 1; i <= 5; i++) {
+                    li += `<input type="radio" name="rating-${rvo.reRno}" value="${i}" id="rate${rvo.reRno}-${i}" ${i === rvo.reScore ? 'checked' : ''}>`;
+                    li += `<label for="rate${rvo.reRno}-${i}">★</label>`;
                 }
+                li += `</fieldset>`;
+                li+= `</div>`;
                 li+= `<input type="text" value="${rvo.reContent}" class="reContent" readonly="readonly">`;
                 li+= `<input type="hidden" value="${rvo.reRno}" class="reRno">`;
                 // 작성자와 로그인한 mem이 일치하는 경우에만 수정,삭제버튼 보이게 설정
@@ -190,10 +198,10 @@ async function eraseReviewAtServer(reRno, reWriter) {
 document.addEventListener('click',(e)=>{
     // target의 class가 'del'일 경우 삭제
     if(e.target.classList.contains('del')){
-        const rnoVal = e.target.closest('li').querySelector('.reRno').value;
+        const reRno = e.target.closest('li').querySelector('.reRno').value;
         const reWriter = e.target.closest('li').querySelector('.reUserId').innerText;
         // 삭제를 시도하는 mem과 reUser의 ID 동일한지 확인
-        eraseReviewAtServer(rnoVal, reWriter).then(result=>{
+        eraseReviewAtServer(reRno, reWriter).then(result=>{
             if(result == 1){
                 alert('댓글 삭제');
                 spreadReviewList();
@@ -205,6 +213,7 @@ document.addEventListener('click',(e)=>{
     }else if (e.target.classList.contains('mod')) {
         const rnoVal = e.target.closest('li').querySelector('.reRno').value;
         const reWriter = e.target.closest('li').querySelector('.reUserId').innerText;
+        
 
         // content input 태그의 readonly 속성을 제거하여 수정 가능하게 변경
         const reModContent = e.target.closest('li').querySelector('.reContent');
@@ -212,17 +221,20 @@ document.addEventListener('click',(e)=>{
 
         // mod버튼의 텍스트를 "확인"으로 변경
         e.target.textContent = '확인';
-
+        
         // "확인" 버튼 클릭 시 이벤트 핸들러 추가
         e.target.addEventListener('click', function handleConfirmClick() {
+
             // 수정 된 정보 객체에 담기
             const reDataMod = {
                 reRno: rnoVal,
                 reUserId: reWriter,
-                reContent: reModContent.value
+                reContent: reModContent.value,
+                reScore: e.target.closest('li').querySelector(`input[name="rating-${rnoVal}"]:checked`).value
             };
-
+            
             console.log("reDataMod",reDataMod);
+            console.log("reDataMod_rescore",reDataMod.reScore);
 
             // 서버로 수정된 내용 전송
             editReviewToServer(reDataMod).then(result => {

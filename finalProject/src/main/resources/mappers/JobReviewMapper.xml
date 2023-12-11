@@ -19,6 +19,9 @@
   	<delete id="delete">
   		delete from review where re_rno = #{reRno}
   	</delete>
+  	<update id="modify">
+  		update review set re_content=#{reContent}, re_score=#{reScore}, reg_at=now() where re_rno=#{reRno}
+  	</update>
 
 
 </mapper>

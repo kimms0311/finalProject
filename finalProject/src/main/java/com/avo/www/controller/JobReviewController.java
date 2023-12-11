@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -50,8 +51,8 @@ public class JobReviewController {
 	}
 	
 	// 리뷰 삭제
-	@DeleteMapping(value="/del/{rnoVal}/{reWriter}", produces = MediaType.TEXT_PLAIN_VALUE)
-	public ResponseEntity<String> erase(@PathVariable("rnoVal")long reRno, @PathVariable("reWriter")String reWriter, 
+	@DeleteMapping(value="/del/{reRno}/{reWriter}", produces = MediaType.TEXT_PLAIN_VALUE)
+	public ResponseEntity<String> erase(@PathVariable("reRno")long reRno, @PathVariable("reWriter")String reWriter, 
 			Principal principal){
 		log.info(">>>> review delete >> reWriter>  "+reWriter);
 		String username = principal.getName(); 
@@ -65,14 +66,17 @@ public class JobReviewController {
 		
 	}
 	
-//	// 리뷰 수정
-//	@PutMapping(value = "/{cno}", consumes = "application/json", 
-//			produces = MediaType.TEXT_PLAIN_VALUE)
-//	public ResponseEntity<String> edit(@PathVariable("cno")long cno,
-//			@RequestBody CommentVO cvo){
-//		return csv.modify(cvo) > 0? new ResponseEntity<String>("1", HttpStatus.OK) : 
-//			new ResponseEntity<String>("0", HttpStatus.INTERNAL_SERVER_ERROR);
-//	}
-//	
-//
+	// 리뷰 수정
+	@PutMapping(value = "/{reRno}", consumes = "application/json", 
+			produces = MediaType.TEXT_PLAIN_VALUE)
+	public ResponseEntity<String> edit(@PathVariable("reRno")long reRno,
+			@RequestBody ReviewVO rvo){
+		log.info(">>>> review edit >> reRno>  "+reRno);
+		log.info(">>>> review edit >> rvo>  "+rvo);
+		return jrsv.modify(rvo) > 0? new ResponseEntity<String>("1", HttpStatus.OK) : 
+			new ResponseEntity<String>("0", HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
+
+	
 }

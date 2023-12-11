@@ -11,7 +11,10 @@ import org.springframework.transaction.annotation.Transactional;
 import com.avo.www.domain.FileVO;
 import com.avo.www.domain.JobBoardDTO;
 import com.avo.www.domain.LikeItemVO;
+import com.avo.www.domain.PagingVO;
 import com.avo.www.domain.ProductBoardVO;
+import com.avo.www.domain.ReviewVO;
+import com.avo.www.handler.PagingHandler;
 import com.avo.www.repository.JobFileDAO;
 import com.avo.www.repository.JobLikeDAO;
 import com.avo.www.repository.JobBoardDAO;
@@ -28,11 +31,6 @@ public class JobBoardServiceImpl implements JobBoardService {
 	@Inject
 	private JobLikeDAO ldao;
 	
-//	@Override
-//	@Transactional
-//	public int post(ProductBoardVO pbvo) {
-//		return jdao.post(pbvo);
-//	}
 
 	@Override
 	public JobBoardDTO getDetail(long proBno) {
@@ -42,39 +40,6 @@ public class JobBoardServiceImpl implements JobBoardService {
 		return jbdto;
 	}
 	
-	@Transactional
-	@Override
-	public List<JobBoardDTO> getList() {
-	    List<ProductBoardVO> list = jdao.getList();
-	    List<FileVO> flist = allFlieList();
-	    
-	    List<JobBoardDTO> allList = new ArrayList<>();
-
-	    // productList의 각 항목에 대해 JobBoardDTO를 생성하고 fileList에서 매칭되는 FileVO를 찾아 추가
-	    for (ProductBoardVO product : list) {
-	        JobBoardDTO jbdto = new JobBoardDTO();
-	        jbdto.setPbvo(product);
-	        
-	        // fileList를 담을 리스트를 초기화
-	        List<FileVO> matchingFiles = new ArrayList<>();
-	        
-	        // productList의 proBno와 fileList의 bno가 일치하는 경우에만 추가
-	        for (FileVO file : flist) {
-	            if (file.getBno() == product.getProBno()) {
-	                matchingFiles.add(file);
-	                log.info("matchingFile >> " + matchingFiles);
-	                break;
-	            }
-	        }
-	        
-	        // JobBoardDTO에 fileList 설정
-	        jbdto.setFlist(matchingFiles);
-
-	        allList.add(jbdto);
-	    }
-
-	    return allList;
-	}
 
 	@Transactional
 	@Override
@@ -173,6 +138,58 @@ public class JobBoardServiceImpl implements JobBoardService {
 		return jdao.checkLikeCnt(proBno);
 	}
 
+	@Override
+	public List<JobBoardDTO> getList(String menu, PagingVO pgvo) {
+		// 게시글, 파일 리스트
+		List<ProductBoardVO> list = jdao.getList();
+	    List<FileVO> flist = allFlieList();
+	    
+	    // 전부 담을 list
+	    List<JobBoardDTO> allList = new ArrayList<>();
+	    
+	    // productList의 각 항목에 대해 JobBoardDTO를 생성하고 fileList에서 매칭되는 FileVO를 찾아 추가
+	    for (ProductBoardVO product : list) {
+	        JobBoardDTO jbdto = new JobBoardDTO();
+	        jbdto.setPbvo(product);
+	        
+	        // fileList를 담을 리스트를 초기화
+	        List<FileVO> matchingFiles = new ArrayList<>();
+	        
+	        // productList의 proBno와 fileList의 bno가 일치하는 경우에만 추가
+	        for (FileVO file : flist) {
+	            if (file.getBno() == product.getProBno()) {
+	                matchingFiles.add(file);
+	                log.info("matchingFile >> " + matchingFiles);
+	                break;
+	            }
+	        }
+	        
+	        // JobBoardDTO에 fileList 설정
+	        jbdto.setFlist(matchingFiles);
+
+	        allList.add(jbdto);
+	    }
+	    log.info("allList>> " , allList);
+	    PagingHandler ph = new pagingHandler(allList,totalCount);
+
+	    return allList;
+	}
+	    
+//	public PagingHandler getList(long reBno, PagingVO pgvo) {
+//		// 해당 게시글의 전체 리뷰 개수 구하기
+//		int totalCount = jrdao.selectOntBnoTotalCount(reBno);
+//		log.info("getList >> totalCount >> "+totalCount);
+//		
+//		// Review List로 가져오기
+//		List<ReviewVO> jobReList = jrdao.selectListPaging(reBno,pgvo);
+//		log.info("getList >> list >> "+jobReList);
+//		
+//		// 페이징 핸들러에 가져온 값 담아서 보내기
+//		PagingHandler ph = new PagingHandler(pgvo,jobReList,totalCount);
+//		log.info("getList >> ph >> " + ph);
+//		// paging Handler 값 완성 리턴
+//		return ph;
+//	}
 
 
 
