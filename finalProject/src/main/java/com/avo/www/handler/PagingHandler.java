@@ -6,6 +6,7 @@ import com.avo.www.domain.CommunityBoardVO;
 import com.avo.www.domain.CommunityCmtVO;
 import com.avo.www.domain.CommunityReCmtVO;
 import com.avo.www.domain.FileVO;
+import com.avo.www.domain.JobBoardDTO;
 import com.avo.www.domain.PagingVO;
 import com.avo.www.domain.ProductBoardVO;
 import com.avo.www.domain.ReviewVO;
@@ -85,6 +86,10 @@ public class PagingHandler {
    public PagingHandler(PagingVO pgvo, List<ReviewVO> jobReList, int totalCount) {
 	    this(pgvo, totalCount, 5);
 	    this.jobReList = jobReList;
+	}
+
+   // 23.12.12 미수 추가 jobList 페이징용
+	public PagingHandler(List<JobBoardDTO> jbdtoList, PagingVO pgvo, int totalCount ) {
 	}
 
 }

@@ -26,7 +26,7 @@
 	</update>
 	
  	<select id="getList" resultType="pbvo">
-		select * from product where pro_is_del = 'N' and pro_category = 'job' order by pro_bno desc
+		select * from product where pro_is_del = 'N' and pro_category = 'job' order by pro_read_cnt desc
 	</select>
 	
 	<insert id="jobLike" parameterType="long">
@@ -44,13 +44,54 @@
    <select id="checkLikeCnt" resultType="int">
    		select pro_like_cnt from product where pro_bno = #{proBno}
    </select>
+   
+   <select id="getTotalCount">
+		select count(pro_bno) from product where pro_is_del = "N" and pro_category = 'job'
+   </select>
 	
-<!--
-	<select id="getList" resultType="pbvo">
-		select * from product where proBno = #{proBno}
-		order by proBno desc limit #{pgvo.pageStart},#{pgvo.qty}
+	<select id="listPaging" resultType="pbvo">
+		select * from product
+		where pro_is_del = "N" and pro_category = 'job'
+		<!-- 세부카테고리 지정했을 경우 조건 추가 -->
+	    <include refid="search"></include>		
+  		order by pro_re_at desc limit #{pageStart}, #{qty}
 	</select>
- -->
+
+ <sql id="search">
+    <if test="type != null">
+        <trim prefix="and (" suffix=")" prefixOverrides="OR">
+            <trim prefix="OR">
+                <choose>
+                    <when test="type == 'food'.toString()">
+                        pro_menu like 'food'
+                    </when>
+                    <when test="type == 'shop'.toString()">
+                        pro_menu like 'shop'
+                    </when>
+                    <when test="type == 'service'.toString()">
+                        pro_menu like 'service'
+                    </when>
+                    <when test="type == 'office'.toString()">
+                        pro_menu like 'office'
+                    </when>
+                    <when test="type == 'product'.toString()">
+                        pro_menu like 'product'
+                    </when>
+                    <when test="type == 'driver'.toString()">
+                        pro_menu like 'driver'
+                    </when>
+                    <when test="type == 'education'.toString()">
+                        pro_menu like 'education'
+                    </when>
+                    <when test="type == 'etc'.toString()">
+                        pro_menu like 'etc'
+                    </when>				
+                </choose>
+            </trim>
+        </trim>
+    </if>
+</sql>	
+ 
 	
 
 

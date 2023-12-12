@@ -58,7 +58,7 @@
       
 	<!-- 인기 당근알바 출력 리스트 -->
 	<h3>우리동네 인기알바</h3>
-	<div class="hotJobList" id="brdListArea">
+	<div class="brdListArea" id="hotJobList">
 	    <c:forEach items="${list}" var="jbdto" varStatus="loopStatus">
 	        <c:if test="${loopStatus.index < 8}">
 	            <div class="hotJobListContent">
@@ -88,42 +88,28 @@
 	    </c:forEach>
 	</div>
 	
-<!-- 	<div class="allBtns">
-		카테고리 버튼
+ 	<div class="allBtns">
 		<button type="button" class="cateBtns" id="all" value="null">전체</button>
-		<button type="button" class="cateBtns" id="food" value="외식">외식.음료</button>
-		<button type="button" class="cateBtns" id="shop" value="매장관리">매장관리.판매</button>
-		<button type="button" class="cateBtns" id="ser" value="서비스">서비스</button>
-		<button type="button" class="cateBtns" id="off" value="사무직">사무직</button>
-		<button type="button" class="cateBtns" id="pro" value="생산">생산.건설</button>
-		<button type="button" class="cateBtns" id="dri" value="운전">운전.배달</button>
-		<button type="button" class="cateBtns" id="edu" value="교육">교육.강사</button>
-		<button type="button" class="cateBtns" id="etc" value="기타">기타</button>
-	</div> -->
+		<button type="button" class="cateBtns" id="food" value="food">외식.음료</button>
+		<button type="button" class="cateBtns" id="shop" value="shop">매장관리.판매</button>
+		<button type="button" class="cateBtns" id="service" value="service">서비스</button>
+		<button type="button" class="cateBtns" id="office" value="office">사무직</button>
+		<button type="button" class="cateBtns" id="product" value="product">생산.건설</button>
+		<button type="button" class="cateBtns" id="driver" value="driver">운전.배달</button>
+		<button type="button" class="cateBtns" id="education" value="education">교육.강사</button>
+		<button type="button" class="cateBtns" id="etc" value="etc">기타</button>
+	</div>
 
-
- 	<select class="menuSelect" id="menu" name="proMenu" required="required">
-		<option ${pbvo.proMenu eq null ? "selected" : ""}>선택</option>
-		<option ${pbvo.proMenu eq "외식" ? "selected" : ""} value="외식">외식.음료</option>
-		<option ${pbvo.proMenu eq "매장관리" ? "selected" : ""} value="매장관리">매장관리.판매</option>
-		<option ${pbvo.proMenu eq "서비스" ? "selected" : ""} value="서비스">서비스</option>
-		<option ${pbvo.proMenu eq "사무직" ? "selected" : ""} value="사무직">사무직</option>
-		<option ${pbvo.proMenu eq "생산" ? "selected" : ""} value="생산">생산.건설.노무</option>
-		<option ${pbvo.proMenu eq "운전" ? "selected" : ""} value="운전">운전.배달</option>
-		<option ${pbvo.proMenu eq "교육" ? "selected" : ""} value="교육">교육.강사</option>
-		<option ${pbvo.proMenu eq "기타" ? "selected" : ""} value="기타">기타</option>
-	</select> 
 	<select id="sort" class="sortSelect" name="sort">
 		<option value="newest">최신순</option>
 		<option value="oldest">오래된 순</option>
 		<option value="hotest">인기순</option>
 	</select>
 
-
 	<!-- 우리동네 알바 출력 리스트 -->                                                                                                                                                                                                                                                                                                                                                                                                   
  	<h3>우리동네 알바</h3>
-	<div class="jobList" id="brdListArea">
-	    <!-- js로 list출력 -->
+	<div class="brdListArea" id="jobList">
+	    <!-- js로 button에 따라 list출력 -->
 	</div>
 	
 	<button type="button" id="moreBtn" class="btn btn-success" onclick="loadMore()">더 보기</button>
@@ -131,7 +117,7 @@
 </div>
 <script src="/resources/js/jobBoardList.js"></script>
 <script type="text/javascript">
-	spreadProductList();
+getJobList();
 </script>
 <jsp:include page="../common/footer.jsp" />
 </body>

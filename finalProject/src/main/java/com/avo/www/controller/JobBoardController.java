@@ -41,27 +41,17 @@ public class JobBoardController {
    @Inject
 	private FileHandler fh;
    
-// LIST에 페이징 추가
-   @GetMapping(value = "/list/{menu}/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
-   public ResponseEntity<JobBoardDTO> spread(
-           @PathVariable("menu") String menu, // 메뉴에 해당하는 파라미터 추가
-           @PathVariable("page") int page, Model m) {
+   @GetMapping("/list")
+   public String getList(Model m, ProductBoardVO pbvo) {
+	   log.info(">>>>> job list page >> ");
+	   log.info(">>>>> pbvo >> "+pbvo);
+	   
+	   
+	   List<JobBoardDTO> list = jbsv.getList();
+	   log.info(">>>>> get list >> "+list);
 
-       log.info(">>>>> job list page >> ");
-       
-       
-       // 페이징 처리
-       PagingVO pgvo = new PagingVO(page, 8);
-
-       // menu 파라미터를 기반으로 작업 목록 가져오기
-       List<JobBoardDTO> list = jbsv.getList(menu, pgvo);
-       m.addAttribute("list", list);
-       
-//	   List<ProductBoardVO> list = jbsv.getHotList(pbno,pgvo);
-//	   m.addAttribute("hotList",hotList);
-       
-       return new ResponseEntity<>(list, HttpStatus.OK);
-//       return new ResponseEntity<PagingHandler>(jbsv.getList(pbno,pgvo),HttpStatus.OK);
+	   m.addAttribute("list",list);
+	   return ("/job/list");
    }
 	
    @GetMapping("/register")
@@ -153,7 +143,6 @@ public class JobBoardController {
         log.info("LikeItemVO >> "+livo);
 
         // likeVO service 전송
-        // status가 3일 경우 첫 찜하기 이므로 like insert로 생성
         if(livo.getLiStatus() == 1) {
         	int isOk = jbsv.insertLike(livo);
         	log.info("찜 "+(isOk > 0 ? "성공" : "실패"));
@@ -162,13 +151,17 @@ public class JobBoardController {
         log.info("like>> deleteLike >> else live >> " + livo);
         log.info("찜 "+(isOk > 0 ? "성공" : "실패"));
         }
-        
-
-		
 		return new ResponseEntity<String>("", HttpStatus.OK);
 	}
 
 	
+	@GetMapping(value = "/page/{page}/{type}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<PagingHandler> spread(@PathVariable("page") int page, 
+	        @PathVariable("type") String type) {
+	    
+	    PagingVO pgvo = new PagingVO(page, 8, type);
+	    return new ResponseEntity<PagingHandler>(jbsv.getPageList(pgvo), HttpStatus.OK);
+	}
 	
 	 @GetMapping("/about")
 	 public void getAbout() {

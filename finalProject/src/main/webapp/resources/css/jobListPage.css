@@ -17,7 +17,7 @@
     padding: 20px;
 }
 
-.hotJobList, .jobList {
+.brdListArea {
     width: 80%;
 	display: flex;
     justify-content: space-between;
