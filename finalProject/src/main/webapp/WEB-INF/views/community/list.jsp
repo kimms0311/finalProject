@@ -11,11 +11,11 @@
 </head>
 <body>
 <jsp:include page="../common/header.jsp" />
+<div class="userLocation">
+	<p class="userLocationP"><i class="bi bi-people-fill"></i> 구월동 소식</p>
+</div>
 <div class="bodyContainer">
 
-<!-- <div class="userLocation">
-	<p><i class="bi bi-geo-alt"></i>OO동 동네소식</p>
-</div> -->
 
 <div class="CommunityCategory">
 	<a href="/community/list?cmMenu=전체" class="menu cmActive">전체</a>
@@ -37,7 +37,7 @@
 		<p class="boardMenuName">${bvo.cmMenu }</p>
 		
 		<div class="user_profile">
-			<i class="bi bi-person-circle"></i>
+			<img id="cmListProfile" class="cmUserProfile" alt="" src="/resources/image/기본 프로필.png">
 			<b>${bvo.cmNickName}</b>
 			<p>${bvo.cmRegAt }</p>
 			<p><i class="bi bi-geo-alt-fill"></i>${bvo.cmEmd }</p>
@@ -63,8 +63,8 @@
 		</div>
 	</div>
 </div>
-<div class="">
-	<button class="moreBtn" type="button" id="moreBtn" data-page="1" style="visiblity:hidden">more +</button>
+<div>
+	<button class="moreBtn" type="button" id="moreBtn" data-page="1" style="visiblity:hidden">더보기</button>
 </div>
 
 </div>
@@ -74,11 +74,17 @@
 		<button type="button">글쓰기</button>
 	</a>
 	<button type="button">채팅하기</button>
-	<button type="button">고객센터</button>
-	<button type="button">TOP</button>
+	<a href="/faq/list?faqCategory=전체">
+		<button type="button">고객센터</button>
+	</a>
+	<a href="#top">
+		<button type="button">TOP</button>
+	</a>
 </div>
 
 <jsp:include page="../common/footer.jsp" />
+<!-- 프로필 메서드 불러오기 위해서 -->
+<script type="text/javascript" src="/resources/js/communityBoardLike.js"></script>
 <script type="text/javascript" src="/resources/js/communityBoardList.js"></script>
 <script type="text/javascript">
 let myMenu = `<c:out value="${cmMenu}"/>`;

@@ -32,5 +32,7 @@ public interface CommunityBoardService {
 
 	List<FileVO> getThumb(long cmBno);
 
+	FileVO getProfile(String cmEmail);
+
 
 }

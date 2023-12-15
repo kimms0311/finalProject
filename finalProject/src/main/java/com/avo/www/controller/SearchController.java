@@ -5,14 +5,20 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.avo.www.domain.CommunityBoardVO;
 import com.avo.www.domain.PagingVO;
 import com.avo.www.domain.ProductBoardVO;
+import com.avo.www.handler.PagingHandler;
 import com.avo.www.service.SearchService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -25,22 +31,67 @@ public class SearchController {
 	@Inject
 	private SearchService ssv;
 	
+	private PagingVO pgvo;
+	
+	@GetMapping(value = "/joongo/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<PagingHandler> getJoongoSearch(@PathVariable("page")int page) {
+		log.info(">>>>>>>>> page >>>>>>>> "+page);
+		this.pgvo.setPageNo(page);
+		log.info(">>>>>>>>> pgvo >>>>>>>> "+pgvo);
+		
+		int totalCount = ssv.getSearchProductTotalCount(pgvo, "joongo");
+		log.info(">>>>>>>> getJoongoSearch totalcount >>>>> "+totalCount);
+		
+		PagingHandler ph = new PagingHandler(pgvo, totalCount, ssv.getSearchProductList(pgvo, "joongo"));
+		
+		return new ResponseEntity<PagingHandler>(ph, HttpStatus.OK);
+	}
+	
+	@GetMapping(value = "/store/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<PagingHandler> getStoreSearch(@PathVariable("page")int page) {
+		log.info(">>>>>>>>> page >>>>>>>> "+page);
+		this.pgvo.setPageNo(page);
+		log.info(">>>>>>>>> pgvo >>>>>>>> "+pgvo);
+		
+		int totalCount = ssv.getSearchProductTotalCount(pgvo, "store");
+		log.info(">>>>>>>> getJoongoSearch totalcount >>>>> "+totalCount);
+		
+		PagingHandler ph = new PagingHandler(pgvo, totalCount, ssv.getSearchProductList(pgvo, "store"));
+		
+		return new ResponseEntity<PagingHandler>(ph, HttpStatus.OK);
+	}
+	
+	@GetMapping(value = "/job/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<PagingHandler> getJobSearch(@PathVariable("page")int page) {
+		log.info(">>>>>>>>> page >>>>>>>> "+page);
+		this.pgvo.setPageNo(page);
+		log.info(">>>>>>>>> pgvo >>>>>>>> "+pgvo);
+		
+		int totalCount = ssv.getSearchProductTotalCount(pgvo, "job");
+		log.info(">>>>>>>> getJoongoSearch totalcount >>>>> "+totalCount);
+		
+		PagingHandler ph = new PagingHandler(pgvo, totalCount, ssv.getSearchProductList(pgvo, "job"));
+		
+		return new ResponseEntity<PagingHandler>(ph, HttpStatus.OK);
+	}
+	
+	@GetMapping(value = "/community/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<PagingHandler> getCommunitySearch(@PathVariable("page")int page) {
+		log.info(">>>>>>>>> page >>>>>>>> "+page);
+		this.pgvo.setPageNo(page);
+		log.info(">>>>>>>>> pgvo >>>>>>>> "+pgvo);
+		
+		int totalCount = ssv.getSearchCommunityTotalCount(pgvo);
+		log.info(">>>>>>>> getJoongoSearch totalcount >>>>> "+totalCount);
+		
+		PagingHandler ph = new PagingHandler(pgvo, totalCount, ssv.getSearchCommunityList(pgvo), 7);
+		
+		return new ResponseEntity<PagingHandler>(ph, HttpStatus.OK);
+	}
+	
 	@PostMapping("/search")
 	public void postSearch(PagingVO pgvo, Model m) {
-		log.info(">>>>>>>>> SearchController >>>>> "+pgvo);
-		List<ProductBoardVO> pbvo = ssv.searchProBoard(pgvo);
-//		List<CommunityBoardVO> cbvo = ssv.searchCommuBoard(pgvo);
-
-		log.info(">>>>>>>>>> searchProBoard pbvo >>>>>>>>>> "+pbvo);
-		m.addAttribute("pbvo", pbvo);
-		
-		// 검색결과에 들어온 카테고리 종류 구하기
-		List<String> category = new ArrayList<String>();
-		for(ProductBoardVO bvo : pbvo) {
-			category.add(bvo.getProCategory().substring(3));
-		}
-		log.info(">>>>>>> category >>>>> "+category);
-		m.addAttribute("category", category);
-		
+		this.pgvo = pgvo;
 	}
+	
 }

@@ -1,6 +1,8 @@
 // 현재 경로 가져오기
-let path = window.location;
+let path = window.location.pathname;
 console.log("path : "+path);
+let activePath = path.substring(path.indexOf('/')+1,path.lastIndexOf('/'));
+console.log("activePath : "+activePath);
 
 // nav의 li 요소 가져오기
 let liList = document.querySelectorAll('nav ul li');
@@ -9,9 +11,18 @@ for(let li of liList){
     // 이전 active 클래스 삭제
     li.classList.remove('active');
 
-    // 현재 링크와 a태그의 링크가 동일하면 active 클래스 적용
-    if(li.firstChild.href == path){
-        li.classList.add('active');
+    // 현재 링크에 특정 path가 포함되면 active 클래스 적용
+    switch (activePath){
+        case '':
+            break;
+        case '/':
+            break;
+        case 'member':
+            activePath = path.substring(path.lastIndexOf('/'));
+        default:
+            if(li.firstChild.href.includes(activePath))
+                li.classList.add('active');
+            break;
     }
 }
 
@@ -26,16 +37,17 @@ document.getElementById('my').addEventListener('click',()=>{
 })
 
 // 검색
-// 검색 버튼을 눌렀을 때
-document.querySelector('.openMenu').addEventListener('click',()=>{
-    document.querySelector('.searchMenu').classList.toggle('off');
+// 검색어를 입력할 때
+document.getElementById('searchInput').addEventListener('input',(e)=>{
     // 검색어가 openMenu 창의 input에도 들어가도록 설정
-    let keyword = document.querySelector('.openMenu').previousSibling.previousSibling.value;
+    let keyword = document.getElementById('searchInput').value;
     document.getElementById('keyword').value = keyword;
 })
 
-
-
+// 검색 버튼을 눌렀을 때
+document.querySelector('.openMenu').addEventListener('click',()=>{
+    document.querySelector('.searchMenu').classList.toggle('off');
+})
 
 // 검색 조건 가져오기
 function getSearchCondition(){

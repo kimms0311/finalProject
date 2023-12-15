@@ -14,7 +14,7 @@
 <jsp:include page="../common/header.jsp" />
 <c:set value="${bdto.bvo}" var="bvo" />
 
-<div class="bodyContainer">
+<div class="bodyContainer" id="cmDetailContainer">
 
 <!-- 게시판 라인 -->
 <div class="boardLine">
@@ -23,10 +23,14 @@
 	</div>
 	<div class="top_line">
 		<div class="top_line_user">
-			<i class="bi bi-person-circle"></i>
-			<b>${bvo.cmNickName}</b>
-			<p>${bvo.cmRegAt }</p>
-			<p><i class="bi bi-geo-alt-fill"></i>${bvo.cmEmd }</p>
+			<div class="userLeft">
+				<img id="cmUserProfile" class="cmUserProfile" alt="" src="/resources/image/기본 프로필.png">
+			</div>
+			<div class="userRight">
+				<b class="cmDetailNick">${bvo.cmNickName}</b>
+				<p class="boardRegAt" id="onlyDate"></p>
+				<p class="userlocation"><i class="bi bi-geo-alt-fill cmWriterLocationIcon"></i>${bvo.cmEmd }</p>
+			</div>
 		</div>
 		<!-- 만약 내가 쓴 글이면 ...이 오게 해서 누르면 수정, 삭제 선택할 수 있도록 -->
 		<sec:authorize access="isAuthenticated()">
@@ -52,7 +56,7 @@
 	</div>
 	
 	<div class="middle_line">
-		<b>${bvo.cmTitle }</b> <br>
+		<b class="cmTitle">${bvo.cmTitle }</b> <br>
 		<textarea class="cmContent" id="dynamicTextarea">${bvo.cmContent }</textarea>
 		<!-- 파일 -->
 		<c:set value="${bdto.flist }" var="flist" />
@@ -142,7 +146,7 @@
 	      
 	      <div class="modal-body">
 	        <div class="input-group mb-3">
-	        	<input type="text" class="form-control" id="cmtTextMod">
+	        	<input type="text" class="cmtModInput" id="cmtTextMod">
 	        </div>
 	      </div>
 	      
@@ -161,29 +165,40 @@
 <a href="/community/list">
 	<button type="button" class="listBtn">목록</button>
 </a>
+<a href="#top">
 <button type="button" class="topBtn">TOP</button>
+</a>
 </div>
 
 
 </div>
-<!-- bodyContainer -->
+<!-- 여기까지 bodyContainer -->
+
 <jsp:include page="../common/footer.jsp" />
 
 <script type="text/javascript">
 //bno 보내주기
 let bnoVal = `<c:out value="${bvo.cmBno}"/>`;
-console.log(bnoVal);
 
 let userEmail = `<c:out value="${authEmail}"/>`;
 let userNick = `<c:out value="${authNick}"/>`;
+
+//프로필을 위한 게시글 이메일 보내주기
+let boardWriterEmail = `<c:out value="${bvo.cmEmail}"/>`;
+	
+//날짜 시간 없애기용
+let cmBoardDate = `<c:out value="${bvo.cmRegAt }"/>`;
 </script>
 
 <!-- 좋아요 -->
 <script type="text/javascript" src="/resources/js/communityBoardLike.js"></script>
-
+<!-- textarea -->
+<script type="text/javascript" src="/resources/js/abjustTextareaRows.js"></script>
 <!-- 댓글 -->
 <script type="text/javascript" src="/resources/js/communityComment.js"></script>
 <script type="text/javascript">
+communityProfile(boardWriterEmail, "cmUserProfile");
+onlyDate(cmBoardDate);
 spreadCommentList(bnoVal);
 </script>
 

@@ -38,17 +38,37 @@ async function likeToServer(bno, email){
     }
 }
 
-// 글 내용에 따라 textarea 줄 수 조정하는 함수
-function adjustTextareaRows() {
-    var textarea = document.getElementById('dynamicTextarea');
-    
-    // 글 내용에서 줄바꿈 수를 세어 변수 저장
-    var lineCount = (textarea.value.match(/\n/g) || []).length + 1;
-
-    textarea.rows = lineCount;
+//프로필을 받아오기 위해 이메일 보내주기
+async function getProfileToServer(email){
+	try{
+		const url = '/community/profile/'+email;
+		const config = {
+            method : "post"
+        };
+        const resp = await fetch(url, config);
+        const result = await resp.json();
+        return result; 
+        
+    }catch(err){
+        console.log(err);
+    }
 }
 
-// 페이지가 로드되면 adjustTextareaRows 함수 설정
-document.addEventListener('DOMContentLoaded', adjustTextareaRows);
-// textarea에 글을 입력할 때도 adjustTextareaRows 함수 설정
-document.getElementById('dynamicTextarea').addEventListener('input', adjustTextareaRows);
+function communityProfile(email, id){
+	getProfileToServer(email).then(result =>{
+		console.log(result);
+		if(result != null){
+			document.getElementById(id).src = `/upload/profile/${result.saveDir.replace('\\','/')}/${result.uuid}_${result.fileName}`;
+		}
+	})
+}
+
+//시간 제외 날짜만 나오게 하기
+function onlyDate(date){
+	let dateOnly = new Date(date); 
+	const year = dateOnly.getFullYear();
+	const month = (dateOnly.getMonth() + 1).toString().padStart(2, '0');
+	const day = dateOnly.getDate().toString().padStart(2, '0');
+	const extractedDate = `${year}-${month}-${day}`;
+	document.getElementById('onlyDate').innerText = extractedDate;
+}

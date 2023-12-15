@@ -11,6 +11,7 @@
 </head>
 <body>
 <jsp:include page="../common/header.jsp" />
+<jsp:include page="../common/mainFloatingMenu.jsp"/>
 <div class="bodyContainer">
 	<div class="boardMenuArea">
 		<h3>거래 물품 <b>0</b>개</h3>

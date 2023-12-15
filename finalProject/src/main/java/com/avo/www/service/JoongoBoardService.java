@@ -41,5 +41,9 @@ public interface JoongoBoardService {
 
 	int selectJoongoTotal(PagingVO pgvo);
 
+	int selectAllLikeCnt(long liBno);
+
+	FileVO getProfileImage(String email);
+
 
 }

@@ -31,12 +31,13 @@
 	
     <div class="form">
     	<p class="label">제목</p>
-		<input type="text" name="cmTitle" class="titleInput" placeholder="제목을 입력해 주세요" required="required">
+		<input type="text" name="cmTitle" class="titleInput" id="csTitle" placeholder="제목을 입력해 주세요" required="required">
 	</div>
 
 	<div class="form">
 		<p class="label">카테고리</p>
-		<select name="cmMenu" class="cmMenu">
+		<select name="cmMenu" class="cmMenu" id="csMenu">
+			<option value="선택" selected style="display:none">선택</option>
 		    <option value="일상">일상</option>
 		    <option value="모임">모임</option>
 		    <option value="질문">질문</option>
@@ -49,7 +50,7 @@
     
 	<div class="form">
 		<p class="label">내용</p>
-		<textarea rows="3" cols="30" name="cmContent" class="contentInput" placeholder="근처 이웃과 동네에서의 소소한 일상, 정보를 공유해보세요"  required="required"></textarea>
+		<textarea id="dynamicTextarea" name="cmContent" class="contentInput" placeholder="근처 이웃과 동네에서의 소소한 일상, 정보를 공유해보세요"  required="required"></textarea>
 	</div>
 	
 	<!-- 파일 -->
@@ -66,7 +67,7 @@
 	
 	<div class="cmButtons">
 		<a href="/community/list"><button type="button" class="cancelBtn">취소</button></a>
-		<button type="submit" class="regBtn" id="regBtn">작성하기</button>
+		<button type="submit" class="regBtn" id="regBtn" disabled="disabled">작성하기</button>
 	</div>
 </form>
 </div>
@@ -75,5 +76,6 @@
 
 <jsp:include page="../common/footer.jsp" />
 <script type="text/javascript" src="/resources/js/communityBoardRegister.js"></script>
+<script type="text/javascript" src="/resources/js/abjustTextareaRows.js"></script>
 </body>
 </html>

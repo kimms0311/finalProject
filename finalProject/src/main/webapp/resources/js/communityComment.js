@@ -75,7 +75,6 @@ function spreadCommentList(bno){
                 ul.innerHTML = ""; //jsp에 임시로 넣어둔 댓글 표시영역을 지우고, 비어있는 값으로 바꿔버리기
             
             for(let cvo of result){
-                
                 console.log(cvo.cmtIsDel);
                 //부모댓글
                 if(cvo.cmtIsDel == 'Y'){
@@ -89,8 +88,12 @@ function spreadCommentList(bno){
                     str += `<div class="cmtContainer">`; 
     
                     str += `<div class="cmtUserLine">
-                            <div><i class="bi bi-person-circle"></i> ${cvo.cmtNickName} `;
-                    str += `<span class=""> ${cvo.cmtModAt}</span></div>`;
+                            <div><img id="cmtProfile-${cvo.cmtCno}" class="cmUserProfile" alt="" src="/resources/image/기본 프로필.png"> <p class="cmtNickName">${cvo.cmtNickName}</p> `;
+                            communityProfile(cvo.cmtEmail, `cmtProfile-${cvo.cmtCno}`);
+                    if(cvo.cmtEmail == userEmail){
+                        str += `<span class="boardWriterSpan">작성자</span>`; 
+                    } 
+                    str += `<span class="cmtDate"> ${cvo.cmtModAt}</span></div>`;
                     //수정, 삭제 버튼
                     if(cvo.cmtEmail == userEmail){ 
                         str += `<div class="userDropdownMenu">
@@ -98,7 +101,7 @@ function spreadCommentList(bno){
                             <i class="bi bi-three-dots cmtUserBtn"></i>
                         </button>
                         <ul class="cmtUserMenu menu-off" style="display:none">
-                            <a class="modBtn" href="#" data-bs-toggle="modal" data-bs-target="#myModal">수정하기</a>
+                            <a class="modBtn" href="#" data-cmtcontent="${cvo.cmtContent}" data-bs-toggle="modal" data-bs-target="#myModal">수정하기</a>
                             <a class="delBtn" href="#">삭제하기</a>
                         </ul>
                         </div>`
@@ -131,8 +134,12 @@ function spreadCommentList(bno){
                             str += `<div class="cmtContainer">`; 
 
                             str += `<div class="cmtUserLine">
-                                    <div><i class="bi bi-person-circle"></i> ${cvo.reNickName} `;
-                            str += `<span class=""> ${cvo.reModAt}</span></div>`;
+                                    <div><img id="reCmtProfile-${cvo.reCno}" class="cmUserProfile" alt="" src="/resources/image/기본 프로필.png"> <p class="cmtNickName">${cvo.reNickName}</p> `;
+                                    communityProfile(cvo.reEmail, `reCmtProfile-${cvo.reCno}`);
+                            if(cvo.reEmail == userEmail){
+                                str += `<span class="boardWriterSpan">작성자</span>`; 
+                            } 
+                            str += `<span class="cmtDate"> ${cvo.reModAt}</span></div>`;
                             //수정, 삭제 버튼
                             if(cvo.reEmail == userEmail){
                                 str += `<div class="userDropdownMenu">
@@ -140,8 +147,8 @@ function spreadCommentList(bno){
                                     <i class="bi bi-three-dots cmtUserBtn"></i>
                                 </button>
                                 <ul class="cmtUserMenu menu-off" style="display:none">
-                                    <a class="modBtn" href="#" data-bs-toggle="modal" data-bs-target="#myModal">수정하기</a>
-                                    <a class="delBtn" href="#">삭제하기</a>
+                                    <a class="reModBtn" href="#" data-recontent="${cvo.reContent}" data-bs-toggle="modal" data-bs-target="#myModal">수정하기</a>
+                                    <a class="reDelBtn" href="#" data-recmtcno="${cvo.reCmtCno}">삭제하기</a>
                                 </ul>
                                 </div>`
                             }
@@ -152,20 +159,20 @@ function spreadCommentList(bno){
                             str += `</div></li></ul>`;
                             
                             reUl.innerHTML += str;
-
-                            // 마지막 댓글에 클래스 추가
-                            const lastComment = ul.lastElementChild;
-                            lastComment.classList.add('last-comment');
-                           
                         }
                     }
                 })
-            }
 
+            }
+            
         }else{
-            let str = `<li class="list-group-item">첫 댓글을 남겨주세요.</li>`;
+            let str = `<li class="noComment">첫 댓글을 남겨주세요</li>`;
             ul.innerHTML = str;
         }
+        
+        // 마지막 댓글에 클래스 추가
+        const lastComment = ul.lastElementChild;
+        lastComment.classList.add('last-comment');
         
     })
 }
@@ -215,10 +222,11 @@ document.addEventListener('click', (e)=>{
         console.log('수정버튼 클릭!');
         let li = e.target.closest('li');
         //nextSibling() : 같은 부모의 다음 형제 객체를 반환 => ${cvo.content}
-        let cmtText = li.querySelector('.fw-bold').nextSibling;
-        console.log(cmtText);
+        //let cmtText = li.querySelector('.fw-bold').nextSibling;
+        let cmtText = e.target.dataset.cmtcontent;
+        console.log(">>> cmtText >> "+cmtText);
         //기존 내용 모달창에 반영
-        document.getElementById('cmtTextMod').value = cmtText.innerText; 
+        document.getElementById('cmtTextMod').value = cmtText; 
         //value는 input태그에만 사용
         //nodeValue = innerText(div로 쌓여있을 때)
         //cmtModBtn에 data-cno 달기 
@@ -384,9 +392,9 @@ async function reEditToServer(reModData){
 }
 
 //대댓글 삭제
-async function reRemoveToServer(cno){
+async function reRemoveToServer(cno, cmtCno){
     try{
-        const url = '/reCmt/'+cno;
+        const url = '/reCmt/'+cno+'/'+cmtCno;
         const config = {
             method : 'delete',
         };
@@ -402,14 +410,15 @@ async function reRemoveToServer(cno){
 
 document.addEventListener('click', (e)=>{
     //수정버튼 클릭시
-    if(e.target.classList.contains('modBtn')){
+    if(e.target.classList.contains('reModBtn')){
         console.log('수정버튼 클릭!');
         let li = e.target.closest('li');
         //nextSibling() : 같은 부모의 다음 형제 객체를 반환 => ${cvo.content}
-        let cmtText = li.querySelector('.fw-bold').nextSibling;
+        //let cmtText = li.querySelector('.fw-bold').nextSibling;
+        let cmtText = e.target.dataset.recontent;
         console.log(cmtText);
         //기존 내용 모달창에 반영
-        document.getElementById('cmtTextMod').value = cmtText.innerText; 
+        document.getElementById('cmtTextMod').value = cmtText; 
         //value는 input태그에만 사용
         //nodeValue = innerText(div로 쌓여있을 때)
         //cmtModBtn에 data-cno 달기 
@@ -433,12 +442,14 @@ document.addEventListener('click', (e)=>{
         })
 
     //삭제버튼 클릭시
-    }else if(e.target.classList.contains('delBtn')){
+    }else if(e.target.classList.contains('reDelBtn')){
         console.log('삭제버튼 클릭!');
         let li = e.target.closest('li');
         let cnoVal = li.dataset.recno;
+        let cmtCnoVal = e.target.dataset.recmtcno;
+        console.log("cmtcno >> "+cmtCnoVal);
 
-        reRemoveToServer(cnoVal).then(result => {
+        reRemoveToServer(cnoVal, cmtCnoVal).then(result => {
             if(result == 1){
                 alert("대댓글 삭제 성공");
             }

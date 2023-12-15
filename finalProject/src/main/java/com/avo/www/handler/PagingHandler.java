@@ -86,5 +86,10 @@ public class PagingHandler {
 	    this(pgvo, totalCount, 5);
 	    this.jobReList = jobReList;
 	}
+   
+   public PagingHandler(PagingVO pgvo, int totalCount, List<CommunityBoardVO> cmList, int minus) {
+	   this(pgvo, totalCount, minus);
+	   this.cmList = cmList;
+   }
 
 }

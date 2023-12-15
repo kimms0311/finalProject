@@ -31,9 +31,16 @@ public class FileHandler {
       today = today.replace("-", File.separator);
       
       // 각 페이지 별 파일 업로드 폴더 위치 설정
-      if(UP_DIR.equals("D:\\_fileupload\\")) {
-         UP_DIR = UP_DIR + dir;
-
+      switch (dir) {
+		case "product":
+			UP_DIR = "D:\\_fileupload\\product";
+			break;
+		case "profile":
+			UP_DIR = "D:\\_fileupload\\profile";
+			break;
+		case "community":
+			UP_DIR = "D:\\_fileupload\\community";
+			break;
       }
       
       File folders = new File(UP_DIR, today);

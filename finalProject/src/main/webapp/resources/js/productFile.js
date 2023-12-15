@@ -23,28 +23,31 @@ function fileValidation(fileName, fileSize){
     }
 }
 
-async function insertFileToServer(category, file){
-    try {
-        let path = "/"+category+"/"+file;
-        let config = {
-            method : "post",
-            headers : {
-                "content-type" : "application/json; charset=UTF-8"
-            },
-            body : JSON.stringify(file)
-        };
+// async function insertFileToServer(category, file){
+//     try {
+//         let path = "/"+category+"/"+file;
+//         let config = {
+//             method : "post",
+//             headers : {
+//                 "content-type" : "application/json; charset=UTF-8"
+//             },
+//             body : JSON.stringify(file)
+//         };
 
-        const resp = await fetch(path, config);
-        const result = await resp.text();
-        return result;
-    } catch (error) {
-        console.log(error);
-    }
-}
+//         const resp = await fetch(path, config);
+//         const result = await resp.text();
+//         return result;
+//     } catch (error) {
+//         console.log(error);
+//     }
+// }
 
 // 파일을 업로드했을 경우
 document.addEventListener('change', (e)=>{
     if(e.target.id == 'files'){
+        document.getElementById('fileZone').style = "display:block";
+        document.getElementById('fileForm').style = "margin-bottom:0px";
+
         document.getElementById('regBtn').disabled = false;
 
         // input file 요소에 저장된 file 정보를 가져오는 속성
@@ -53,23 +56,22 @@ document.addEventListener('change', (e)=>{
 
         let div = document.getElementById('fileZone');
 
-
-
         // 기존값 삭제
         div.innerHTML = "";
 
         let isOk = 1;
-        let ul = `<ul class="list-group">`;
-        for(let file of fileObj){
+        let ul = `<ul class="imageUl">`;
+        for (let i = 0; i < fileObj.length; i++) {
+            let file = fileObj[i];
             let validResult = fileValidation(file.name, file.size);
             isOk *= validResult;
-            ul += `<li class="list-group-item">`;
-            ul += `<div class="mb-3">`;
-            ul += `${validResult ? '<div class="mb-3">업로드 가능</div>' : '<div class="mb-3 text-danger">업로드 불가능</div>'}`;
+            ul += `<li class="imageLi ${i === fileObj.length - 1 ? 'last-file' : ''}" id="${file.name}">`; 
+            ul += `<div class="oneImg">`; //마지막 파일일 때 클래스 추가
             ul += `${file.name}`;
-            ul += `<span class="badge rounded-pill text-bg-${validResult ? 'success' : 'danger'}">${file.size}</span></div>`;
+            ul += `<span class="${validResult ? 'imgOk' : 'imgNo'}">${validResult ? '가능' : '불가능'}</span></div>`;
+            ul += `<button class="imageCancelBtn" data-filename="${file.name}">X</button></li>`;
         }
-        ul += `</li></ul>`;
+        ul += `</ul>`;
         div.innerHTML = ul;
 
         if(isOk == 0){
@@ -77,7 +79,58 @@ document.addEventListener('change', (e)=>{
         }
 
     }
+    
 })
+
+
+//파일 삭제버튼 메서드
+document.addEventListener('click', (e) => {
+    const fileInput = document.getElementById('files');
+    const fileObj = fileInput.files;
+    let fileObjLength = fileObj.length;
+
+    if (e.target.classList.contains('imageCancelBtn')) {
+        const filename = e.target.dataset.filename;
+        const liToRemove = document.getElementById(filename);
+        
+        if (liToRemove) {
+            fileObjLength--;
+            liToRemove.remove();
+    
+            // 새로운 FileList 생성
+            const newFileList = createFileListWithoutFileName(fileObj, filename);
+    
+            // 새로운 FileList를 input에 설정
+            fileInput.files = newFileList;
+        }
+    
+        console.log(fileObjLength);
+    
+        if (fileObjLength == 0) {
+            document.getElementById('fileZone').style = "display:none";
+            document.getElementById('fileForm').style = "margin-bottom:30px";
+        }
+    }
+});
+
+function createFileListWithoutFileName(fileList, fileNameToRemove) {
+    const newFiles = [];
+    
+    for (let i = 0; i < fileList.length; i++) {
+        if (fileList[i].name !== fileNameToRemove) {
+            newFiles.push(fileList[i]);
+        }
+    }
+    console.log(newFiles);
+    // 새로운 FileList 생성
+    const newFileList = new DataTransfer();
+    
+    for (const file of newFiles) {
+        newFileList.items.add(file);
+    }
+    
+    return newFileList.files;
+}
 
 /*
 <ul class="list-group">

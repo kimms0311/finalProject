@@ -33,7 +33,10 @@ function likeItem(bnoVal, userEmail, status){
         liStatus : status
     }
     console.log(likeData);
-    likeItemToServer(category, likeData);
+    likeItemToServer(category, likeData).then(result => {
+        console.log("찜 개수 : "+result);
+        document.getElementById('likeCnt').innerText = '관심 '+result;
+    });
 }
 
 // 찜 등록 취소 여부 판단

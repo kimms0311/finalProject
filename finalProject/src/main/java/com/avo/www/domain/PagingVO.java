@@ -39,4 +39,8 @@ public class PagingVO {
 		return this.srcCondit == null ? new String[] {} : this.srcCondit.split(",");
 	}
 	
+	// faq 검색용
+	public String[] getTypeToArray() {
+		return this.type == null ? new String[] {} : this.type.split("");
+	}
 }

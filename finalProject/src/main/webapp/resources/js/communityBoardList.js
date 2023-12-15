@@ -65,13 +65,13 @@ async function getMoreBoard(page = 1, menu) {
                 let str = `<div class="oneBoard">`;
                 str += `<p class="boardMenuName">${bvo.cmMenu }</p>`;
                 str += `<div class="user_profile">
-                            <i class="bi bi-person-circle"></i>
-                            <b>${bvo.cmNickName}</b>
-                            <p>${extractedDate }</p>
-                            <p><i class="bi bi-geo-alt-fill"></i>${bvo.cmEmd }</p>
-                        </div>`;
+                            <img id="cmListProfile-${bvo.cmBno}" class="cmUserProfile" alt="" src="/resources/image/기본 프로필.png">
+                            <b class="cmListNick">${bvo.cmNickName}</b>
+                            <p class="cmListDate">${extractedDate }</p>
+                            <p class="cmListEmd"><i class="bi bi-geo-alt-fill cmWriterLocationIcon"></i>${bvo.cmEmd }</p>
+                            </div>`;
 
-                str += `<div class="communityContentLine"><a class="communityContentLine" href="/community/detail?cmBno=${bvo.cmBno }">`;
+                str += `<div class="communityContentLine"><a class="contentAtag" href="/community/detail?cmBno=${bvo.cmBno }">`;
                 str += `<p>${bvo.cmTitle }</p>`;
                 if (bvo.cmFileCnt > 0) {
                     let thumb = await getThumbnailToServer(bvo.cmBno);
@@ -82,7 +82,7 @@ async function getMoreBoard(page = 1, menu) {
                 str += `<div class="item-info">
                             <div>
                                 <i class="bi bi-eye"></i>
-                                <span>${bvo.cmReadCnt }</span>
+                                <span>${bvo.cmReadCnt } </span>
                                 <i class="bi bi-heart"></i>
                                 <span>${bvo.cmLikeCnt } </span>
                             </div>
@@ -92,11 +92,11 @@ async function getMoreBoard(page = 1, menu) {
                             </div>
                         </div>`;
                 str += `</div>`;
+	            communityProfile(bvo.cmEmail, `cmListProfile-${bvo.cmBno}`);
                 cmBoard.innerHTML += str;
             }
-            
         } else {
-            let str = `<div>게시글이 존재하지 않습니다.</div>`;
+            let str = `<div class="noBoard">게시글이 존재하지 않습니다.</div>`;
             cmBoard.innerHTML = str;
         }
 

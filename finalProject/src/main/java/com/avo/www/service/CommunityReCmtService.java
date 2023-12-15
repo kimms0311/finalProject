@@ -12,6 +12,6 @@ public interface CommunityReCmtService {
 
 	int edit(CommunityReCmtVO cvo);
 
-	int remove(long reCno);
+	int remove(long reCno, long reCmtCno);
 
 }

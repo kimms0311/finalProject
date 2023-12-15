@@ -193,4 +193,9 @@ public class CommunityBoardServiceImpl implements CommunityBoardService {
 		return flist;
 	}
 
+	@Override
+	public FileVO getProfile(String cmEmail) {
+		return cfdao.getProfile(cmEmail);
+	}
+
 }
