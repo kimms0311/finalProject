@@ -31,9 +31,15 @@ public interface JobBoardService {
 
 	int checkLikeCnt(long proBno);
 
-	List<JobBoardDTO> getList();
+//	List<JobBoardDTO> getList();
 
-	PagingHandler getPageList(PagingVO pgvo);
+	List<JobBoardDTO> getHotList();
+
+	int getTotalCount(PagingVO pgvo);
+
+	List<ProductBoardVO> getMoreList(PagingVO pgvo);
+
+	List<FileVO> getThumb(long proBno);
 
 
 }

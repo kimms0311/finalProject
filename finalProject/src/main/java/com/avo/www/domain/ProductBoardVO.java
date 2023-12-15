@@ -18,6 +18,7 @@ public class ProductBoardVO {
    private String proTitle;
    private String proContent;
    
+   private String proPayment;
    private int proPrice;
    private String proCategory;
    private String proMenu;

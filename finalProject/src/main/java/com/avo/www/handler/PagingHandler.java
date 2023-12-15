@@ -88,8 +88,4 @@ public class PagingHandler {
 	    this.jobReList = jobReList;
 	}
 
-   // 23.12.12 미수 추가 jobList 페이징용
-	public PagingHandler(List<JobBoardDTO> jbdtoList, PagingVO pgvo, int totalCount ) {
-	}
-
 }

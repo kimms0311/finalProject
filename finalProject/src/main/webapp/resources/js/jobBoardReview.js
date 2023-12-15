@@ -138,7 +138,7 @@ function spreadReviewList(reBno=proBnoVal, page=1){ //시작은 1페이지로 �
             // 임시로 적어둔 댓글내용 초기화
             const ul = document.getElementById('reListArea');
             ul.innerText="";
-            let li = `<li class="list-group-item">Comment List Empty</li>`;
+            let li = `<li class="list-group-item">후기가 없습니다. <br>첫 후기를 남겨주세요.</li>`;
             ul.innerHTML = li;
         }
 

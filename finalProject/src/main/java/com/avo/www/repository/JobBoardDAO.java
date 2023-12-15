@@ -13,7 +13,7 @@ public interface JobBoardDAO {
 
 	ProductBoardVO detail(long proBno);
 
-	List<ProductBoardVO> getList();
+//	List<ProductBoardVO> getList();
 
 	ProductBoardVO jobLike(long proBno);
 
@@ -33,9 +33,8 @@ public interface JobBoardDAO {
 
 	int getTotalCount(PagingVO pgvo);
 
-	List<ProductBoardVO> listPaging(PagingVO pgvo);
+	List<ProductBoardVO> getHotList();
 
-//	PagingHandler getList(long pbno, PagingVO pgvo);
-
+	List<ProductBoardVO> getMoreList(PagingVO pgvo);
 
 }

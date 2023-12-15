@@ -49,7 +49,7 @@ likeBtn.addEventListener('click', () => {
 
 async function likeToServer(proBnoVal, memEmail, state) { 
     try {
-        const url = "/job/like";
+        const url = "/job/list/like";
         const config = {
             method: "post",
             headers: {

@@ -3,22 +3,89 @@
   flex-direction: column;
   align-items: center;
 }
-.bodyContainer h3 {
-	margin: 30px;
+.titleLine {
+	width: 1080px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+.titleLine h3 {
+	margin: 100px 0px 30px;
+	color: #606C38;
+	font-weight: bold;
+	float: right;
+}
+.titleLine section {
+	display: flex;
+	margin: 100px 0px 30px;
+	justify-content: space-between;
+	width: 250px;
 }
 
 .jobListPart {
-    width: 100%;
-    height: 450px;
-    background-color: #DDE5B6;
-    border-radius: 100px;
-    margin: 50px auto;
+	width: 100%;
+	min-width: 1440px;
+    height: 360px;
+    background-color: #e3edc8;
+    margin: 50px 0px auto 0px;
     text-align: center;
-    padding: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.jobListPart h3 {
+	color: #fff;
+	text-shadow: 
+	  0px 2px 1px #84a331, 
+	  0px -2px 1px #84a331, 
+	  2px 0px 1px #84a331, 
+	  -2px 0px 1px #84a331,
+	  2px 2px 1px #84a331,
+	  -2px -2px 1px #84a331,
+	  -2px 2px 1px #84a331,
+	  2px -2px 1px #84a331;
+	font-weight: bold;
+}
+
+.jobListPart a button, #moreBtn {
+	background: #84a331;
+	width: 160px;
+	height:37px;
+	border: none;
+	border-radius: 10px;
+	margin: 10px;
+	color: #fff;
+	font-size: 15px;
+	font-weight: bold;
+	transition: color 0.3s, background 0.3s;
+}
+
+.jobListPart a button:hover , #moreBtn:hover {
+	color: #84a331;
+	background: #fff;
+	border: 2px solid #84a331;
+	
+
+}
+
+.jobListPart img {
+	position: absolute;
+    width: 800px;
+    display: block;
+    left: 50%;
+    transform: translateX(-50%);
+    padding-top: 150px;
+}
+
+.jobListPart .jobListPartSub{
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .brdListArea {
-    width: 80%;
+    width: 75%;
 	display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
@@ -27,20 +94,34 @@
 
 .hotJobListContent, .jobListContent {
     align-items: center;
-    width: 40%;
-    background-color: #DDE5B6;
-    padding: 10px;
+    width: 43%;
+    height: 280px;
     margin-bottom: 20px;
+    border: 2px solid rgba(227, 237, 200, 0.3);
     border-radius: 5px;
     box-sizing: border-box;
+    transition: 0.3s;
 }
 
+.hotJobListContent:hover, .jobListContent:hover {
+    box-shadow: 3px 3px 10px #e3edc8;
+}
+
+.hotJobListContent span, .jobListContent span {
+    color: black;
+}
+.hotJobListContent a, .jobListContent a {
+    text-decoration: none;
+}
 .hotJobListContent img, .jobListContent img {
-    width: 150px;
-    height: 150px;
+	width: 250px;
+    height: 100%;
     object-fit: cover;
     margin-right: 10px;
 	float:left;
+	object-fit: cover;
+    float: left;
+    border-radius: 5px 0px 0px 5px;
 }
 
 .jobInfoArea a {
@@ -52,4 +133,13 @@
 .jobInfoArea span {
     display: block; 
     margin-bottom: 5px;
+}
+section select {
+	border: 2px solid rgba(227, 237, 200, 0.3);
+	padding: 6px;
+	border-radius: 10px;
+	
+}
+section select:hover {
+	cursor: pointer;
 }

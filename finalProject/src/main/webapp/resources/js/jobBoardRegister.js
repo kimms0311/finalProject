@@ -51,4 +51,25 @@ document.addEventListener('change', (e) => {
             document.getElementById('regBtn').disabled = true;
         }
     }
+    
 });
+
+// 파일제외 입력되지 않은 항목이 있는경우 regBtn 비활성화 및 class 변경
+
+ 
+
+// 주소입력창 클릭시 카카오주소 연결
+document.getElementById('proAddress').addEventListener('click', ()=>{
+    new daum.Postcode({
+        oncomplete: function(data) { //선택시 입력값 세팅
+            console.log(data);
+        	//input에 보여질 전체주소값 설정
+		    let address = data.sido + ' ' + data.sigungu + ' ' + data.bname;
+            document.getElementById('proAddress').value = address ;
+            //db에 넣을 주소값 설정
+            document.getElementById('proSido').value = data.sido;
+            document.getElementById('proSigg').value = data.sigungu;
+            document.getElementById('proEmd').value = data.bname;
+        }
+    }).open();
+})

@@ -3,168 +3,141 @@ window.onload = function() {
     setTimeout(()=> document.getElementById('loading').style.display = 'none', 500);
 };
 
+// 메뉴, 정렬값 가져오기
+let menu = document.getElementById('menuSelect').value;
+let sort = document.getElementById('sortSelect').value;
 
-document.addEventListener('DOMContentLoaded', function() {
-    loadJobList('null'); // 초기에는 'null'로 설정하여 전체 리스트를 가져옴
+console.log(sort);
+
+
+// select menu 변경 시 이벤트 처리
+document.getElementById('menuSelect').addEventListener('change', ()=>{
+    // 선택된 메뉴 값 가져오기
+    menu = document.getElementById('menuSelect').value;
+    console.log("menu >> " + menu);
+
+    spreadJobFromServer(1 , menu, sort);
 });
 
-//
-async function spreadJobFromServer(type, page){
-    try{
-        const resp = await fetch('/job/page/'+type+'/'+page);
+// select sort 변경 시 이벤트 처리
+document.getElementById('sortSelect').addEventListener('change', ()=>{
+    // 선택된 메뉴 값 가져오기
+    sort = document.getElementById('sortSelect').value;
+    console.log("sort >> " + sort);
+
+    spreadJobFromServer(1 , menu, sort);
+});
+
+
+// more 버튼 클릭 시 호출될 함수
+async function loadMore() {
+    console.log("더보기 클릭");
+    console.log(document.getElementById('moreBtn').dataset.page);
+    const currentPage = parseInt(document.getElementById('moreBtn').dataset.page);
+    console.log("currentPage >> " + currentPage);
+
+    spreadJobFromServer(currentPage, menu, sort);
+
+}
+
+// 서버에서 joblist가져오기
+
+
+async function getMoreJobForServer(page, menu, sort){
+    try {
+        const resp = await fetch('/job/list/'+page+'/'+menu+'/'+sort);
         const result = await resp.json();
         return result;
-    }catch(err){
-        console.log(err);
+    } catch (error) {
+        console.log(error);
     }
 }
 
+// 썸네일 가져오는 함수
+async function getThumbnailToServer(proBno){
+    try {
+        const url = '/job/list/thumb/'+proBno;
+        const config = {
+            method : 'post'
+        };
+        const resp = await fetch(url, config);
+        const result = await resp.json();
+        return result;
+
+    } catch (error) {
+        console.log(error);
+    }
+}
+// 숫자를 통화 형식으로 변환하는 함수 (원 표시용)
+function formatCurrency(amount) {
+    // toLocaleString 메서드를 사용하여 숫자를 통화 형식으로 변환
+    return amount.toLocaleString('ko-KR', { style: 'currency', currency: 'KRW' });
+    // 통화 기호(₩) 제거
+    formattedAmount = formattedAmount.replace('₩', '');
+}
 
 
+// 서버에서 받은 list 뿌리기
+async function spreadJobFromServer(page = 1, menu, sort){
+    try {
+        const result = await getMoreJobForServer(page, menu, sort);
+        console.log("result >> " , result);
 
-// // 처음 실행시 전체 리스트 출력
-// function getJobList(type=null,page=1){
-//     spreadJobFromServer(type,page).then(result => {
-//         console.log(result);
-//         const div = document.getElementById('jobList')
-
-//         //1page일 경우에만 기존 값 삭제 
-//         if(page===1){
-//             div.innerText="";
-//         }
-//         for(let jbdto of result.list){
+        // ph객체의 의 리스트에 상품(job)이 있는 경우
+        if(result.prodList.length > 0){
+            let moreJobArea = document.getElementById('moreJobArea');
+            if(page == 1) {
+                // 1page에서 초기화
+                moreJobArea.innerHTML = "";
+            }
             
-//             let inner = `<c:forEach items="${list}" var="jbdto" varStatus="loopStatus">`;
-//             inner += `<c:if test="${loopStatus.index < 8}">`;
-//             inner += `<div class="jobListContent">`;
-//             inner += `<a href="/job/detail?proBno=${jbdto.pbvo.proBno}">`;
-//             inner += `<c:choose>`;
-//             inner += `<c:when test="${not empty jbdto.flist}">`;
-//             inner += `<c:forEach items="${jbdto.flist}" var="flist">`;
-//             inner += `<img alt="job image error" src="/upload/product/${fn:replace(flist.saveDir,'\\','/')}/${flist.uuid}_${flist.fileName}">`;
-//             inner += `</c:forEach>`;
-//             inner += `</c:when>`;
-//             inner += `<c:otherwise>`;
-//             // 파일이 비어 있는 경우 기본 이미지 출력
-//             inner += `<img alt="job image error" src="../resources/image/logoimage.png">`;
-//             inner += `</c:otherwise>`;
-//             inner += `</c:choose>`;
-//             inner += `<div class="jobInfoArea">`;
-//             inner += `<span>${jbdto.pbvo.proTitle}</span>`;
-//             inner += `<span class="d-inline-block text-truncate" style="max-width: 200px;">${jbdto.pbvo.proSido} ${jbdto.pbvo.proSigg} ${jbdto.pbvo.proEmd}</span>`;
-//             inner += `<span>${jbdto.pbvo.proMenu}`;
-//             inner += `<strong><fmt:formatNumber type="number" maxFractionDigits="3" value="${jbdto.pbvo.proPrice}" />원</strong>`;
-//             inner += `</span>`;
-//             inner += `</div></a></div>`;
-//             inner += `</c:if>`;
-//             inner += ` </c:forEach>`;
-//             div.innerHTML = inner;
-//         }
+            for(let job of result.prodList){
+                let inner = `<div class="jobListContent">`;
+                inner += `<a href="/job/detail?proBno=${job.proBno}">`;
+                if (job.proFileCnt > 0) {
+                    let thumb = await getThumbnailToServer(job.proBno);
+                    inner += `<img alt="job image error" src="../upload/product/${thumb.saveDir.replaceAll('\\','/')}/${thumb.uuid}_${thumb.fileName}">`;;
+                }else{
+                    inner += `<img alt="job image error" src="../resources/image/logoimage.png">`
+                }
+                inner += `<div class="jobInfoArea">`;
+                inner += `<span>${job.proTitle}</span>`;
+                inner += `<span class="d-inline-block text-truncate" style="max-width: 200px;">${job.proSido} ${job.proSigg} ${job.proEmd}</span>`;
+                inner += `<span>${job.proPayment} `;
+                inner += `<strong>${formatCurrency(job.proPrice).replace('₩', '')}원</strong>`;
+                inner += `</span>`;
+                inner += `</div>`;
+                inner += `</a>`;
+                inner += `</div>`;
+
+                moreJobArea.innerHTML += inner;
+            }
+
+            
+        
+
+        }else {
+            let inner = `비었어`;
+            moreJobArea.innerHTML = inner;
+        }
+
+        let moreBtn = document.getElementById('moreBtn');
 
         
-//     })
-// }
-
-// 처음 실행시 전체 리스트 출력
-function getJobList(type = null, page = 1) {
-    spreadJobFromServer(type, page).then(result => {
-        console.log(result);
-        const div = document.getElementById('jobList');
-
-        // 1페이지일 경우에만 기존 값 삭제 
-        if (page === 1) {
-            div.innerHTML = "";
+        if (result.pgvo.pageNo < result.endPage) {
+            moreBtn.style.visibility = 'visible';
+            moreBtn.dataset.page = page + 1;
+        } else {
+            moreBtn.style.visibility = 'hidden';
         }
 
-        for (let jbdto of result.list) {
-            if (jbdto.flist && jbdto.flist.length > 0) {
-                // 이미지가 있는 경우
-                let inner = `
-                    <div class="jobListContent">
-                        <a href="/job/detail?proBno=${jbdto.pbvo.proBno}">
-                            ${jbdto.flist.map(flist => `
-                                <img alt="job image error" src="/upload/product/${flist.saveDir.replace(/\\/g, '/')}/${flist.uuid}_${flist.fileName}">
-                            `).join('')}
-                            <div class="jobInfoArea">
-                                <span>${jbdto.pbvo.proTitle}</span>
-                                <span class="d-inline-block text-truncate" style="max-width: 200px;">${jbdto.pbvo.proSido} ${jbdto.pbvo.proSigg} ${jbdto.pbvo.proEmd}</span>
-                                <span>${jbdto.pbvo.proMenu}
-                                    <strong>${new Intl.NumberFormat('en-US').format(jbdto.pbvo.proPrice)}원</strong>
-                                </span>
-                            </div>
-                        </a>
-                    </div>`;
-                div.innerHTML += inner;
-            } else {
-                // 이미지가 없는 경우
-                let inner = `
-                    <div class="jobListContent">
-                        <a href="/job/detail?proBno=${jbdto.pbvo.proBno}">
-                            <img alt="job image error" src="../resources/image/logoimage.png">
-                            <div class="jobInfoArea">
-                                <span>${jbdto.pbvo.proTitle}</span>
-                                <span class="d-inline-block text-truncate" style="max-width: 200px;">${jbdto.pbvo.proSido} ${jbdto.pbvo.proSigg} ${jbdto.pbvo.proEmd}</span>
-                                <span>${jbdto.pbvo.proMenu}
-                                    <strong>${new Intl.NumberFormat('en-US').format(jbdto.pbvo.proPrice)}원</strong>
-                                </span>
-                            </div>
-                        </a>
-                    </div>`;
-                div.innerHTML += inner;
-            }
-        }
-    });
+
+
+        
+    } catch (error) {
+        console.log(error);
+        
+    }
 }
 
-// 카테고리 버튼 클릭 이벤트 처리
-document.querySelectorAll('.cateBtns').forEach(btn => {
-    btn.addEventListener('click', function() {
-        loadJobList(this.value);
-    });
-});
-
-// 카테고리 버튼 클릭 시 호출될 함수
-function loadJobList(category) {
-    spreadJobFromServer(category, 1).then(result => {
-        const div = document.getElementById('jobList');
-        div.innerHTML = ""; // 기존 값 초기화
-
-        for (let jbdto of result.list) {
-            let inner = `
-                <div class="jobListContent">
-                    <a href="/job/detail?proBno=${jbdto.pbvo.proBno}">
-                        ${jbdto.flist && jbdto.flist.length > 0 ? 
-                            jbdto.flist.map(flist => `
-                                <img alt="job image error" src="/upload/product/${flist.saveDir.replace(/\\/g, '/')}/${flist.uuid}_${flist.fileName}">
-                            `).join('') :
-                            `<img alt="job image error" src="../resources/image/logoimage.png">`
-                        }
-                        <div class="jobInfoArea">
-                            <span>${jbdto.pbvo.proTitle}</span>
-                            <span class="d-inline-block text-truncate" style="max-width: 200px;">${jbdto.pbvo.proSido} ${jbdto.pbvo.proSigg} ${jbdto.pbvo.proEmd}</span>
-                            <span>${jbdto.pbvo.proMenu}
-                                <strong>${new Intl.NumberFormat('en-US').format(jbdto.pbvo.proPrice)}원</strong>
-                            </span>
-                        </div>
-                    </a>
-                </div>`;
-            div.innerHTML += inner;
-        }
-    });
-}
-
-
-// 정렬 선택 시 호출될 함수 (추가 필요)
-document.getElementById('sort').addEventListener('change', function() {
-    // 정렬 선택에 따라 서버에 요청을 보내거나, 현재 리스트를 정렬하는 등의 작업을 수행
-});
-
-
-// 더 보기 버튼 클릭 시 호출될 함수
-function loadMore() {
-    // 현재 페이지와 타입을 가져와서 다음 페이지 호출
-    const currentPage = 2; // 예시로 현재 페이지를 2로 설정, 필요에 따라 수정
-    const type = 'food'; // 예시로 타입을 'food'로 설정, 필요에 따라 수정
-    getJobList(type, currentPage);
-}
-
+spreadJobFromServer();

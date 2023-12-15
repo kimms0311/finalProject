@@ -24,9 +24,19 @@
 	<update id="readCount">
   		update product set pro_read_cnt = pro_read_cnt + #{cnt} where pro_bno = #{proBno}
 	</update>
-	
+<!-- 	
  	<select id="getList" resultType="pbvo">
-		select * from product where pro_is_del = 'N' and pro_category = 'job' order by pro_read_cnt desc
+		select * from product where pro_is_del = 'N' and pro_category = 'job' order by pro_re_at DESC
+	</select>
+	 -->
+ 	<select id="getHotList" resultType="pbvo">
+		select * from product where pro_is_del = 'N' and pro_category = 'job' order by pro_read_cnt DESC
+	</select>
+	
+	<select id="getMoreList" resultType="pbvo">
+		select * from product where pro_is_del = 'N' and pro_category = 'job' 
+		<include refid="jobSelect"></include>
+		limit #{pageStart}, #{qty}
 	</select>
 	
 	<insert id="jobLike" parameterType="long">
@@ -45,20 +55,22 @@
    		select pro_like_cnt from product where pro_bno = #{proBno}
    </select>
    
-   <select id="getTotalCount">
+   <select id="getTotalCount" resultType="int">
 		select count(pro_bno) from product where pro_is_del = "N" and pro_category = 'job'
    </select>
 	
-	<select id="listPaging" resultType="pbvo">
+<!--
+ 	<select id="listPaging" resultType="pbvo">
 		select * from product
 		where pro_is_del = "N" and pro_category = 'job'
-		<!-- 세부카테고리 지정했을 경우 조건 추가 -->
+		세부카테고리 지정했을 경우 조건 추가
 	    <include refid="search"></include>		
-  		order by pro_re_at desc limit #{pageStart}, #{qty}
-	</select>
+  		order by pro_re_at DESC limit #{pageStart}, #{qty}
+	</select> 
+	-->
 
- <sql id="search">
-    <if test="type != null">
+<sql id="jobSelect">
+	<if test="type != null">
         <trim prefix="and (" suffix=")" prefixOverrides="OR">
             <trim prefix="OR">
                 <choose>
@@ -90,8 +102,21 @@
             </trim>
         </trim>
     </if>
-</sql>	
- 
+	<if test="sorted != null">
+		<choose>
+			<when test="sorted == 'newest'.toString()">
+				order by pro_re_at DESC
+			</when>
+			<when test="sorted == 'oldest'.toString()">
+				order by pro_re_at ASC
+			</when>
+			<when test="sorted == 'hotest'.toString()">
+				order by pro_read_cnt DESC
+			</when>
+		</choose>
+	</if>
+
+</sql>
 	
 
 

@@ -63,7 +63,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.antMatchers("/member/list").hasRole("ADMIN") //멤버리스트는 admin만, ROLE_접두사 자동으로 추가됨.
 		.antMatchers("/", "/community/list", "/community/detail", "/community/page/**", "/community/thumb/**",
 				"/joongo/list", "/joongo/detail", "/joongo/page/**", "/joongo/thumb/**",
-				 "/store/list", "/store/detail", "/store/page/**", "/job/list", "/job/detail", "/resources/**", "/joongo/menuSelect",
+				 "/store/list", "/store/detail", "/store/page/**", "/job/list/**","/jobReview/**", "/job/detail","/job/about", "/resources/**", "/joongo/menuSelect",
 				"/upload/**", "/communityCmt/**", "/reCmt/**", "/member/register", "/member/login", "/member/test/**",
 				"/member/email/**", "/member/nick/**", "/common/search").permitAll() //비회원일 때 허용되는 경로, permitAll=모두에게
 		.anyRequest().authenticated(); //나머지는 로그인한 사용자만 허용 처리 (글쓰기, 수정하기 등)

@@ -8,16 +8,19 @@
 <meta charset="UTF-8">
 <title>job register page</title>
 <link rel="stylesheet" href="/resources/css/page.css">
+<link rel="stylesheet" href="/resources/css/jobRegister.css">
 </head>
 <body>
 <jsp:include page="../common/header.jsp" />
 
+<div class="imgLine"></div>
 
 <div class="bodyContainer">
+
+<div class="formLine">
 	
 	<!-- 로그인한 mvo가져오기 -->
 	<sec:authentication property="principal.mvo" var="authMvo"/>
-
 	
 	<form action="/job/register" method="post" enctype="multipart/form-data" >
 	<input type="hidden" class="form-control" id="proEmail" name="proEmail" value="${authMvo.memEmail }">
@@ -25,13 +28,12 @@
 	  <div class="mb-3">
 	    <label for="proTitle" class="form-label">제목</label>
 	    <input type="text" class="form-control" name="proTitle" id="proTitle">
-	    
 	  </div>
 	  <div class="mb-3">
 	  <label for="jobDetail" class="form-label">구인 정보</label>
 	  <!-- 지급기준 메뉴에 담기 -->
 		    <select class="form-select form-select-sm" aria-label="Small select example" name="proMenu">
-			  <option selected>지급 기준</option>
+			  <option value="지급기준" >지급 기준</option>
 			  <option value="시급">시급</option>
 			  <option value="일급">일급</option>
 			  <option value="월급">월급</option>
@@ -47,9 +49,6 @@
 			<input type="hidden" class="form-control" name="proSido" id="proSido">
 			<input type="hidden" class="form-control" name="proSigg" id="proSigg">
 			<input type="hidden" class="form-control" name="proEmd" id="proEmd">
-	
-	    
-	    
 	  </div>
 
 
@@ -61,39 +60,24 @@
 	  <div class="mb-3">
 	    <input type="file" class="form-control" id="files" name="files" style="display: none;" multiple="multiple">
 	    <!-- input type trigger 용도의 button -->
-	    <button type="button" id="trigger" class="btn btn-outline-success">사진 첨부</button>
+	    <button type="button" id="trigger" class="trigger">사진 첨부</button>
 	  </div>
 	  
 	  <div class="mb-3" id="fileZone">
 	  <!-- 첨부파일 표시 될 영역 -->
 	  </div>
   
-	  <button type="submit" class="btn btn-success" id="regBtn">작성</button>
-	  <button type="reset" class="btn btn-success">취소</button>
+	  <button type="reset" class="cancelBtn">취소</button>
+	  <button type="submit" class="regBtn" id="regBtn">작성</button>
 	</form>
 	
+</div>
 </div>
 
 
 <script type="text/javascript" src="/resources/js/jobBoardRegister.js"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script type="text/javascript">
-	// 주소입력창 클릭시 카카오주소 연결
-	document.getElementById('proAddress').addEventListener('click', ()=>{
-	    new daum.Postcode({
-	        oncomplete: function(data) { //선택시 입력값 세팅
-	            console.log(data);
-	        	//input에 보여질 전체주소값 설정
-			    let address = data.sido + ' ' + data.sigungu + ' ' + data.bname;
-	            document.getElementById('proAddress').value = address ;
-	            //db에 넣을 주소값 설정
-	            document.getElementById('proSido').value = data.sido;
-	            document.getElementById('proSigg').value = data.sigungu;
-	            document.getElementById('proEmd').value = data.bname;
-	        }
-	    }).open();
-	})
-</script>
+
 <jsp:include page="../common/footer.jsp" />
 
 </body>

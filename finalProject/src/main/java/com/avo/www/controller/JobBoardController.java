@@ -46,14 +46,21 @@ public class JobBoardController {
 	   log.info(">>>>> job list page >> ");
 	   log.info(">>>>> pbvo >> "+pbvo);
 	   
-	   
-	   List<JobBoardDTO> list = jbsv.getList();
-	   log.info(">>>>> get list >> "+list);
+//	   //알바리스트
+//	   List<JobBoardDTO> list = jbsv.getList();
+//	   log.info(">>>>> get list >> "+list);
+//	   m.addAttribute("list",list);
 
-	   m.addAttribute("list",list);
+	   //인기알바리스트
+	   List<JobBoardDTO> hotList = jbsv.getHotList();
+	   log.info(">>>>> get hotList >> "+hotList);
+	   m.addAttribute("hotList",hotList);
+	   
+	   
 	   return ("/job/list");
+	   
    }
-	
+
    @GetMapping("/register")
    public void getRegister() {
 	   log.info(">>>>> job register page >> ");
@@ -138,7 +145,7 @@ public class JobBoardController {
 	}
 	
 
-	@PostMapping(value = "/like", consumes = "application/json", produces = MediaType.TEXT_PLAIN_VALUE)
+	@PostMapping(value = "/list/like", consumes = "application/json", produces = MediaType.TEXT_PLAIN_VALUE)
 	public ResponseEntity<String> likeBtn(@RequestBody LikeItemVO livo){
         log.info("LikeItemVO >> "+livo);
 
@@ -154,14 +161,38 @@ public class JobBoardController {
 		return new ResponseEntity<String>("", HttpStatus.OK);
 	}
 
-	
-	@GetMapping(value = "/page/{page}/{type}", produces = MediaType.APPLICATION_JSON_VALUE)
+//	리스트 페이징 매핑
+	@GetMapping(value = "/list/{page}/{menu}/{sort}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<PagingHandler> spread(@PathVariable("page") int page, 
-	        @PathVariable("type") String type) {
+	        @PathVariable("menu") String menu, @PathVariable("sort") String sort, Model m) {
+	    log.info("page >> " + page + "/ menu >> " + menu + " sort >> " + sort );
+	    // pgvo 생성하여 page, qty(보여줄 게시글 수) 설정
+	    PagingVO pgvo = new PagingVO(page, 8);
+	    // 타입, 정렬 설정
+	    pgvo.setType(menu);
+	    pgvo.setSorted(sort);
 	    
-	    PagingVO pgvo = new PagingVO(page, 8, type);
-	    return new ResponseEntity<PagingHandler>(jbsv.getPageList(pgvo), HttpStatus.OK);
+	    int totalCount = jbsv.getTotalCount(pgvo);
+	    // pgvo,전체 게시글수, qty 담은 ph객체 생성
+	    PagingHandler ph = new PagingHandler(pgvo , totalCount, 8);
+	    
+	    ph.setProdList(jbsv.getMoreList(pgvo));
+	    
+	    
+	    return new ResponseEntity<PagingHandler>(ph, HttpStatus.OK);
 	}
+	
+//	리스트 썸네일
+	@PostMapping(value = "/list/thumb/{proBno}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<FileVO> getThumb(@PathVariable("proBno")long proBno){
+		
+		//썸네일 가져와서 flist에 담기
+		List<FileVO> flist = jbsv.getThumb(proBno);
+		log.info("thumbnail >>  flist >> "+flist);
+		
+		return new ResponseEntity<FileVO>(flist.get(0), HttpStatus.OK);
+	}
+
 	
 	 @GetMapping("/about")
 	 public void getAbout() {

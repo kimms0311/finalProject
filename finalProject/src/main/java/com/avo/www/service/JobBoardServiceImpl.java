@@ -2,7 +2,6 @@ package com.avo.www.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
@@ -14,8 +13,6 @@ import com.avo.www.domain.JobBoardDTO;
 import com.avo.www.domain.LikeItemVO;
 import com.avo.www.domain.PagingVO;
 import com.avo.www.domain.ProductBoardVO;
-import com.avo.www.domain.ReviewVO;
-import com.avo.www.handler.PagingHandler;
 import com.avo.www.repository.JobFileDAO;
 import com.avo.www.repository.JobLikeDAO;
 import com.avo.www.repository.JobBoardDAO;
@@ -139,15 +136,15 @@ public class JobBoardServiceImpl implements JobBoardService {
 		return jdao.checkLikeCnt(proBno);
 	}
 
+
+//	@Transactional
 //	@Override
-//	public List<JobBoardDTO> getList(String menu, PagingVO pgvo) {
-//		// 게시글, 파일 리스트
-//		List<ProductBoardVO> list = jdao.getList();
+//	public List<JobBoardDTO> getList() {
+//	    List<ProductBoardVO> list = jdao.getList();
 //	    List<FileVO> flist = allFlieList();
 //	    
-//	    // 전부 담을 list
 //	    List<JobBoardDTO> allList = new ArrayList<>();
-//	    
+//
 //	    // productList의 각 항목에 대해 JobBoardDTO를 생성하고 fileList에서 매칭되는 FileVO를 찾아 추가
 //	    for (ProductBoardVO product : list) {
 //	        JobBoardDTO jbdto = new JobBoardDTO();
@@ -164,23 +161,18 @@ public class JobBoardServiceImpl implements JobBoardService {
 //	                break;
 //	            }
 //	        }
-//	        
 //	        // JobBoardDTO에 fileList 설정
 //	        jbdto.setFlist(matchingFiles);
 //
 //	        allList.add(jbdto);
 //	    }
-//	    log.info("allList>> " , allList);
-//	    PagingHandler ph = new pagingHandler(allList,totalCount);
-//
 //	    return allList;
 //	}
-
-
+	
 	@Transactional
 	@Override
-	public List<JobBoardDTO> getList() {
-	    List<ProductBoardVO> list = jdao.getList();
+	public List<JobBoardDTO> getHotList() {
+		List<ProductBoardVO> list = jdao.getHotList();
 	    List<FileVO> flist = allFlieList();
 	    
 	    List<JobBoardDTO> allList = new ArrayList<>();
@@ -201,55 +193,34 @@ public class JobBoardServiceImpl implements JobBoardService {
 	                break;
 	            }
 	        }
-	        
 	        // JobBoardDTO에 fileList 설정
 	        jbdto.setFlist(matchingFiles);
 
 	        allList.add(jbdto);
 	    }
-
 	    return allList;
 	}
 
 
-	@Transactional
 	@Override
-	public PagingHandler getPageList(PagingVO pgvo) {
-	    log.info("getPageList >> ");
-	    
-	    // 글 전체 개수 구하기
-	    int totalCount = jdao.getTotalCount(pgvo);
-	    
-	    // 페이징 한 리스트 담기
-	    List<ProductBoardVO> list = jdao.listPaging(pgvo);
-	    // 파일매칭할 전체 파일 리스트
-	    List<FileVO> flist = allFlieList();
-	    
-	    // productList의 각 항목에 대해 JobBoardDTO를 생성하고 fileList에서 매칭되는 FileVO를 찾아 추가
-	    List<JobBoardDTO> jbdtoList = new ArrayList<>(); // 파일 정보를 담을 리스트
-	    for (ProductBoardVO product : list) {
-	        JobBoardDTO jbdto = new JobBoardDTO();
-	        jbdto.setPbvo(product);
-	        
-	        // fileList를 담을 리스트를 초기화
-	        List<FileVO> matchingFiles = new ArrayList<>();
-	        
-	        // productList의 proBno와 fileList의 bno가 일치하는 경우에만 추가
-	        for (FileVO file : flist) {
-	            if (file.getBno() == product.getProBno()) {
-	                matchingFiles.add(file);
-	                log.info("matchingFile >> " + matchingFiles);
-	                break;
-	            }
-	        }
-	        
-	        jbdto.setFlist(matchingFiles); // matchingFiles를 jbdto에 설정
-	        jbdtoList.add(jbdto);
-	    }
-	    
-	    PagingHandler ph = new PagingHandler(jbdtoList,pgvo , totalCount);
-	    return ph;
+	public int getTotalCount(PagingVO pgvo) {
+		return jdao.getTotalCount(pgvo);
 	}
+
+
+	@Override
+	public List<ProductBoardVO> getMoreList(PagingVO pgvo) {
+		List<ProductBoardVO> list = jdao.getMoreList(pgvo);
+		return list;
+	}
+
+
+	@Override
+	public List<FileVO> getThumb(long proBno) {
+		return fdao.getFileList(proBno);
+	}
+
+
 
 
 
