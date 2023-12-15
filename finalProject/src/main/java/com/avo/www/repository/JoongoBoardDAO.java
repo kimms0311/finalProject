@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import com.avo.www.domain.LikeItemVO;
 import com.avo.www.domain.PagingVO;
 import com.avo.www.domain.ProductBoardVO;
+import com.avo.www.handler.PagingHandler;
 
 public interface JoongoBoardDAO {
 
@@ -35,5 +36,9 @@ public interface JoongoBoardDAO {
    void setFileCnt();
    
    List<ProductBoardVO> searchProBoard(PagingVO pgvo);
+
+   int getSearchProductTotalCount(@Param("pgvo") PagingVO pgvo, @Param("category") String category);
+
+   List<ProductBoardVO> getSearchProductList(@Param("pgvo") PagingVO pgvo, @Param("category") String category);
 
 }

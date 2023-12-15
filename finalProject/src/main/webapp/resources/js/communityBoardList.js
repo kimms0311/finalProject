@@ -1,9 +1,4 @@
 document.addEventListener('click',(e)=>{
-    //메뉴 클릭시
-   // if(e.target.classList.contains("menu")){    
-        //myMenu = e.target.textContent;
-        //getMoreBoard(1, myMenu);
-  //  }
         // 메뉴 클릭시
         if (e.target.classList.contains("menu")) {
             // 모든 메뉴 버튼에서 'choiceMenu' 클래스를 제거
@@ -123,10 +118,6 @@ window.onload = function() {
     setTimeout(()=> document.getElementById('loading').style.display = 'none', 500);
 };
 
-//현재 경로 가져오기
-let path = window.location;
-console.log(path);
-
 //div의 a 요소 가져오기
 let aList = document.querySelectorAll('.CommunityCategory a');
 console.log(aList);
@@ -134,11 +125,11 @@ console.log(aList);
 for(let a of aList){
     // 이전 active 클래스 삭제
     if(path != "http://localhost:8089/community/list"){
-        a.classList.remove('active');
+        a.classList.remove('cmActive');
     }
 
     //현재 링크와 a태그의 링크가 동일하면 active 클래스 적용
     if(a.href == path){
-        a.classList.add('active');
+        a.classList.add('cmActive');
     }
 }

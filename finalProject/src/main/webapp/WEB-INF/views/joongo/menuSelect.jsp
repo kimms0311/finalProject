@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <select class="menuSelect" id="menu" name="proMenu" required="required">
-	<option ${pbvo.proMenu eq null ? "selected" : ""}>선택</option>
+	<option ${pbvo.proMenu eq null ? "selected" : ""} style="display:none">선택</option>
 	<option ${pbvo.proMenu eq "디지털기기" ? "selected" : ""} value="디지털기기">디지털기기</option>
 	<option ${pbvo.proMenu eq "가구" ? "selected" : ""} value="가구">가구</option>
 	<option ${pbvo.proMenu eq "유아동" ? "selected" : ""} value="유아동">유아동</option>

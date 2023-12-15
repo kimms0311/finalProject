@@ -5,7 +5,11 @@ function adjustTextareaRows() {
     // 글 내용에서 줄바꿈 수를 세어 변수 저장
     var lineCount = (textarea.value.match(/\n/g) || []).length + 1;
 
-    textarea.rows = lineCount;
+    if(lineCount < 8 && textarea.readOnly == false){
+        textarea.rows = 8;
+    }else{
+        textarea.rows = lineCount;
+    }
 }
 
 // 페이지가 로드되면 adjustTextareaRows 함수 설정

@@ -3,6 +3,9 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.avo.www.repository.LikeItemDAO">
+	<select id="selectAllLikeCnt" resultType="int">
+		select count(li_like_id) from product_like where li_bno = #{liBno} AND li_status = 1
+	</select>
 	<select id="checkLikeTF" resultType="int">
 		select count(li_like_id) from product_like where li_user_id = #{liUserId} AND li_bno = #{liBno} AND li_status = 1
 	</select>

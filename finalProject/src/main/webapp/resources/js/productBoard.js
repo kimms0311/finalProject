@@ -33,7 +33,7 @@ Joongo list에서 추가하는 구조
 
 // 페이지가 다 로드되면 로딩화면 삭제
 window.onload = function() {
-    setTimeout(()=> document.getElementById('loading').style.display = 'none', 500);
+    setTimeout(()=> document.getElementById('loading').style.display = 'none', 200);
 };
 
 // 현재 페이지 링크 복사

@@ -13,5 +13,7 @@ public interface LikeItemDAO {
 	int checkLikeTF(LikeItemVO livo);
 
 	void deleteAllLike(long bno);
+
+	int selectAllLikeCnt(long liBno);
 	
 }

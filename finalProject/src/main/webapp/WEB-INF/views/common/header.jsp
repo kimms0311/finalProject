@@ -22,7 +22,8 @@
       </div>
       <div class="searchSec">
          <form action="/common/search" method="post">
-            <input type="search" placeholder="검색어를 입력해 주세요.">
+            <input type="search" id="searchInput" placeholder="검색어를 입력해 주세요.">
+            <button type="button"><img width="24" height="24" src="https://img.icons8.com/plumpy/24/macos-close.png" alt="macos-close"/></button>
             <button type="button" class="openMenu">
                <i class="bi bi-search"></i>         
             </button>
@@ -34,10 +35,10 @@
                </button>
                <h3>검색 기준</h3>
                <ul>
-                  <li><input type="checkbox" name="srcCondit" id="ck_title" value="title"><label for="title">제목</label></li>
-                  <li><input type="checkbox" name="srcCondit" id="ck_nickname" value="nickname"><label for="nickname">닉네임</label></li>
-                  <li><input type="checkbox" name="srcCondit" id="ck_email" value="email"><label for="email">이메일</label></li>
-                  <li><input type="checkbox" name="srcCondit" id="ck_content" value="content"><label for="content">내용</label></li>
+                  <li><input type="checkbox" name="srcCondit" id="ck_title" value="title"><label for="ck_title">제목</label></li>
+                  <li><input type="checkbox" name="srcCondit" id="ck_nickname" value="nickname"><label for="ck_nickname">닉네임</label></li>
+                  <li><input type="checkbox" name="srcCondit" id="ck_email" value="email"><label for="ck_email">이메일</label></li>
+                  <li><input type="checkbox" name="srcCondit" id="ck_content" value="content"><label for="ck_content">내용</label></li>
                </ul>
                <!-- <h3>게시판 선택</h3>
                <ul>
@@ -59,7 +60,7 @@
                   <li><a href="#" id="logoutLink">로그아웃</a></li>
                   <form action="/member/logout" method="post" id="logoutForm">
                        <input type="hidden" name="memEmail" value="${authEmail }">
-                    </form>
+                  </form>
                </ul>
             </div>
          </sec:authorize>
@@ -68,9 +69,9 @@
    <nav>
       <ul>
          <li><a href="/joongo/list">중고거래</a></li>
-         <li><a href="/community/list">동네소식</a></li>
-         <li><a href="/job/list">알바구인</a></li>
          <li><a href="/store/list">동네업체</a></li>
+         <li><a href="/job/list">알바구인</a></li>
+         <li><a href="/community/list">동네소식</a></li>
          <li><a href="#">공지사항</a></li>
          <li><a href="#">FAQ</a></li>
          

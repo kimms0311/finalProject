@@ -10,11 +10,6 @@
    <select id="selectOneBno" resultType="long">
       select max(pro_bno) from product;
    </select>
-   <!-- <select id="getList" resultType="com.avo.www.domain.ProductBoardVO">
-      select * from product
-      where pro_category = 'joongo' AND pro_is_del = 'N'
-      order by pro_re_at desc limit 0, 4
-   </select> -->
    <select id="getListMore" resultType="com.avo.www.domain.ProductBoardVO">
       select * from product
       where pro_category = 'joongo' AND pro_is_del = 'N'
@@ -50,10 +45,18 @@
       update product set pro_like_cnt = pro_like_cnt + #{i} where pro_bno = #{livo.liBno}
    </update>
    
-	<select id="searchProBoard" resultType="com.avo.www.domain.ProductBoardVO">
+	<select id="getSearchProductTotalCount" resultType="int">
+		select count(pro_bno) from product
+		where pro_category = #{category} AND pro_is_del = 'N'
+		<include refid="search" />
+	</select>
+
+	<select id="getSearchProductList" resultType="com.avo.www.domain.ProductBoardVO">
 		select * from product
-		where pro_is_del = 'N'
-		<include refid="search"/>
+		where pro_category = #{category} AND pro_is_del = 'N'
+		<include refid="search" />
+		order by pro_re_at desc
+		limit #{pgvo.pageStart}, #{pgvo.qty}
 	</select>
 
 
@@ -75,22 +78,22 @@
 	
 	<sql id="search">
 		<choose>
-			<when test="srcCondit != null">
+			<when test="pgvo.srcCondit != null">
 				<trim prefix="AND" prefixOverrides="OR">
-					<foreach collection="conditToArray" item="srcCondit">
+					<foreach collection="pgvo.conditToArray" item="srcCondit">
 						<trim prefix="OR">
 							<choose>
 								<when test="srcCondit == 'title'.toString()">
-									pro_title like concat('%',#{keyword},'%')
+									pro_title like concat('%',#{pgvo.keyword},'%')
 								</when>
 								<when test="srcCondit == 'nickname'.toString()">
-									pro_nick_name like concat('%',#{keyword},'%')
+									pro_nick_name like concat('%',#{pgvo.keyword},'%')
 								</when>
 								<when test="srcCondit == 'email'.toString()">
-									pro_email like concat('%',#{keyword},'%')
+									pro_email like concat('%',#{pgvo.keyword},'%')
 								</when>
 								<when test="srcCondit == 'content'.toString()">
-									pro_content like concat('%',#{keyword},'%')
+									pro_content like concat('%',#{pgvo.keyword},'%')
 								</when>
 							</choose>
 						</trim>
@@ -99,10 +102,10 @@
 			</when>
 			<!-- 검색 조건을 선택하지 않았을 경우 -->
 			<otherwise>
-				AND (pro_title like concat('%',#{keyword},'%')
-				OR pro_nick_name like concat('%',#{keyword},'%')
-				OR pro_email like concat('%',#{keyword},'%')
-				OR pro_content like concat('%',#{keyword},'%'))
+				AND (pro_title like concat('%',#{pgvo.keyword},'%')
+				OR pro_nick_name like concat('%',#{pgvo.keyword},'%')
+				OR pro_email like concat('%',#{pgvo.keyword},'%')
+				OR pro_content like concat('%',#{pgvo.keyword},'%'))
 			</otherwise>
 		</choose>
 	</sql>
