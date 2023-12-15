@@ -25,5 +25,7 @@ public interface CommunityCmtDAO {
 
 	int updateReCnt(long reCmtCno);
 
+	int afterDelUpdateReCnt(long reCmtCno);
+
 
 }

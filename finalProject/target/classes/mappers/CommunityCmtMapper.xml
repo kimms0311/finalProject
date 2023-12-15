@@ -42,4 +42,10 @@
 		update community_cmt set cmt_answer_cnt = cmt_answer_cnt + 1 
 		where cmt_cno = #{cmtCno}
 	</update>
+	
+	<!-- 대댓글 삭제시 대댓글수 업데이트 -->
+	<update id="afterDelUpdateReCnt">
+		update community_cmt set cmt_answer_cnt = cmt_answer_cnt - 1 
+		where cmt_cno = #{cmtCno}
+	</update>
 </mapper>

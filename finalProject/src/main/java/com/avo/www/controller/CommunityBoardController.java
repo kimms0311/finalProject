@@ -178,6 +178,14 @@ public class CommunityBoardController {
 		return isOk > 0 ? new ResponseEntity<String>("1", HttpStatus.OK)
 				: new ResponseEntity<String>("0", HttpStatus.INTERNAL_SERVER_ERROR);
 	}
-	
+
+	//프로필
+	@PostMapping(value = "/profile/{cmEmail}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<FileVO> getProfile(@PathVariable("cmEmail")String cmEmail){
+		log.info(">>>>>>>>>> profile cmEmail >>>>>>> "+cmEmail);
+		
+		
+		return new ResponseEntity<FileVO>(bsv.getProfile(cmEmail) ,HttpStatus.OK);
+	}
 	
 }

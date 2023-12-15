@@ -60,9 +60,9 @@ public class CommunityReCmtController {
 	}
 	
 	//삭제
-	@DeleteMapping(value = "/{reCno}", produces = MediaType.TEXT_PLAIN_VALUE)
-	public ResponseEntity<String> remove(@PathVariable("reCno")long reCno){
-		int isOk = csv.remove(reCno);
+	@DeleteMapping(value = "/{reCno}/{reCmtCno}", produces = MediaType.TEXT_PLAIN_VALUE)
+	public ResponseEntity<String> remove(@PathVariable("reCno")long reCno, @PathVariable("reCmtCno")long reCmtCno){
+		int isOk = csv.remove(reCno, reCmtCno);
 		
 		return isOk > 0 ? new ResponseEntity<String>("1", HttpStatus.OK) 
 				: new ResponseEntity<String>("0", HttpStatus.INTERNAL_SERVER_ERROR);

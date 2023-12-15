@@ -18,4 +18,6 @@ public interface CommunityFileDAO {
 
 	int deleteAll(long cmBno);
 
+	FileVO getProfile(String cmEmail);
+
 }
