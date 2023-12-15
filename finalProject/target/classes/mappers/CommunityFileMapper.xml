@@ -27,4 +27,8 @@
 	<delete id="deleteAll">
 		delete from community_file where bno = #{bno}
 	</delete>
+	
+	<select id="getProfile" resultType="com.avo.www.domain.FileVO">
+		select * from profile_file where pr_email = #{cmEmail}
+	</select>
 </mapper>

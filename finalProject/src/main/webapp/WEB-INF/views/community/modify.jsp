@@ -45,7 +45,7 @@
     </div>
 	<div class="form">
 		<p class="label">내용</p>
-		<textarea rows="3" cols="30" name="cmContent" class="contentInput">${bvo.cmContent }</textarea>
+		<textarea id="dynamicTextarea" name="cmContent" class="contentInput">${bvo.cmContent }</textarea>
 	</div>
 	
 	<!-- 파일 띄우고 지우기 버튼 추가 -->
@@ -95,6 +95,7 @@
 </script>
 <script type="text/javascript" src="/resources/js/communityBoardRegister.js"></script>
 <script type="text/javascript" src="/resources/js/communityBoardModify.js"></script>
+<script type="text/javascript" src="/resources/js/abjustTextareaRows.js"></script>
 <jsp:include page="../common/footer.jsp" />
 </body>
 </html>

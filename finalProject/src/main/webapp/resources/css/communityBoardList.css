@@ -10,7 +10,16 @@
 		justify-content: center;
 		flex-wrap: wrap;
 	}
-	
+
+	.userLocation{
+		background-color: #84a331;
+		height: 250px;
+	}
+	.userLocationP{
+		margin: 0;
+		font-size: 20px;
+	}
+
 	.CommunityCategory{
 		margin: 40px 0 20px 0;
 		width: 80%;
@@ -21,24 +30,27 @@
 	.menu{
 		margin: 0 10px;
 		text-decoration: none;
-		color: black;
-		border: 2px solid #84a331;
-		border-radius: 5px;
-		padding: 3px 5px;
+    	color: #909090;
+		border: 1px solid #d3d3d3;
+	    border-radius: 100px;
+	    padding: 5px 10px;
+	    font-size: 14px;
 	}
 	.menu:hover{
-		font-weight: 800;
-		background-color: #84a331;
-		color: white;	
+		background-color: rgba(213, 212, 212, 0.923);
 	}
 	.cmActive{
-		background-color: #84a331;
-		color: white;		
+		border: 2px solid #84a331;
+		background-color: #84a331;	
+		color: white;
 	}
-	.choiceMenu{
-		font-weight: 800;
-		background-color: #84a331;
-		color: white;	
+	.cmActive:hover{
+		background-color: #78942cbc;
+	}
+	
+	/* 작성글이 하나도 없을시 */
+	.noBoard{
+		margin-top: 130px;
 	}
 	
 	.cmBoard{
@@ -49,62 +61,91 @@
 		flex-wrap: wrap;
 	}
 	.oneBoard{
-		margin: 20px 0;
-		border: 1px solid #d3d3d3;
-		position: relative;
-		border-radius: 5px;
+	    margin: 10px 0;
+	    border: 1px solid #e4e4e4;
+	    position: relative;
+	    border-radius: 5px;
 	}
 	.boardMenuName{
-		/* 양옆 위 아래 */
-		margin: 15px 16px 0;
+		margin: 20px 20px 0 25px;
+		font-size: 14px;
 	}
 	.user_profile>*, .item-info>*{
 		display: inline;
 	}
 	.user_profile, .communityContentLine,.communityContentLine>a , .item-info{	
 		width :650px;
-		margin-left: 10px;
 	}
 	.user_profile{
 		height: 40px;
-		margin: 10px 0 0 15px;
+		margin: 5px 20px 10px 20px;
+		padding-left: 5px;
 	}
 	.user_profile>*{
 		line-height: 40px;
 	}
+	.cmUserProfile{
+		border-radius: 100%;
+		width: 30px;
+		height: 30px;
+	}
+	.cmListNick{
+		margin: 0 3px;
+		font-size: 14px;
+	}
+	.cmListDate{
+		padding-top: 5px;
+		font-size: 13px;
+	}
+	.cmListEmd{
+		margin-left: 3px;
+		font-size: 13px;
+	}
+	.cmWriterLocationIcon{
+		color: gray;
+	    margin-right: 1px;
+	}
 	.communityContentLine{
-		margin: 0 15px;
+		margin: 0 20px;
+	}
+	.contentAtag{
 		text-decoration: none;
 		color: black;
 	}
-	a>p{
+	.communityContentLine a p{
 		margin: 0;
+		padding-left: 5px;
+		font-size: 15px;
 	}
 	.thumbImg{
 		width: 650px;
 		height: 500px;
-		margin-top: 20px;
+		margin-top: 10px;
 	}
 	.item-info{
 	    display: flex;
 	    justify-content: space-between;
-/* 	    background-color: green; */
+		font-size: 13px;
 	    height: 40px;
-	    margin: 0 15px;
+	    margin: 5px 20px;
 	}
 	.item-info>*{
 		line-height: 40px;
+	}
+	.item-info i{
+		color: gray;
 	}
 	
 	.moreBtn{
 		width: 650px;
 		height: 50px;
-		background-color: #606C38;
+		background-color: #84a331;
 		border: none;
 		border-radius: 5px;
 		margin: 40px 0 60px 0;
 		color: white;
-		font-weight: 800;
+		padding-top: 5px;
+		font-size: 14px;
 	}
 	.fixedBtn{
 		position: fixed;

@@ -56,82 +56,93 @@ document.addEventListener('change', (e)=>{
             }
             
         }
-    })
+})
 
-    //파일 삭제버튼 메서드
-    document.addEventListener('click', (e) => {
-        const fileInput = document.getElementById('files');
-        const fileObj = fileInput.files;
-        let fileObjLength = fileObj.length;
-    
-        if (e.target.classList.contains('imageCancelBtn')) {
-            const filename = e.target.dataset.filename;
-            const liToRemove = document.getElementById(filename);
-    
-            if (liToRemove) {
-                fileObjLength--;
-                liToRemove.remove();
-    
-                // 새로운 FileList 생성
-                const newFileList = createFileListWithoutFileName(fileObj, filename);
-    
-                // 새로운 FileList를 input에 설정
-                fileInput.files = newFileList;
-            }
-    
-            console.log(fileObjLength);
-    
-            if (fileObjLength == 0) {
-                document.getElementById('fileZone').style = "display:none";
-            }
+//파일 삭제버튼 메서드
+document.addEventListener('click', (e) => {
+    let fileInput = document.getElementById('files');
+    let fileObj = fileInput.files;
+    let fileObjLength = fileObj.length;
+    let isOk = 1;
+    let newFileList;
+
+    if (e.target.classList.contains('imageCancelBtn')) {
+        let filename = e.target.dataset.filename;
+        let liToRemove = document.getElementById(filename);
+
+        if (liToRemove) {
+            fileObjLength--;
+            liToRemove.remove();
+
+            // 새로운 FileList 생성
+            newFileList = createFileListWithoutFileName(fileObj, filename);
+
+            // 새로운 FileList를 input에 설정
+            fileInput.files = newFileList;
         }
-    });
-    
-    function createFileListWithoutFileName(fileList, fileNameToRemove) {
-        const newFiles = [];
-    
-        for (let i = 0; i < fileList.length; i++) {
-            if (fileList[i].name !== fileNameToRemove) {
-                newFiles.push(fileList[i]);
+
+        if (newFileList && newFileList.length > 0) {
+            for (let i = 0; i < newFileList.length; i++) {
+                let file = newFileList[i];
+                let validResult = fileValidation(file.name, file.size); // 0 or 1로 리턴
+                isOk *= validResult;
             }
+        }else{
+            // 남아 있는 파일이 없으면 isOk를 1로 설정
+            isOk = 1;
         }
-        console.log(newFiles);
-        // 새로운 FileList 생성
-        const newFileList = new DataTransfer();
-    
-        for (const file of newFiles) {
-            newFileList.items.add(file);
+        //첨부 불가능한 파일이 있을 시
+        if(isOk == 0){
+            document.getElementById('regBtn').disabled = true;
+        }else{
+            document.getElementById('regBtn').disabled = false;
         }
-    
-        return newFileList.files;
+
+        console.log(fileObjLength);
+        if (fileObjLength == 0) {
+            document.getElementById('fileZone').style = "display:none";
+        }
     }
-    // document.addEventListener('click', (e) => {
-    //     const fileObj = document.getElementById('files').files;
-    //     let fileObjLength = fileObj.length;
-    //     if (e.target.classList.contains('imageCancelBtn')) {
-    //         const filename = e.target.dataset.filename;
-    //         const liToRemove = document.getElementById(filename);
-    //         if (liToRemove) {
-    //             liToRemove.remove();
-    //             fileObjLength--;
-    //         }
-    //         console.log(fileObjLength);
-    //         if(fileObjLength == 0){
-    //             const ulToRemove = document.getElementById('imageUl');
-    //             if (ulToRemove) {
-    //                 ulToRemove.remove();
-    //             }
-    //         }
-    //     }
-    // });
-    
-    //ul += `${validResult ? '<div class="text-primary">업로드 가능 </div>' : '<div class="text-danger">업로드 불가능 </div>'}`;
+});
 
-//    for(let file of fileObj){
-//        let validResult = fileValidation(file.name, file.size); //0 or 1로 리턴
-//        isOk *= validResult;
-//        ul += `<li>`;
-//        ul += `<div class="oneImg">`;
-//        ul += `${file.name} `;
-//        ul += `<span class="badge rounded-pill text-bg-${validResult ? 'success' : 'danger'}"> ${validResult ? '가능' : '불가능'}</span></div></li>`;
-//    }
+function createFileListWithoutFileName(fileList, fileNameToRemove) {
+    let newFiles = [];
+
+    for (let i = 0; i < fileList.length; i++) {
+        if (fileList[i].name !== fileNameToRemove) {
+            newFiles.push(fileList[i]);
+        }
+    }
+    // 새로운 FileList 생성
+    let newFileList = new DataTransfer();
+    
+    for (let file of newFiles) {
+        newFileList.items.add(file);
+    }
+    
+    console.log("newfileList>>"+newFileList.files);
+    return newFileList.files;
+}
+
+//cs register js
+let categoryField = document.getElementById('csMenu');
+let titleField = document.getElementById('csTitle');
+let contentField = document.getElementById('dynamicTextarea');
+let regButton = document.getElementById('regBtn');
+
+// 입력 필드에 대한 'input' 이벤트 리스너 추가
+categoryField.addEventListener('input', checkFields);
+titleField.addEventListener('input', checkFields);
+contentField.addEventListener('input', checkFields);
+
+function checkFields() {
+    let category = categoryField.value;
+    let title = titleField.value;
+    let content = contentField.value;
+
+    if (category === '선택' || title.trim() === '' || content.trim() === '') {
+        regButton.disabled = true;
+    } else {
+        regButton.disabled = false;
+    }
+}

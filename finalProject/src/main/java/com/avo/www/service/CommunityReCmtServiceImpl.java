@@ -5,6 +5,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.avo.www.domain.CommunityReCmtVO;
 import com.avo.www.repository.CommunityCmtDAO;
@@ -19,6 +20,7 @@ public class CommunityReCmtServiceImpl implements CommunityReCmtService{
 	@Inject
 	private CommunityCmtDAO ccdao;
 
+	@Transactional
 	@Override
 	public int post(CommunityReCmtVO cvo) {
 		int isOk = rcdao.insert(cvo);
@@ -36,9 +38,12 @@ public class CommunityReCmtServiceImpl implements CommunityReCmtService{
 		return rcdao.update(cvo);
 	}
 
+	@Transactional
 	@Override
-	public int remove(long reCno) {
-		return rcdao.delete(reCno);
+	public int remove(long reCno, long reCmtCno) {
+		int isOk = ccdao.afterDelUpdateReCnt(reCmtCno);
+		isOk *= rcdao.delete(reCno);
+		return isOk;
 	}
 	
 }
